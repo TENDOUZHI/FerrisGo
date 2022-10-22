@@ -1,0 +1,65 @@
+.loading_fade {
+    opacity: 0;
+}
+.loading {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right bottom,#adecf7,#c9c0ed);
+  transition: all .5s;
+  z-index: 100;
+  &_title {
+    font-size: 35px;
+    color: #fff;
+    margin-bottom: 4rem;
+    animation: fade 4s ease-in-out infinite;
+    @keyframes fade {
+        0%,
+        100%{
+            opacity: 1;
+        }
+        50%{
+            opacity: .2;
+        }
+    }
+  }
+  &_content {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+  }
+  .svg {
+    &_item {
+      transition: all 0.3s ease-in-out;
+      stroke-width: 10;
+      stroke-linecap: round;
+      fill: none;
+    }
+    .long {
+      stroke-dasharray: 57, 67;
+    }
+    .dot {
+      stroke-dasharray: 1, 125;
+    }
+  }
+  .svg_rotate {
+    animation: loading 3s ease-in-out infinite;
+  }
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(-360deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}

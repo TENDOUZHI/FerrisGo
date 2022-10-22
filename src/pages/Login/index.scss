@@ -1,0 +1,61 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  // background-color: rgb(232, 129, 129);
+  background: radial-gradient(
+    ellipse farthest-corner at 100% 100%,
+    #343667,
+    #4e4584,
+    #dcb2ba,
+    #c9e0a8,
+    #b7f1fd,
+  );
+  // background:linear-gradient(to right,#4e4584,#dcb2ba,);
+  &-left {
+    width: 50%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    &-logo {
+      width: 100%;
+      height: 10%;
+      color: #fff;
+      font-size: 26px;
+      font-weight: bold;
+      user-select: none;
+      cursor: pointer;
+    }
+    &-main {
+      width: 100%;
+      height: 90%;
+      padding-right: 2rem;
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      &-title {
+        &-tip {
+          letter-spacing: 1px;
+          margin: 2rem 0;
+          color: #fff;
+          font-size: 24px;
+        }
+        &-text {
+          letter-spacing: 1px;
+          margin: 2rem 0;
+          color: #fff;
+          font-size: 30px;
+        }
+      }
+    }
+  }
+  &-right {
+    width: 50%;
+    height: 100%;
+    padding-left: 3rem;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+}

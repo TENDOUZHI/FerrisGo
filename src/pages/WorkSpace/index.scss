@@ -1,0 +1,12 @@
+@use '@/components/organisms/Head/index.scss' as head;
+.home {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    &-content {
+        width: 100%;
+        height: calc(100vh - head.$height);
+        display: flex;
+    }
+}

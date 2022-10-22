@@ -1,0 +1,19 @@
+.attribute {
+  padding: 0 1rem;
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  &-title {
+    padding: 0 1rem;
+    margin-left: 8px;
+    font-size: 14px;
+    display: flex;
+    justify-items: left;
+  }
+  &-content {
+    padding: 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+  }
+}

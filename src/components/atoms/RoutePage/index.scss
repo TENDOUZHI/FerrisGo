@@ -1,0 +1,103 @@
+.page {
+    &-item {
+        width: 100%;
+        padding: 0.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 30%;
+        padding-right: 10%;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: 4px;
+        user-select: none;
+        position: relative;
+        &:hover {
+          background-color: rgb(60, 60, 60);
+        }
+        &-options {
+          width: 24px;
+          height: 24px;
+          padding: 4px;
+          transition: all 0.3s;
+          border-radius: 4px;
+          z-index: 10;
+          &:hover {
+            background-color: rgb(92, 92, 92);
+          }
+          &-img {
+            width: 100%;
+            height: 100%;
+            transform: translateY(-15%);
+            transition: all 0.2s;
+          }
+        }
+        &-input {
+          width: 100%;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+      }
+      &-item-ul {
+        width: 75px;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 67%;
+        border-radius: 4px;
+        background-color: rgb(50, 50, 50);
+        box-shadow: 2px 1px 10px rgb(26, 26, 26);
+        border: 1px solid rgba(73, 73, 73, 0.5);
+        opacity: 0;
+        transform: scale(95%);
+        transition: all 0.3s;
+        z-index: 11;
+        &-li {
+          font-size: 12px;
+          display: flex;
+          justify-content: center;
+          padding: 4px 0;
+          transition: all 0.3s;
+          cursor: pointer;
+          &:hover {
+            background-color: rgb(92, 92, 92);
+          }
+          &:first-child {
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+          }
+          &:last-child {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+      &-input-bar {
+        height: 1px;
+        width: 0;
+        background-color: rgb(157, 157, 157);
+        transition: all 0.3s;
+      }
+}
+.none {
+    display: none;
+  }
+  .block {
+    display: block;
+  }
+  .show-ul {
+    opacity: 1;
+    transform: scale(100%) translateX(10%) translateY(5%);
+  }
+  .rotate {
+    transform: rotateZ(180deg);
+  }
+  .input-focus {
+    border-bottom: 1px solid #fff;
+  }
+  .input-blur {
+    border: none;
+  }

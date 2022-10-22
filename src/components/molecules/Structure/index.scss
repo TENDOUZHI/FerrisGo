@@ -1,0 +1,54 @@
+.page-wrapper {
+  position: relative;
+}
+.page-structure {
+  width: 100%;
+  margin-top: 24px;
+  overflow-y: hidden;
+  padding: 0;
+  padding-bottom: 5rem;
+  // &-layer {
+  //   width: 200vw;
+  //   height: 200vh;
+  //   position: absolute;
+  //   top: -150vh;
+  //   left: -100vw;
+  //   z-index: 10;
+  // }
+  &-create {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 4px;
+    user-select: none;
+    font-size: 18px;
+    padding: 10px 0;
+    &:hover {
+      background-color: rgb(60, 60, 60);
+    }
+  }
+  &-wrapper {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.page-input-wrapper {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.input-bar {
+  height: 1px;
+  width: 0;
+  background-color: rgb(157, 157, 157);
+  transition: all 0.3s;
+}
+
+.selected {
+  background-color: rgb(50, 50, 50);
+}

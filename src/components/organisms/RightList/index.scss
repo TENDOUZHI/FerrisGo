@@ -1,0 +1,18 @@
+.rightlist-wrapper {
+    width: 20%;
+    height: 100%;
+    background-color: rgb(44, 43, 43);
+    position: sticky;
+    border-left: 1px solid rgb(222, 222, 222);
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: rgb(40, 40, 40);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgb(18, 18, 18);
+        border-radius: 10px;
+        
+    }
+}
