@@ -25,7 +25,7 @@ export const Repository = () => {
         document.title = 'Ferris-我的文件'
     }, [])
     useLayoutEffect(()=>{
-        selectProgram()
+        // selectProgram()
         setUserAvatar(user.avatar)
     },[user])
     const selectProgram = async () => {

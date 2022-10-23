@@ -2,22 +2,14 @@ import { View } from '@/components/atoms/View'
 import { Text } from '@/components/atoms/Text'
 import './index.scss'
 import { Button } from '@/components/atoms/Button'
+import { Swiper } from '@/components/atoms/Swiper'
 export const Ingredients = () => {
-    return(
+    return (
         <div className='ingredients'>
-            <div className="ingredients-wrapper">
-               <View/> 
-               <span className="name">view</span>
-            </div>
-            <div className="ingredients-wrapper">
-            <Text/>
-               <span className="name">text</span>
-            </div>
-            <div className="ingredients-wrapper">
-            <Button/>
-               <span className="name">button</span>
-            </div>
-            
+            <View />
+            <Text />
+            <Button />
+            <Swiper/>
         </div>
     )
 }

@@ -5,7 +5,27 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafb);
 }
-.source{
+.source {
   height: calc(100vh - 35px);
   margin-top: 35px;
+}
+.components {
+  width: 100px;
+  height: 35px;
+  margin: 1rem 0.5rem;
+  border-radius: 4px;
+  background-color: rgb(55, 55, 55);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  &:hover {
+    // outline: 2.5px solid #4c75ce;
+    background-color: rgb(75, 75, 75);
+  }
 }

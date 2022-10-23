@@ -14,6 +14,7 @@ import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
 import { useHashCode } from '@/hooks/useHashCode'
+import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
 interface Props {
     program_id: number,
     programData: string
@@ -115,15 +116,7 @@ export const Canvas = (props: Props) => {
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
         const element = document.createElement(newSource.nodeName)
-        element.draggable = false
-        element.style.width = '100%'
-        element.style.height = '50px'
-        element.style.backgroundColor = '#fff'
-        const className = useHashCode(newSource.id)
-        element.classList.add(className)
-        newSource.draggable = false
-        newSource.classList.add(newSource.nodeName + num)
-        setNum(num + 1)
+        useCreateCom(newSource.id as nodeName, element)
         dispatch(routesSliceAction.updateRouteSize({
             id: current.id,
             size: num + 1,
@@ -132,7 +125,6 @@ export const Canvas = (props: Props) => {
             // ws: ws 
         }))
         target.appendChild(element)
-        const cacheBorder = getComputedStyle(newSource).border
         // heighlight element 
         element.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))

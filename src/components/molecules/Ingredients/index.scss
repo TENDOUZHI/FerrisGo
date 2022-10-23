@@ -4,8 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     &-wrapper {
-        height: 120px;
-        width: 120px;
+        padding: 1rem 0.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
