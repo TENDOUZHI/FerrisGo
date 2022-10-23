@@ -18,11 +18,13 @@
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-native-swiper-flatlist": "^3.0.17",
     "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "sass": "^1.54.4",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "swiper": "^8.4.4"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.1.0",

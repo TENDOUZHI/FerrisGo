@@ -23,9 +23,10 @@
   img {
     width: 30px;
     height: 30px;
+    user-select: none;
+    pointer-events: none;
   }
   &:hover {
-    // outline: 2.5px solid #4c75ce;
     background-color: rgb(75, 75, 75);
   }
 }

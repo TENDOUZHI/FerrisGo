@@ -13,11 +13,13 @@ specifiers:
   react: ^18.2.0
   react-dnd: ^16.0.1
   react-dom: ^18.2.0
+  react-native-swiper-flatlist: ^3.0.17
   react-redux: ^8.0.2
   react-router: ^6.3.0
   react-router-dom: ^6.3.0
   sass: ^1.54.4
   scss: ^0.2.4
+  swiper: ^8.4.4
   typescript: ^4.6.4
   vite: ^3.0.2
 
@@ -30,11 +32,13 @@ dependencies:
   react: 18.2.0
   react-dnd: 16.0.1_239690ac7153ccca035ad7bf5a1c9471
   react-dom: 18.2.0_react@18.2.0
+  react-native-swiper-flatlist: 3.0.17
   react-redux: 8.0.4_ed28c0204bb8461c8200289612f9802f
   react-router: 6.4.2_react@18.2.0
   react-router-dom: 6.4.2_react-dom@18.2.0+react@18.2.0
   sass: 1.55.0
   scss: 0.2.4
+  swiper: 8.4.4
 
 devDependencies:
   '@tauri-apps/cli': 1.1.1
@@ -701,6 +705,12 @@ packages:
       redux: 4.2.0
     dev: false
 
+  /dom7/4.0.4:
+    resolution: {integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==}
+    dependencies:
+      ssr-window: 4.0.2
+    dev: false
+
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
@@ -1169,6 +1179,12 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
+  /react-native-swiper-flatlist/3.0.17:
+    resolution: {integrity: sha512-4sWHzMHhXohiePBtJcVwt/fYVLpKFab7H1bvUH8TI3iMFYTOlMaW2PerlTDqGSO1eLRc4BX1z3X6e1NYPoakMA==}
+    peerDependencies:
+      react-native: '>=0.59.0'
+    dev: false
+
   /react-redux/8.0.4_ed28c0204bb8461c8200289612f9802f:
     resolution: {integrity: sha512-yMfQ7mX6bWuicz2fids6cR1YT59VTuT8MKyyE310wJQlINKENCeT1UcPdEiX6znI5tF8zXyJ/VYvDgeGuaaNwQ==}
     peerDependencies:
@@ -1319,6 +1335,10 @@ packages:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     dev: true
 
+  /ssr-window/4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
+    dev: false
+
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
@@ -1330,6 +1350,15 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /swiper/8.4.4:
+    resolution: {integrity: sha512-jA/8BfOZwT8PqPSnMX0TENZYitXEhNa7ZSNj1Diqh5LZyUJoBQaZcqAiPQ/PIg1+IPaRn/V8ZYVb0nxHMh51yw==}
+    engines: {node: '>= 4.7.0'}
+    requiresBuild: true
+    dependencies:
+      dom7: 4.0.4
+      ssr-window: 4.0.2
+    dev: false
 
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}

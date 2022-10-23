@@ -3,6 +3,7 @@ import { Text } from '@/components/atoms/Text'
 import './index.scss'
 import { Button } from '@/components/atoms/Button'
 import { Swiper } from '@/components/atoms/Swiper'
+import { Form } from '@/components/atoms/Form'
 export const Ingredients = () => {
     return (
         <div className='ingredients'>
@@ -10,6 +11,7 @@ export const Ingredients = () => {
             <Text />
             <Button />
             <Swiper/>
+            <Form/>
         </div>
     )
 }

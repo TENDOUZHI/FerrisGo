@@ -1,19 +1,54 @@
+import { createRoot } from "react-dom/client";
 import { useHashCode } from "./useHashCode"
+import { SwiperMini } from "@/components/atoms/SwiperMini"
+// import Swiper from 'swiper'
+// import 'swiper/css';
 
-export type nodeName = 'view' | 'text' | 'button' | 'swipper'
+export type nodeName = 'view' | 'text' | 'button' | 'swiper'
 
 export const useCreateCom = (nodeName: nodeName, node: HTMLElement) => {
+    const className = useHashCode(nodeName)
+    node.classList.add(className)
+    node.id = nodeName
+    if (nodeName === 'swiper') {
+        // node.id = 'swiper-container'
+        node.classList.remove(className)
+    }
     switch (nodeName) {
         case 'view':
-            node.draggable = false
-            node.style.width = '100%'
-            node.style.height = '50px'
-            node.style.backgroundColor = '#fff'
-            const className = useHashCode(nodeName)
-            node.classList.add(className)
+            createView(node)
             break;
-
+        case 'swiper':
+            createSwiper(node)
+            break;
         default:
             break;
     }
+}
+
+const createView = (node: HTMLElement) => {
+    node.draggable = false
+    node.style.width = '100%'
+    node.style.height = '50px'
+    node.style.color = '#000'
+    node.style.backgroundColor = '#fff'
+    node.style.border = '1px solid #000'
+    node.style.cursor = 'pointer'
+    node.style.transition = 'all .2s ease-in-out'
+}
+
+const createSwiper = (node: HTMLElement) => {
+    // node.draggable = false
+    node.style.width = '100%'
+    // node.style.height = '100px'
+    // node.style.color = '#000'
+    // node.style.backgroundColor = '#fff'
+    // node.style.border = '1px solid #000'
+    // node.style.cursor = 'pointer'
+    // node.style.transition = 'all .2s ease-in-out'
+    setTimeout(() => {
+        const swiperNode = createRoot(node)
+        swiperNode.render(SwiperMini())
+    }, 100)
+
 }

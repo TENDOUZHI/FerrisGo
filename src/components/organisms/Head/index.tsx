@@ -13,6 +13,7 @@ import { DownLoad } from '@/components/molecules/DownLoad'
 import { useAutoHide } from '@/hooks/useAutoHide'
 import file from '@/assets/file.png'
 import { useNavigate } from 'react-router'
+import { invoke } from '@tauri-apps/api'
 interface Props {
     id: number,
     title: string
@@ -46,7 +47,7 @@ export const Head = (props: Props) => {
 
     const click = async () => {
         setDownload(true)
-        console.log(wapp);
+        await invoke('vapp',{info: vapp})
         await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             if (res.status === 200) {
                 const blob = new Blob([res.data], { type: 'application/zip' })

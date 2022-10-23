@@ -15,6 +15,9 @@ import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
 import { useHashCode } from '@/hooks/useHashCode'
 import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
+import { SwiperMini } from '@/components/atoms/SwiperMini'
+
+
 interface Props {
     program_id: number,
     programData: string
@@ -112,26 +115,31 @@ export const Canvas = (props: Props) => {
             program_id: props.program_id,
             ws: ws
         }))
+        console.log(Vapp);
+        
     }
     const createDom = (e: DragEvent) => {
-        const target = e.target as HTMLElement
-        const element = document.createElement(newSource.nodeName)
-        useCreateCom(newSource.id as nodeName, element)
-        dispatch(routesSliceAction.updateRouteSize({
-            id: current.id,
-            size: num + 1,
-            // user_id: user.id,
-            // program_id: props.program_id,
-            // ws: ws 
-        }))
-        target.appendChild(element)
-        // heighlight element 
-        element.addEventListener('click', (e: MouseEvent) => {
-            dispatch(targetSliceAction.captureTarget(e.target))
-            dispatch(targetSliceAction.updateState(true))
-            // newSource.style.border = 'solid 4px #6188de'
-        })
-        dispatch(sourceSliceAction.clearSource())
+        try {
+            const target = e.target as HTMLElement
+            const element = document.createElement(newSource.nodeName)
+            useCreateCom(newSource.id as nodeName, element)
+            dispatch(routesSliceAction.updateRouteSize({
+                id: current.id,
+                size: num + 1,
+                // user_id: user.id,
+                // program_id: props.program_id,
+                // ws: ws 
+            }))
+            target.appendChild(element)
+            // heighlight element 
+            element.addEventListener('click', (e: MouseEvent) => {
+                dispatch(targetSliceAction.captureTarget(e.target))
+                dispatch(targetSliceAction.updateState(true))
+                // newSource.style.border = 'solid 4px #6188de'
+            })
+            dispatch(sourceSliceAction.clearSource())
+        } catch (error) {}
+
 
     }
     // delete element
@@ -167,11 +175,11 @@ export const Canvas = (props: Props) => {
             // console.log(res);
         })
     }
-
     return (
         <div className="canvas-wrapper">
-            <div className="device" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}></div>
-            {/* <button className='btn' onClick={saveData}>save</button> */}
+            <div className="device" id='device' ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
+                {/* <SwiperMini/> */}
+            </div>
         </div>
     )
 }
