@@ -5,13 +5,17 @@ import "./App.scss";
 import { Provider } from "react-redux";
 import { Source } from "./Source";
 import { store } from "./store";
+import { TitleBar } from "./components/organisms/TitleBar";
 
 function App() {
 
   return (
     <Provider store={store}>
-      <Source />
-      <h1>hello</h1>
+      <TitleBar />
+      <div className="source">
+        <Source />
+      </div>
+
     </Provider>
   );
 }

@@ -1,0 +1,54 @@
+.titlebar {
+  height: 30px;
+  background: #3c3c3c;
+  user-select: none;
+  padding: 0 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  &_settings {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    &_set {
+      height: 80%;
+      padding: 0 0.7rem;
+      font-size: 14px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        background-color: #505050;
+      }
+    }
+    &_logo {
+      width: 30px;
+      height: 80%;
+      margin-right: 0.5rem;
+      img {
+        height: 100%;
+      }
+    }
+  }
+  &-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    transition: all 0.2s;
+    &:hover {
+      background: #505050;
+    }
+  }
+  &-close {
+    &:hover {
+      background: #d71526;
+    }
+  }
+}

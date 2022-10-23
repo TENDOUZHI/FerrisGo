@@ -13,6 +13,7 @@ import { Vapp, VNode } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
+import { useHashCode } from '@/hooks/useHashCode'
 interface Props {
     program_id: number,
     programData: string
@@ -113,6 +114,13 @@ export const Canvas = (props: Props) => {
     }
     const createDom = (e: DragEvent) => {
         const target = e.target as HTMLElement
+        const element = document.createElement(newSource.nodeName)
+        element.draggable = false
+        element.style.width = '100%'
+        element.style.height = '50px'
+        element.style.backgroundColor = '#fff'
+        const className = useHashCode(newSource.id)
+        element.classList.add(className)
         newSource.draggable = false
         newSource.classList.add(newSource.nodeName + num)
         setNum(num + 1)
@@ -123,19 +131,14 @@ export const Canvas = (props: Props) => {
             // program_id: props.program_id,
             // ws: ws 
         }))
-        target.appendChild(newSource as Node)
+        target.appendChild(element)
         const cacheBorder = getComputedStyle(newSource).border
         // heighlight element 
-        newSource.addEventListener('click', (e: MouseEvent) => {
+        element.addEventListener('click', (e: MouseEvent) => {
             dispatch(targetSliceAction.captureTarget(e.target))
             dispatch(targetSliceAction.updateState(true))
             // newSource.style.border = 'solid 4px #6188de'
         })
-        // document.addEventListener('click',(e: MouseEvent) => {
-        //     if(e.target !== newSource) {
-        //         newSource.style.border = cacheBorder
-        //     }
-        // })
         dispatch(sourceSliceAction.clearSource())
 
     }
@@ -175,7 +178,7 @@ export const Canvas = (props: Props) => {
 
     return (
         <div className="canvas-wrapper">
-            <div className="device" ref={root} onDragOver={drag} onDrop={drop}></div>
+            <div className="device" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}></div>
             {/* <button className='btn' onClick={saveData}>save</button> */}
         </div>
     )

@@ -8,6 +8,7 @@ import { wsSliceAction } from '@/store/ws.slice'
 import { getName } from '@tauri-apps/api/app'
 import { readText, writeText } from '@tauri-apps/api/clipboard'
 import { ask } from '@tauri-apps/api/dialog'
+import { invoke } from '@tauri-apps/api/tauri'
 import assert from 'assert'
 import axios from 'axios'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -36,8 +37,11 @@ export const WorkSpace = () => {
     const hi = async () => {
         // const yes = await ask('Are you sure?', 'Tauri');
         // const yes2 = await ask('This action cannot be reverted. Are you sure?', { title: 'Tauri', type: 'warning' });
-        const appName = await getName()
-        console.log(appName);
+        // const appName = await getName()
+        // console.log(appName);
+        // await invoke('hello2').then(res => {
+        //     console.log(res);
+        // })
         
     }
     return (
@@ -49,7 +53,6 @@ export const WorkSpace = () => {
                 <Canvas programData={programData} program_id={programId} />
                 <RighttList />
             </div>
-
         </div>
     )
 }
