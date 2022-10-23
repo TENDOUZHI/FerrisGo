@@ -12,6 +12,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
         name: 'root',
         class: rootNode.classList[0],
         tag_name: rootNode.tagName,
+        props: null,
         style: useParseCss(rootNode, width, isRpx),
         content: rootNode.nodeValue,
         children: []
@@ -25,11 +26,16 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
 const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
     // 对rootNode的子节点进行遍历
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
+        if (el.id === 'swiper') {
+            console.log('swiper compile');
+        } else {
+            
+        }
         // 同步到vNode的子节点
         let styles;
         let curClass;
         let content;
-        if(el.id!=='text'){
+        if (el.id !== 'text') {
             content = null
         } else {
             content = el.innerText
@@ -46,10 +52,19 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
             class: curClass,
             tag_name: el.tagName,
             style: styles,
+            props: {
+                swiper: {
+                    items: null,
+                    auto_play: false,
+                    auto_play_delay: 0,
+                    pagination: false,
+                    scrollbar: false
+                }
+            },
             content: content,
             children: []
         }
-        
+
         if (el.innerText !== undefined) {
             vNode.children.push(node)
             dfs(el, vNode.children[index], width, isRpx)

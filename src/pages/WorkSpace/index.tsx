@@ -20,18 +20,18 @@ export const WorkSpace = () => {
     const location = useLocation()
     const [programData, setProgramData] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(true)
-    const ws = useRef<WebSocket>(new WebSocket('ws://127.0.0.1:8080/program/ws'));
+    // const ws = useRef<WebSocket>(new WebSocket('ws://127.0.0.1:8080/program/ws'));
     // @ts-ignore
     const [programId, setProgramId] = useState<number>(0)
     // @ts-ignore
     const [name, setName] = useState<string>('Ferris')
     useEffect(() => {
         document.title = 'Ferris-工作台'
-        ws.current.onopen = () => {
-            setLoading(false)
-        }
+        // ws.current.onopen = () => {
+        //     setLoading(false)
+        // }
 
-        dispatch(wsSliceAction.initialWs(ws.current))
+        // dispatch(wsSliceAction.initialWs(ws.current))
         dispatch(routesSliceAction.initialProgramId(programId))
     })
     const hi = async () => {

@@ -16,8 +16,21 @@ export interface VNode {
     tag_name: string,
     class: string | null,
     style: Style | null,
+    props: Vprops | null,
     content: string | null,
     children: Array<VNode>
+}
+
+export interface Vprops {
+    swiper: Swiper | null
+}
+
+export interface Swiper {
+    items: VNode | null,
+    auto_play: boolean,
+    auto_play_delay: number,
+    pagination: boolean,
+    scrollbar: boolean
 }
 
 export interface Style {
