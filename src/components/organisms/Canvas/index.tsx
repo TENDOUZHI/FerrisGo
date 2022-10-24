@@ -77,6 +77,7 @@ export const Canvas = (props: Props) => {
     }, [props.program_id])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
+        dispatch(sourceSliceAction.initialRoot(root.current))
         if (fitst) {
             setFitst(false);
             return;
@@ -115,7 +116,7 @@ export const Canvas = (props: Props) => {
             program_id: props.program_id,
             ws: ws
         }))
-        console.log(Vapp);
+        console.log(curVnode);
         
     }
     const createDom = (e: DragEvent) => {

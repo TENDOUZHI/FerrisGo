@@ -26,7 +26,6 @@ export interface Vprops {
 }
 
 export interface Swiper {
-    items: VNode | null,
     auto_play: boolean,
     auto_play_delay: number,
     pagination: boolean,

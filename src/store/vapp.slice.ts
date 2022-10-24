@@ -37,6 +37,7 @@ const initialState: State = {
                     class: '',
                     tag_name: 'div',
                     style: null,
+                    props: null,
                     content: null,
                     children: []
                 }
@@ -55,6 +56,7 @@ const initialState: State = {
                     name: 'root',
                     class: '',
                     tag_name: 'div',
+                    props: null,
                     style: null,
                     content: null,
                     children: []
@@ -73,6 +75,7 @@ export const routesSlice = createSlice({
                 name: 'root',
                 class: '',
                 tag_name: 'div',
+                props: null,
                 style: null,
                 content: null,
                 children: []

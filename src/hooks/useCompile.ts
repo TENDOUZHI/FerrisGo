@@ -25,21 +25,14 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
 // during the traversing, compile the real dom into virtual dom
 const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
     // 对rootNode的子节点进行遍历
+
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
-        if (el.id === 'swiper') {
-            console.log('swiper compile');
-        } else {
-            
+        const nextLevel = () => {
+            vNode.children.push(node)
+            dfs(el, vNode.children[index], width, isRpx)
         }
-        // 同步到vNode的子节点
         let styles;
         let curClass;
-        let content;
-        if (el.id !== 'text') {
-            content = null
-        } else {
-            content = el.innerText
-        }
         if (el.innerText === undefined) {
             styles = null
             curClass = null
@@ -47,27 +40,69 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
             styles = useParseCss(el, width, isRpx)
             curClass = el.classList[0]
         }
+        // compile basic attribute
         const node: VNode = {
             name: el.id,
             class: curClass,
             tag_name: el.tagName,
             style: styles,
             props: {
-                swiper: {
-                    items: null,
-                    auto_play: false,
-                    auto_play_delay: 0,
-                    pagination: false,
-                    scrollbar: false
-                }
+                swiper: null
             },
-            content: content,
+            content: null,
             children: []
         }
-
-        if (el.innerText !== undefined) {
-            vNode.children.push(node)
-            dfs(el, vNode.children[index], width, isRpx)
+        switch (el.id) {
+            case 'view':
+                compileView(node, el)
+                nextLevel()
+                break;
+            case 'text':
+                compileText(node, el)
+                nextLevel()
+            case 'swiper':
+                compileSwiper(node, el, width, isRpx)
+                nextLevel()
+                break;
+            default:
+                break;
         }
+
     });
+}
+
+
+const compileView = (node: VNode, el: HTMLElement) => {
+    node.content = null
+}
+
+const compileText = (node: VNode, el: HTMLElement) => {
+    node.content = el.innerText
+}
+
+const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boolean) => {
+    // compile swiper
+    node.name = 'swiper'
+    node.props!.swiper = {
+        auto_play: true,
+        auto_play_delay: 2000,
+        pagination: true,
+        scrollbar: true
+    }
+    // compile swiper-item
+    const swiper = el.childNodes[0]
+    const swiperItem = swiper.childNodes[0]
+    swiperItem.childNodes.forEach((el: ChildNode, index: number) => {
+        const item: VNode = {
+            name: "swiper-item",
+            tag_name: "DIV",
+            class: (el as HTMLElement).classList[0],
+            style: useParseCss(el as HTMLElement, width, isRpx),
+            props: null,
+            content: el.textContent,
+            children: []
+        }
+        node.children.push(item)
+    })
+
 }

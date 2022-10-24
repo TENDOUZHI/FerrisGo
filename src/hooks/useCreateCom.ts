@@ -38,10 +38,10 @@ const createView = (node: HTMLElement) => {
 const createSwiper = (node: HTMLElement) => {
     node.style.width = '100%'
     node.style.cursor = 'pointer'
-    setTimeout(() => {
-        const swiperNode = createRoot(node)
-        swiperNode.render(SwiperMini())
-    }, 100)
+    // setTimeout(() => {
+    const swiperNode = createRoot(node)
+    swiperNode.render(SwiperMini())
+    // }, 100)
 
 }
 
