@@ -122,7 +122,7 @@ export const Canvas = (props: Props) => {
         try {
             const target = e.target as HTMLElement
             const element = document.createElement(newSource.nodeName)
-            useCreateCom(newSource.id as nodeName, element)
+            useCreateCom(newSource.id as nodeName, element,dispatch)
 
 
             dispatch(routesSliceAction.updateRouteSize({
@@ -134,11 +134,8 @@ export const Canvas = (props: Props) => {
             }))
             target.appendChild(element)
             // heighlight element 
-            element.addEventListener('click', (e: MouseEvent) => {
-                dispatch(targetSliceAction.captureTarget(e.target))
-                dispatch(targetSliceAction.updateState(true))
-                // newSource.style.border = 'solid 4px #6188de'
-            })
+            
+
             dispatch(sourceSliceAction.clearSource())
         } catch (error) { }
 

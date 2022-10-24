@@ -64,6 +64,7 @@ const createViewText = (node: VNode): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
+    el.style.resize = 'both'
     el.textContent = node.content
     el.draggable = false
     el.style.cursor = 'pointer'
