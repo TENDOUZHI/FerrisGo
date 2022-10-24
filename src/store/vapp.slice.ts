@@ -135,8 +135,14 @@ export const routesSlice = createSlice({
             useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateRouteName(state, payload) {
-            state.Vapp.routes[payload.payload.id].name = payload.payload.name
-            state.Wapp.routes[payload.payload.id].name = payload.payload.name
+            for (let i = 0; i < state.Vapp.routes.length; i++) {
+                if (state.Vapp.routes[i].id === payload.payload.id) {
+                    state.Vapp.routes[i].name = payload.payload.name
+                    state.Wapp.routes[i].name = payload.payload.name
+                }
+            }
+            // state.Vapp.routes[payload.payload.id].name = payload.payload.name
+            // state.Wapp.routes[payload.payload.id].name = payload.payload.name
             useAutoSave(state.Vapp, state.Wapp)
             useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
@@ -146,7 +152,7 @@ export const routesSlice = createSlice({
             useAutoSave(state.Vapp, state.Wapp)
             // useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
-        initialProgramId(state,payload){
+        initialProgramId(state, payload) {
             state.program_id = payload.payload
         }
     }

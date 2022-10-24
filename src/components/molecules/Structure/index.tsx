@@ -83,6 +83,8 @@ export const Structure = (props: Props) => {
     const switchRoute = (name: string, id: number) => {
         const len = root?.childNodes.length as number
         const childs = root?.childNodes
+        console.log(route);
+        
         // judge whether user click cur route
         // if is nothing changed
         if (id !== current.id) {
@@ -92,9 +94,12 @@ export const Structure = (props: Props) => {
                 root?.removeChild(childs[i])
             }
             // console.log(route);
-            
+
             // render dom
-            useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch)
+            try {
+                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch)
+            } catch (error) {}
+
         }
     }
 
