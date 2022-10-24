@@ -91,7 +91,7 @@ export const Structure = (props: Props) => {
                 // @ts-ignore
                 root?.removeChild(childs[i])
             }
-            console.log(route);
+            // console.log(route);
             
             // render dom
             useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch)

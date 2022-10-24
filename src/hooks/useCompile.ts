@@ -19,6 +19,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
     }
     dfs(rootNode, vNode, width, isRpx)
     // console.log(vNode);
+    
     return vNode;
 }
 // traverse the real dom
@@ -60,6 +61,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
             case 'text':
                 compileText(node, el)
                 nextLevel()
+                break;
             case 'swiper':
                 compileSwiper(node, el, width, isRpx)
                 nextLevel()
@@ -67,7 +69,6 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
             default:
                 break;
         }
-
     });
 }
 

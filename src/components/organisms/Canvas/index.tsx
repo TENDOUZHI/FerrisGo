@@ -117,13 +117,14 @@ export const Canvas = (props: Props) => {
             ws: ws
         }))
         console.log(curVnode);
-        
     }
     const createDom = (e: DragEvent) => {
         try {
             const target = e.target as HTMLElement
             const element = document.createElement(newSource.nodeName)
             useCreateCom(newSource.id as nodeName, element)
+
+
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,
                 size: num + 1,
@@ -139,7 +140,7 @@ export const Canvas = (props: Props) => {
                 // newSource.style.border = 'solid 4px #6188de'
             })
             dispatch(sourceSliceAction.clearSource())
-        } catch (error) {}
+        } catch (error) { }
 
 
     }

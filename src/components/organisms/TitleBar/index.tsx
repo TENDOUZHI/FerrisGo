@@ -2,6 +2,10 @@ import './index.scss'
 import { appWindow } from "@tauri-apps/api/window";
 import { useEffect, useRef } from 'react';
 import Ferris from '@/assets/Ferris.png'
+import minimizes from '@/assets/system/minimize.png'
+import maxmizes from '@/assets/system/maxmize.png'
+import shutdown from '@/assets/system/shutdown.png'
+
 export const TitleBar = () => {
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
@@ -13,7 +17,7 @@ export const TitleBar = () => {
             .addEventListener("click", () => appWindow.toggleMaximize());
         closewindow.current
             .addEventListener("click", () => appWindow.close());
-    },[])
+    }, [])
 
 
     return (
@@ -31,18 +35,18 @@ export const TitleBar = () => {
             <div className="titlebar-buttons">
                 <div className="titlebar-button" ref={minimize}>
                     <img
-                        src="https://api.iconify.design/mdi:window-minimize.svg"
+                        src={minimizes}
                         alt="minimize"
                     />
                 </div>
                 <div className="titlebar-button" ref={maxmize}>
                     <img
-                        src="https://api.iconify.design/mdi:window-maximize.svg"
+                        src={maxmizes}
                         alt="maximize"
                     />
                 </div>
                 <div className="titlebar-button titlebar-close" ref={closewindow}>
-                    <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
+                    <img src={shutdown} alt="close" />
                 </div>
             </div>
 
