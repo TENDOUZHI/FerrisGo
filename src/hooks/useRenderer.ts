@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
 import { SwiperMini } from "@/components/atoms/SwiperMini";
+import { decoration } from "./useCreateCom";
 
 
 export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch) => {
@@ -24,9 +25,9 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch) => 
 const createNode = (vNode: VNode, dispatch: Dispatch): HTMLElement => {
     const curNode = seprate(vNode)
     curNode.addEventListener('click', (e: MouseEvent) => {
+        decoration(curNode)
         dispatch(targetSliceAction.captureTarget(e.target))
     })
-
     return curNode
 }
 
@@ -40,6 +41,8 @@ const seprate = (node: VNode) => {
             return createViewText(node);
     }
 }
+
+
 
 const parseCss = (el: HTMLElement, node: VNode) => {
     for (const key in node.style) {

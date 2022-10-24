@@ -32,10 +32,11 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
     })
 }
 
-const decoration = (node: HTMLElement) => {
+export const decoration = (node: HTMLElement) => {
     const cach = node.style.border
-    node.style.border = 'solid 3px #914bf8'
-    node.style.transition = 'border 0s'
+    node.style.border = 'solid 2px #914bf8'
+    // node.style.resize = 'both'
+    // node.style.overflow = 'auto'
     node.classList.add('relative')
     const decorateTop = document.createElement('div')
     const decorateBottom = document.createElement('div')
@@ -45,11 +46,12 @@ const decoration = (node: HTMLElement) => {
     decorateBottom.classList.add('com_selected_bottom')
     decorateMid.classList.add('com_selected_mid')
     decorateBoard.classList.add('com_selected_board')
-    node.append(decorateTop,decorateBottom,decorateMid,decorateBoard)
+    node.append(decorateTop, decorateBottom, decorateMid, decorateBoard)
     const blur = (ev: MouseEvent) => {
-        console.log(ev.target);
         if (ev.target !== node) {
             node.style.border = cach
+            // node.style.resize = 'none'
+            // node.style.overflow = 'auto'
             node.classList.remove('relative')
             decorateTop.remove()
             decorateBottom.remove()
@@ -69,18 +71,8 @@ const createView = (node: HTMLElement) => {
     node.style.backgroundColor = '#fff'
     node.style.border = '1px solid #000'
     node.style.cursor = 'pointer'
-    node.style.transition = 'all .2s ease-in-out'
-    node.style.resize = 'both'
-}
-
-const createSwiper = (node: HTMLElement) => {
-    node.style.width = '100%'
-    node.style.cursor = 'pointer'
-    // setTimeout(() => {
-    const swiperNode = createRoot(node)
-    swiperNode.render(SwiperMini())
-    // }, 100)
-
+    // node.style.transition = 'all .2s ease-in-out'
+    // node.style.resize = 'both'
 }
 
 const createText = (node: HTMLElement) => {
@@ -91,6 +83,16 @@ const createText = (node: HTMLElement) => {
     node.style.backgroundColor = '#fff'
     node.style.border = '1px solid #000'
     node.style.cursor = 'pointer'
-    node.style.transition = 'all .2s ease-in-out'
-    node.style.resize = 'both'
+    // node.style.transition = 'all .2s ease-in-out'
+    // node.style.resize = 'both'
+}
+
+const createSwiper = (node: HTMLElement) => {
+    node.style.width = '100%'
+    node.style.cursor = 'pointer'
+    // setTimeout(() => {
+    const swiperNode = createRoot(node)
+    swiperNode.render(SwiperMini())
+    // }, 100)
+
 }

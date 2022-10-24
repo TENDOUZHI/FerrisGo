@@ -1,7 +1,9 @@
 import { StyleInput } from '@/components/atoms/StyleInput'
 import { useGetValue } from '@/hooks/useGetValue'
+import { usePurge } from '@/hooks/usePurge'
 import { Dispatch } from '@reduxjs/toolkit'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import arrow from '@/assets/arrow.png'
 import './index.scss'
 
 interface Props {
@@ -11,12 +13,12 @@ interface Props {
 export const Display = (props: Props) => {
     const target = props.target
     const [status, setStatus] = useState<string>('')
-    const [display, setDisplay] = useGetValue('display',props.dispatch)
-    const [flexDirection, setFlexDirection] = useGetValue('flex-direction',props.dispatch)
-    const [justifyContent, setJustiContent] = useGetValue('justify-content',props.dispatch)
-    const [justifyItems, setJustifyItems] = useGetValue('justify-items',props.dispatch)
-    const [alignItems, setAlignItems] = useGetValue('align-items',props.dispatch)
-    const [alignContent, setAlignContent] = useGetValue('align-content',props.dispatch)
+    const [display, setDisplay] = useGetValue('display', props.dispatch)
+    const [flexDirection, setFlexDirection] = useGetValue('flex-direction', props.dispatch)
+    const [justifyContent, setJustiContent] = useGetValue('justify-content', props.dispatch)
+    const [justifyItems, setJustifyItems] = useGetValue('justify-items', props.dispatch)
+    const [alignItems, setAlignItems] = useGetValue('align-items', props.dispatch)
+    const [alignContent, setAlignContent] = useGetValue('align-content', props.dispatch)
     const updateDis = (value: string) => {
         console.log(display);
         setStatus(value)
@@ -26,12 +28,17 @@ export const Display = (props: Props) => {
             setStatus(getComputedStyle(target).getPropertyValue('display'))
         }
     })
-
+    const container = useRef<any>()
+    const arrowRef = useRef<any>()
+    const purgeContainer = usePurge(container.current, arrowRef.current, 114)
 
     return (
         <div className="attribute">
-            <div className='attribute-title'>放置</div>
-            <div className="attribute-content">
+            <div className='attribute-title' onClick={purgeContainer}>
+                <span>放置</span>
+                <img src={arrow} ref={arrowRef} alt="" />
+            </div>
+            <div className="attribute-content" ref={container}>
                 <StyleInput tip='display' title='Ds' value={display} changeValue={setDisplay} ifValue={updateDis} />
                 {
                     status === 'flex' &&
