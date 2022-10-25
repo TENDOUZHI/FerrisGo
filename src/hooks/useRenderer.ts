@@ -79,6 +79,7 @@ const createViewText = (node: VNode): HTMLElement => {
 
 const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
     const el = document.createElement(node.tag_name)
+    el.id = node.name
     el.classList.add(node.class as string)
     const swiperNode = createRoot(el)
     swiperNode.render(SwiperMini({

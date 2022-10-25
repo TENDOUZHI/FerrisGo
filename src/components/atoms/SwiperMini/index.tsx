@@ -22,8 +22,8 @@ export const SwiperMini = (props: Props) => {
         <Swiper
             modules={[
                 Navigation,
-                props.scrollbar ? Pagination : Thumbs,
-                props.pagination ? Scrollbar : Thumbs,
+                props.pagination ? Pagination : Thumbs,
+                props.scrollbar ? Scrollbar : Thumbs,
                 props.autoplay ? Autoplay : Thumbs,
                 Thumbs,
             ]}
