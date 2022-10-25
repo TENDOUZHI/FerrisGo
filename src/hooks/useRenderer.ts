@@ -26,8 +26,12 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Object): HTMLElement => {
     const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
+        let target = e.target
+        if(curNode.id === 'swiper'){
+            target = curNode
+        }
         decoration(curNode)
-        dispatch(targetSliceAction.captureTarget(e.target))
+        dispatch(targetSliceAction.captureTarget(target))
     })
     return curNode
 }
@@ -81,6 +85,7 @@ const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
+    el.style.cursor = 'pointer'
     const swiperNode = createRoot(el)
     swiperNode.render(SwiperMini({
         autoplay: swiper.autoPlay,

@@ -22,7 +22,7 @@ export const RighttList = (props: Props) => {
     const dispatch = useDispatch()
     return (
         <div className="rightlist-wrapper">
-            <SwiperSet dispatch={dispatch} />
+            <SwiperSet target={target} dispatch={dispatch} />
             <Basicstyle target={target} dispatch={dispatch} />
             <Margin target={target} dispatch={dispatch} />
             <Padding target={target} dispatch={dispatch} />

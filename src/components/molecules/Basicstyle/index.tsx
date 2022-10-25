@@ -1,7 +1,7 @@
 import { StyleInput } from '@/components/atoms/StyleInput'
 import { useGetValue } from '@/hooks/useGetValue'
 import { Dispatch } from '@reduxjs/toolkit'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './index.scss'
 import arrow from '@/assets/arrow.png'
 import { usePurge } from '@/hooks/usePurge'
@@ -19,9 +19,16 @@ export const Basicstyle = (props: Props) => {
     const [fontSize, setFontSize] = useGetValue('font-size', props.dispatch)
     const [color, setColor] = useGetValue('color', props.dispatch)
     const [content, setContent] = useGetValue('content', props.dispatch)
+    const [targetId, setTargetId] = useState<string>('')
     const container = useRef<any>()
     const arrowRef = useRef<any>()
     const purgeContainer = usePurge(container.current, arrowRef.current, 114)
+    useLayoutEffect(() => {
+        if (props.target !== null) {
+            setTargetId(props.target.id)
+        }
+
+    }, [props])
     return (
         <div className="attribute">
             <div className='attribute-title' onClick={purgeContainer}>
@@ -34,7 +41,7 @@ export const Basicstyle = (props: Props) => {
                 <StyleInput tip='圆角' title='R' value={borderRadius} changeValue={setBorderRadius} />
                 <StyleInput tip='字体' title='FZ' value={fontSize} changeValue={setFontSize} />
                 <StyleInput tip='颜色' title='FC' type='color' value={color} changeValue={setColor} />
-                <StyleInput tip='内容' title='C' value={content} changeValue={setContent} />
+                {targetId === 'text' && <StyleInput tip='内容' title='C' value={content} changeValue={setContent} />}
             </div>
 
         </div>

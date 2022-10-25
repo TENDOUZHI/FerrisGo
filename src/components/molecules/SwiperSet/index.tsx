@@ -1,5 +1,5 @@
 import { usePurge } from '@/hooks/usePurge'
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import arrow from '@/assets/arrow.png'
 import './index.scss'
 import { Dispatch } from '@reduxjs/toolkit'
@@ -9,18 +9,29 @@ import { useSelector } from 'react-redux'
 import { selectSwiper } from '@/store/swiper.slice'
 import { useSetCheckBox } from '@/hooks/useSetCheckBox'
 interface Props {
+    target: HTMLElement,
     dispatch: Dispatch
 }
 export const SwiperSet = (props: Props) => {
     const container = useRef<any>()
     const arrowRef = useRef<any>()
+    const whole = useRef<any>()
+    useLayoutEffect(() => {
+        whole.current.style.display = 'none'
+        if (props.target !== null) {
+            if (props.target.id === 'swiper') {
+                whole.current.style.display = 'flex'
+            }
+        }
+
+    }, [props])
     const swiper = useSelector(selectSwiper)
     const [autoplay, setAutoPlay] = useSetCheckBox('autoPlay', props.dispatch)
     const [pagination, setPagination] = useSetCheckBox('pagination', props.dispatch)
     const [scrollbar, setScrollbar] = useSetCheckBox('scrollbar', props.dispatch)
     const purgeContainer = usePurge(container.current, arrowRef.current, 76)
     return (
-        <div className="attribute">
+        <div className="attribute" ref={whole}>
             <div className='attribute-title' onClick={purgeContainer}>
                 <span>轮播图</span>
                 <img src={arrow} ref={arrowRef} alt="" />
