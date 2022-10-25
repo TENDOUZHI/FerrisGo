@@ -1,0 +1,19 @@
+.checkbox {
+  width: 40%;
+  height: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #414141;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 8px;
+  &_title {
+    user-select: none;
+    font-size: 12px;
+  }
+  &_input {
+    cursor: pointer;
+  }
+}

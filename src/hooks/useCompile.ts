@@ -1,4 +1,5 @@
 import { VNode } from "@/store/ast";
+import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
 
 //  to do list
@@ -6,7 +7,7 @@ import { useParseCss } from "./useParseCss";
 //  second: use redux to record vNode of every page, in order to impl create page 
 //  third: merge them into one json stream
 
-export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
+export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Object) => {
     // inital the virtual dom
     let vNode: VNode = {
         name: 'root',
@@ -17,20 +18,20 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean) => {
         content: rootNode.nodeValue,
         children: []
     }
-    dfs(rootNode, vNode, width, isRpx)
+    dfs(rootNode, vNode, width, isRpx, ctx)
     // console.log(vNode);
-    
+
     return vNode;
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
-const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
+const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Object) => {
     // 对rootNode的子节点进行遍历
 
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         const nextLevel = () => {
             vNode.children.push(node)
-            dfs(el, vNode.children[index], width, isRpx)
+            dfs(el, vNode.children[index], width, isRpx, ctx)
         }
         let styles;
         let curClass;
@@ -63,7 +64,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean) => {
                 nextLevel()
                 break;
             case 'swiper':
-                compileSwiper(node, el, width, isRpx)
+                compileSwiper(node, el, width, isRpx, ctx as SwiperRedux)
                 nextLevel()
                 break;
             default:
@@ -81,29 +82,32 @@ const compileText = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
 }
 
-const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boolean) => {
+const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boolean, swiperRedux: SwiperRedux) => {
     // compile swiper
     node.name = 'swiper'
     node.props!.swiper = {
-        auto_play: true,
-        auto_play_delay: 2000,
-        pagination: true,
-        scrollbar: true
+        auto_play: swiperRedux.autoPlay,
+        auto_play_delay: swiperRedux.autoPlayDelay,
+        pagination: swiperRedux.pagination,
+        scrollbar: swiperRedux.scrollbar
     }
     // compile swiper-item
-    const swiper = el.childNodes[0]
-    const swiperItem = swiper.childNodes[0]
-    swiperItem.childNodes.forEach((el: ChildNode, index: number) => {
-        const item: VNode = {
-            name: "swiper-item",
-            tag_name: "DIV",
-            class: (el as HTMLElement).classList[0],
-            style: useParseCss(el as HTMLElement, width, isRpx),
-            props: null,
-            content: el.textContent,
-            children: []
-        }
-        node.children.push(item)
-    })
+    try {
+        const swiper = el.childNodes[0]
+        const swiperItem = swiper.childNodes[0]
+        swiperItem.childNodes.forEach((el: ChildNode, index: number) => {
+            const item: VNode = {
+                name: "swiper-item",
+                tag_name: "DIV",
+                class: (el as HTMLElement).classList[0],
+                style: useParseCss(el as HTMLElement, width, isRpx),
+                props: null,
+                content: el.textContent,
+                children: []
+            }
+            node.children.push(item)
+        })
+    } catch (error) { }
+
 
 }

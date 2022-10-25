@@ -37,8 +37,6 @@ export const StyleInput = (props: Props) => {
             if (props.ifValue) {
                 props.ifValue(Ivalue)
             }
-            // const dispatch = useDispatch()
-            // dispatch(targetSliceAction.captureTarget(target))
         }
     }
     const enterInput = (e: KeyboardEvent) => {
@@ -53,18 +51,14 @@ export const StyleInput = (props: Props) => {
                 }
             }
         }
-
-
     }
     const updateValue = (e: { target: { value: any } }) => {
         setValue(e.target.value)
         // props.changeValue(e.target.value)
     }
-
     const resetTarget = () => {
         dispatch(targetSliceAction.updateState(false))
     }
-
     return (
         <div className="input-wrapper" ref={wrapper} onClick={resetTarget}>
             <div className="input-title">{props.title}</div>

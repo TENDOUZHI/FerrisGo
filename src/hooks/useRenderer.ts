@@ -6,24 +6,25 @@ import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
 import { SwiperMini } from "@/components/atoms/SwiperMini";
 import { decoration } from "./useCreateCom";
+import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch) => {
-    dfs(root, vNode, dispatch)
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Object) => {
+    dfs(root, vNode, dispatch, ctx)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: Object) => {
     vNode.children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
-            rootNode.appendChild(createNode(item, dispatch))
+            rootNode.appendChild(createNode(item, dispatch, ctx))
         }
-        dfs(rootNode.childNodes[index], item, dispatch)
+        dfs(rootNode.childNodes[index], item, dispatch, ctx)
     })
 
 }
 
-const createNode = (vNode: VNode, dispatch: Dispatch): HTMLElement => {
-    const curNode = seprate(vNode)
+const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Object): HTMLElement => {
+    const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
         decoration(curNode)
         dispatch(targetSliceAction.captureTarget(e.target))
@@ -31,12 +32,12 @@ const createNode = (vNode: VNode, dispatch: Dispatch): HTMLElement => {
     return curNode
 }
 
-const seprate = (node: VNode) => {
+const seprate = (node: VNode, ctx: Object) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
         case 'swiper':
-            return createSwiper(node)
+            return createSwiper(node, ctx as SwiperRedux)
         default:
             return createViewText(node);
     }
@@ -76,11 +77,16 @@ const createViewText = (node: VNode): HTMLElement => {
     return el
 }
 
-const createSwiper = (node: VNode): HTMLElement => {
+const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.classList.add(node.class as string)
     const swiperNode = createRoot(el)
-    swiperNode.render(SwiperMini())
+    swiperNode.render(SwiperMini({
+        autoplay: swiper.autoPlay,
+        autoplayDelay: swiper.autoPlayDelay,
+        pagination: swiper.pagination,
+        scrollbar: swiper.scrollbar
+    }))
     parseCss(el, node)
     return el
 }

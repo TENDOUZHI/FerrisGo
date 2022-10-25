@@ -8,6 +8,7 @@ import { selectDevice } from "@/store/device.slice"
 import { Dispatch } from "@reduxjs/toolkit"
 import { selectUser } from "@/store/user.slice"
 import { selectWs } from "@/store/ws.slice"
+import { selectSwiper } from "@/store/swiper.slice"
 
 
 export const useGetValue = (prop: string, dispatch: Dispatch): [string, (value: string) => void] => {
@@ -19,6 +20,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch): [string, (value: 
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const program_id = useSelector(selectProgramId)
+    const swiper = useSelector(selectSwiper)
     const vapp = useSelector(selectVapp)
     useEffect(() => {
         if (target !== null) {
@@ -54,11 +56,11 @@ export const useGetValue = (prop: string, dispatch: Dispatch): [string, (value: 
         setTimeout(() => {
             const curVnode = {
                 id: current.id,
-                vNode: useCompile(root, device.width, false)
+                vNode: useCompile(root, device.width, false,swiper)
             }
             const curWnode = {
                 id: current.id,
-                vNode: useCompile(root, device.width, false)
+                vNode: useCompile(root, device.width, false,swiper)
             }
             dispatch(routesSliceAction.updateVnode({
                 curVnode, curWnode, 

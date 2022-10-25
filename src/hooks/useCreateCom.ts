@@ -3,12 +3,14 @@ import { useHashCode } from "./useHashCode"
 import { SwiperMini } from "@/components/atoms/SwiperMini"
 import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
 // import Swiper from 'swiper'
 // import 'swiper/css';
 
 export type nodeName = 'view' | 'text' | 'button' | 'swiper'
 
-export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch) => {
+export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch, ctx: Object) => {
     const className = useHashCode(nodeName)
     node.classList.add(className)
     node.id = nodeName
@@ -17,7 +19,7 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             createView(node)
             break;
         case 'swiper':
-            createSwiper(node)
+            createSwiper(node, ctx as SwiperRedux)
             break;
         case 'text':
             createText(node)
@@ -25,16 +27,21 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             break;
     }
     node.addEventListener('click', (e: MouseEvent) => {
+        let target = e.target
+        if (node.id === 'swiper') {
+            target = node
+        }
         decoration(node)
-        dispatch(targetSliceAction.captureTarget(e.target))
+        dispatch(targetSliceAction.captureTarget(target))
         dispatch(targetSliceAction.updateState(true))
 
     })
 }
 
 export const decoration = (node: HTMLElement) => {
-    const cach = node.style.border
-    node.style.border = 'solid 2px #914bf8'
+    // const cach = node.style.border
+    node.style.outline = 'solid 2px #914bf8'
+    node.style.transition = 'all .2s ease-in-out'
     // node.style.resize = 'both'
     // node.style.overflow = 'auto'
     node.classList.add('relative')
@@ -49,7 +56,7 @@ export const decoration = (node: HTMLElement) => {
     node.append(decorateTop, decorateBottom, decorateMid, decorateBoard)
     const blur = (ev: MouseEvent) => {
         if (ev.target !== node) {
-            node.style.border = cach
+            node.style.outline = 'none'
             // node.style.resize = 'none'
             // node.style.overflow = 'auto'
             node.classList.remove('relative')
@@ -87,12 +94,17 @@ const createText = (node: HTMLElement) => {
     // node.style.resize = 'both'
 }
 
-const createSwiper = (node: HTMLElement) => {
+const createSwiper = (node: HTMLElement, swiper: SwiperRedux) => {
     node.style.width = '100%'
     node.style.cursor = 'pointer'
-    // setTimeout(() => {
-    const swiperNode = createRoot(node)
-    swiperNode.render(SwiperMini())
-    // }, 100)
+    setTimeout(() => {
+        const swiperNode = createRoot(node)
+        swiperNode.render(SwiperMini({
+            autoplay: swiper.autoPlay,
+            autoplayDelay: swiper.autoPlayDelay,
+            pagination: swiper.pagination,
+            scrollbar: swiper.scrollbar
+        }))
+    }, 100)
 
 }

@@ -6,7 +6,7 @@
     flex-direction: column;
     &-content {
         width: 100%;
-        height: calc(100vh - head.$height);
+        height: calc(100vh - head.$height - 35px);
         display: flex;
     }
 }

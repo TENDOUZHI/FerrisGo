@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { User, userSliceAction } from './store/user.slice'
 import { Message } from './components/organisms/Message'
+import { Loading } from './components/organisms/Loading'
 export const Source = () => {
     const dispatch = useDispatch()
     const verifyUser = () => {
@@ -17,6 +18,7 @@ export const Source = () => {
         <Router>
             <Routes>
                 <Route path='/' element={<WorkSpace />}></Route>
+                <Route path='/loading' element={<Loading loading={true} />}></Route>
             </Routes>
             <Message/>
         </Router>

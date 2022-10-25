@@ -11,6 +11,7 @@ import './index.scss'
 import { RoutePage } from '@/components/atoms/RoutePage'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
+import { selectSwiper } from '@/store/swiper.slice'
 interface Props {
     program_id: number
 }
@@ -24,6 +25,7 @@ export const Structure = (props: Props) => {
     const wapp = useSelector(selectWapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
+    const swiperRedux = useSelector(selectSwiper)
     const routeDom = useRef<Array<any>>([])
     const layer = useRef<any>()
     useEffect(() => {
@@ -52,11 +54,11 @@ export const Structure = (props: Props) => {
     const updateVNode = () => {
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, false)
+            vNode: useCompile(root, device.width, false, swiperRedux)
         }
         const curWnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, true)
+            vNode: useCompile(root, device.width, true, swiperRedux)
         }
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
@@ -84,7 +86,7 @@ export const Structure = (props: Props) => {
         const len = root?.childNodes.length as number
         const childs = root?.childNodes
         console.log(route);
-        
+
         // judge whether user click cur route
         // if is nothing changed
         if (id !== current.id) {
@@ -97,8 +99,8 @@ export const Structure = (props: Props) => {
 
             // render dom
             try {
-                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch)
-            } catch (error) {}
+                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch, swiperRedux)
+            } catch (error) { }
 
         }
     }

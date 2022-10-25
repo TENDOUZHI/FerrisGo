@@ -16,6 +16,7 @@ import { selectWs } from '@/store/ws.slice'
 import { useHashCode } from '@/hooks/useHashCode'
 import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
 import { SwiperMini } from '@/components/atoms/SwiperMini'
+import { selectSwiper } from '@/store/swiper.slice'
 
 
 interface Props {
@@ -32,6 +33,7 @@ export const Canvas = (props: Props) => {
     const Vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
+    const swiperRedux = useSelector(selectSwiper)
     const root = useRef<any>(null)
     // const firstUpdate = useRef<boolean>(true);
     const [fitst, setFitst] = useState<boolean>(true)
@@ -57,7 +59,7 @@ export const Canvas = (props: Props) => {
                         dispatch(routesSliceAction.retriveDom())
                         const index = vapp.routes[0].vnode
                         setNum(vapp.routes[current.id].size)
-                        useRenderer(root.current, index as VNode, dispatch)
+                        useRenderer(root.current, index as VNode, dispatch, swiperRedux)
                     }
                 }
             }
@@ -94,7 +96,6 @@ export const Canvas = (props: Props) => {
                 try {
                     root?.current.removeChild(childs[i])
                 } catch (error) { }
-
             }
         })
     }, [props])
@@ -104,11 +105,11 @@ export const Canvas = (props: Props) => {
         // update route vNode to redux
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root.current, device.width, false)
+            vNode: useCompile(root.current, device.width, false, swiperRedux)
         }
         const curWnode = {
             id: current.id,
-            vNode: useCompile(root.current, device.width, true)
+            vNode: useCompile(root.current, device.width, true, swiperRedux)
         }
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
@@ -122,7 +123,7 @@ export const Canvas = (props: Props) => {
         try {
             const target = e.target as HTMLElement
             const element = document.createElement(newSource.nodeName)
-            useCreateCom(newSource.id as nodeName, element,dispatch)
+            useCreateCom(newSource.id as nodeName, element, dispatch, swiperRedux)
 
 
             dispatch(routesSliceAction.updateRouteSize({
@@ -134,7 +135,7 @@ export const Canvas = (props: Props) => {
             }))
             target.appendChild(element)
             // heighlight element 
-            
+
 
             dispatch(sourceSliceAction.clearSource())
         } catch (error) { }
@@ -147,11 +148,11 @@ export const Canvas = (props: Props) => {
             target?.remove()
             const curVnode = {
                 id: current.id,
-                vNode: useCompile(root.current, device.width, false)
+                vNode: useCompile(root.current, device.width, false, swiperRedux)
             }
             const curWnode = {
                 id: current.id,
-                vNode: useCompile(root.current, device.width, true)
+                vNode: useCompile(root.current, device.width, true, swiperRedux)
             }
             dispatch(routesSliceAction.updateVnode({
                 curVnode, curWnode,

@@ -13,7 +13,6 @@
   "tauri": {
     "allowlist": {
       "all": true,
-      
       "dialog": {
         "all": true,
         "ask": false,
@@ -117,7 +116,6 @@
         "decorations": false,
         "transparent": true,
         "fileDropEnabled": false
-
       }
     ]
   }
