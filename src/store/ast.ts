@@ -1,3 +1,5 @@
+import { SwiperItem } from "./swiper.slice"
+
 export interface Vapp {
     project_name: string,
     routes: Array<Routes>
@@ -29,7 +31,8 @@ export interface Swiper {
     auto_play: boolean,
     auto_play_delay: number,
     pagination: boolean,
-    scrollbar: boolean
+    scrollbar: boolean,
+    items: Array<SwiperItem>
 }
 
 export interface Style {

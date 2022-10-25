@@ -103,7 +103,8 @@ const createSwiper = (node: HTMLElement, swiper: SwiperRedux) => {
             autoplay: swiper.autoPlay,
             autoplayDelay: swiper.autoPlayDelay,
             pagination: swiper.pagination,
-            scrollbar: swiper.scrollbar
+            scrollbar: swiper.scrollbar,
+            items: swiper.items
         }))
     }, 100)
 

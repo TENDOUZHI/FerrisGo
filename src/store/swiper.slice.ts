@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
+import file from '@/assets/file.png'
 
-interface SwiperItem {
-    
+export interface SwiperItem {
+    id: number
+    content: string
 }
 
 export interface SwiperRedux {
@@ -20,7 +22,11 @@ const initialState: SwiperRedux = {
     autoPlayDelay: 2000,
     pagination: false,
     scrollbar: false,
-    items: []
+    items: [
+        { id: 0, content: file },
+        { id: 1, content: file },
+        { id: 2, content: file }
+    ]
 }
 
 export const swiperSlice = createSlice({
@@ -38,6 +44,9 @@ export const swiperSlice = createSlice({
         },
         setScrollBar(state, { payload }) {
             state.scrollbar = payload
+        },
+        setContent(state, { payload }) {
+            state.items[payload.id].content = payload.content
         }
     }
 })

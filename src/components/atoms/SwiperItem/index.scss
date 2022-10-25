@@ -1,0 +1,38 @@
+.swiperitem {
+  width: 200px;
+  height: 100px;
+  position: relative;
+  margin-top: 8px;
+  margin-left: 8px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.068);
+  &_file {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: transparent;
+    transition: all 0.3s;
+    color: rgba(242, 242, 242, 0);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    &::-webkit-file-upload-button {
+      display: none;
+    }
+    &:hover {
+      background-color: rgba(62, 62, 62, 0.326);
+      color: rgba(231, 231, 231, 0);
+    }
+  }
+  &_img {
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    z-index: -1;
+  }
+}

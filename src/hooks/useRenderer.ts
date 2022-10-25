@@ -91,8 +91,11 @@ const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
         autoplay: swiper.autoPlay,
         autoplayDelay: swiper.autoPlayDelay,
         pagination: swiper.pagination,
-        scrollbar: swiper.scrollbar
+        scrollbar: swiper.scrollbar,
+        items: swiper.items
     }))
+    // console.log(swiper.items);
+    
     parseCss(el, node)
     return el
 }

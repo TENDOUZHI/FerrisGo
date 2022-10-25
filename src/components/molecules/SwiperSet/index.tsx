@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { selectSwiper } from '@/store/swiper.slice'
 import { useSetCheckBox } from '@/hooks/useSetCheckBox'
 import { StyleInput } from '@/components/atoms/StyleInput'
+import { SwiperItem } from '@/components/atoms/SwiperItem'
 interface Props {
     target: HTMLElement,
     dispatch: Dispatch
@@ -31,7 +32,7 @@ export const SwiperSet = (props: Props) => {
     const [pagination, setPagination] = useSetCheckBox('pagination', props.dispatch)
     const [scrollbar, setScrollbar] = useSetCheckBox('scrollbar', props.dispatch)
     const [delay, setDelay] = useGetValue('swiper', props.dispatch, 'autoPlayDelay')
-    const purgeContainer = usePurge(container.current, arrowRef.current, 76)
+    const purgeContainer = usePurge(container.current, arrowRef.current, 76 + (108 * swiper.items.length))
     return (
         <div className="attribute" ref={whole}>
             <div className='attribute-title' onClick={purgeContainer}>
@@ -41,8 +42,12 @@ export const SwiperSet = (props: Props) => {
             <div className="attribute-content" ref={container}>
                 <CheckBox title='自动播放' labelId='autoplay' value={autoplay} setValue={setAutoPlay} />
                 <CheckBox title='轮播点' labelId='pagination' value={pagination} setValue={setPagination} />
+                <StyleInput tip='播放间隔' title='DL' value={delay} changeValue={setDelay} hoc={true} />
                 <CheckBox title='滚动条' labelId='scrollbar' value={scrollbar} setValue={setScrollbar} />
-                <StyleInput tip='播放间隔' title='DL' value={delay} changeValue={setDelay} hoc={true}/>
+                {swiper.items.map(item => <SwiperItem
+                    // key={item.id}
+                    id={item.id}
+                    content={item.content} />)}
             </div>
         </div>
     )
