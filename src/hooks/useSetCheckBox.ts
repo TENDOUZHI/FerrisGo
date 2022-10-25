@@ -26,14 +26,11 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
     const program_id = useSelector(selectProgramId)
     const route = useSelector(selectRoutes)
     const [curNode, setCurNode] = useState<any>(null)
-    const [first, setFirst] = useState<boolean>(false)
     useEffect(() => {
         setValue(swiper[rootValue])
     }, [target])
     useLayoutEffect(() => {
         if (root !== null) {
-
-            // console.log(curNode);
             // clear screen
             const len = root!.childNodes.length as number
             const childs = root!.childNodes
@@ -80,8 +77,6 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
                 program_id: program_id,
                 ws: ws
             }))
-            console.log(curVnode.vNode);
-            
             setCurNode(curVnode.vNode)
     }
 

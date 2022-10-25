@@ -8,6 +8,7 @@ interface Props {
     value: string
     tip: string
     type?: string
+    hoc?: boolean,
     changeValue: ((value: string) => void)
     ifValue?: ((value: string) => void)
 }
@@ -18,12 +19,17 @@ export const StyleInput = (props: Props) => {
     let target = useSelector(selectTarget) as HTMLElement
     // after select el show the data
     useEffect(() => {
-        const capName = props.value.substring(0, 3)
-        if (props.type === 'color' || capName === 'rgb') {
-            setValue(useHexColor(props.value))
-        } else {
+        if (props.hoc) {
             setValue(props.value)
+        } else {
+            const capName = props.value.substring(0, 3)
+            if (props.type === 'color' || capName === 'rgb') {
+                setValue(useHexColor(props.value))
+            } else {
+                setValue(props.value)
+            }
         }
+
     }, [props.value, target])
     const focusInput = () => {
         wrapper.current.classList.add('item-focus')
@@ -66,7 +72,7 @@ export const StyleInput = (props: Props) => {
                 className='input-item'
                 value={Ivalue}
                 onChange={updateValue} onFocus={focusInput}
-                onBlur={blurInput} 
+                onBlur={blurInput}
                 onKeyDown={enterInput}
             />
             <div className="tip">{props.tip}</div>

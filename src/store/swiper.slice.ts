@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
 
+interface SwiperItem {
+    
+}
+
 export interface SwiperRedux {
     autoPlay: boolean,
     autoPlayDelay: number,
     pagination: boolean,
-    scrollbar: boolean
+    scrollbar: boolean,
+    items: Array<SwiperItem>
 }
 
 export type SwiperType = 'autoPlay' | 'pagination' | 'scrollbar'
@@ -14,7 +19,8 @@ const initialState: SwiperRedux = {
     autoPlay: false,
     autoPlayDelay: 2000,
     pagination: false,
-    scrollbar: false
+    scrollbar: false,
+    items: []
 }
 
 export const swiperSlice = createSlice({
