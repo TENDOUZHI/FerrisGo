@@ -10,7 +10,7 @@ import { useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
 
-export const useUpdate = () => {
+export const useUpdate = (): [(() => void), any] => {
     const dispatch = useDispatch()
     const current = useSelector(selectCurRoutes)
     const root = useSelector(selectRoot)
@@ -20,6 +20,9 @@ export const useUpdate = () => {
     const ws = useSelector(selectWs)
     const program_id = useSelector(selectProgramId)
     const [curNode, setCurNode] = useState<any>(null)
+    useLayoutEffect(() => {
+        update()
+    }, [curNode])
     const update = () => {
         if (root !== null) {
             // clear screen
@@ -52,7 +55,8 @@ export const useUpdate = () => {
             program_id: program_id,
             ws: ws
         }))
+
         setCurNode(curVnode.vNode)
     }
-    return [curNode, preUpdate, update]
+    return [preUpdate, curNode]
 }

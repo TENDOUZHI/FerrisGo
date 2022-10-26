@@ -12,7 +12,8 @@ interface Props {
     autoplayDelay: number,
     pagination: boolean,
     scrollbar: boolean,
-    items: Array<SwiperItem>
+    items: Array<SwiperItem>,
+    garbage: number
 }
 
 export const SwiperMini = (props: Props) => {
@@ -34,24 +35,17 @@ export const SwiperMini = (props: Props) => {
         // onSlideChange={() => console.log('slide change')}
         // onSwiper={(swiper) => console.log(swiper)}
         >
-            {props.items.map(item => <SwiperSlide
-                style={{
-                    height: '100px',
-                    backgroundColor: 'transparent',
-                    userSelect: 'none',
-                }}
-                key={item.id}>
-                {/* {item.content} */}
-                <img style={{width:'100%',height:'100%'}} src={item.content} alt="" />
-            </SwiperSlide>)}
-
-            {/* <SwiperSlide style={{ height: '100px', backgroundColor: 'transparent', userSelect: 'none' }}>
-                
-                <img src={file} style={{ width: '100%', height: '100px' }} alt="" />
-            </SwiperSlide>
-            <SwiperSlide style={{ height: '100px', backgroundColor: '#fff', userSelect: 'none' }}>Slide 2</SwiperSlide>
-            <SwiperSlide style={{ height: '100px', backgroundColor: '#fff', userSelect: 'none' }}>Slide 3</SwiperSlide>
-            <SwiperSlide style={{ height: '100px', backgroundColor: '#fff', userSelect: 'none' }}>Slide 4</SwiperSlide> */}
+            {props.items.map(item => item.status &&
+                <SwiperSlide
+                    style={{
+                        height: '150px',
+                        backgroundColor: 'transparent',
+                        userSelect: 'none',
+                    }}
+                    key={item.id}>
+                    {/* {item.content} */}
+                    <img style={{ width: '100%', height: '100%' }} src={item.content} alt="" />
+                </SwiperSlide>)}
 
         </Swiper>
     )

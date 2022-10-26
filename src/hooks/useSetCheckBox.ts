@@ -17,21 +17,11 @@ import { useUpdate } from "./useUpdate"
 export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [boolean, (value: boolean) => void] => {
     const [value, setValue] = useState<boolean>(false)
     let target = useSelector(selectTarget) as HTMLElement
-    const current = useSelector(selectCurRoutes)
-    const root = useSelector(selectRoot)
-    const device = useSelector(selectDevice)
     const swiper = useSelector(selectSwiper)
-    const user = useSelector(selectUser)
-    const ws = useSelector(selectWs)
-    const program_id = useSelector(selectProgramId)
-    const [curNode, setCurNode] = useState<any>(null)
-    const [pivot, preUpdate, update] = useUpdate()
+    const [preUpdate] = useUpdate()
     useEffect(() => {
         setValue(swiper[rootValue])
     }, [target])
-    useLayoutEffect(() => {
-            update()
-    }, [pivot])
     // syn data to vnode and rerender root
     const setValues = (value: boolean) => {
         switch (rootValue) {

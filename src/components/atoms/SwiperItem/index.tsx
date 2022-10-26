@@ -1,17 +1,10 @@
 import './index.scss'
-import autoSave from '@/assets/auto save.png'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { selectSwiper, swiperSliceAction } from '@/store/swiper.slice'
 import { messageSliceAction } from '@/store/message.slice'
-import { useRenderer } from '@/hooks/useRenderer'
-import { routesSliceAction, selectCurRoutes, selectProgramId } from '@/store/vapp.slice'
-import { selectDevice } from '@/store/device.slice'
-import { selectRoot } from '@/store/source.slice'
-import { useCompile } from '@/hooks/useCompile'
-import { selectUser } from '@/store/user.slice'
-import { selectWs } from '@/store/ws.slice'
 import { useUpdate } from '@/hooks/useUpdate'
+import { useSelector } from 'react-redux'
 
 interface Props {
     id: number,
@@ -22,11 +15,7 @@ export const SwiperItem = (props: Props) => {
     const dispatch = useDispatch()
     const [defaultImg, setDefaultImg] = useState<string>(props.content)
     const reader = useRef<FileReader>(new FileReader())
-    const [pivot, preUpdate, update] = useUpdate()
-    // useUpdate()
-    useLayoutEffect(() => {
-        update()
-    }, [pivot])
+    const [preUpdate] = useUpdate()
     const onChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
         if (file.type === 'image/png' || file.type === 'image/jpeg') {
@@ -36,20 +25,20 @@ export const SwiperItem = (props: Props) => {
                 if (size <= 10000) {
                     setDefaultImg(res.target?.result as string)
                     dispatch(swiperSliceAction.setContent({ id: props.id, content: res.target?.result }))
-                    // compile()
                     preUpdate()
-                    // useRenderer(root, '', dispatch, swiper)
                 } else {
                     dispatch(messageSliceAction.setError('文件大小不得大于10M'))
                 }
             }
-        } else {
-            return
         }
+    }
+    const deleteContent = () => {
+        dispatch(swiperSliceAction.deleteItem({ id: props.id }))
     }
 
     return (
         <div className="swiperitem">
+            <div className="swiperitem_cancel" onClick={() => { deleteContent(); }}>x</div>
             <input
                 type="file"
                 accept="image/png, image/jpeg, image/jpg"

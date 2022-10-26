@@ -90,7 +90,8 @@ const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boole
         auto_play_delay: swiperRedux.autoPlayDelay,
         pagination: swiperRedux.pagination,
         scrollbar: swiperRedux.scrollbar,
-        items: swiperRedux.items
+        items: swiperRedux.items,
+        garbage: swiperRedux.garbage
     }
     // compile swiper-item
     try {

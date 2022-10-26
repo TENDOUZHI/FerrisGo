@@ -2,7 +2,6 @@ import { StyleInput } from "@/components/atoms/StyleInput"
 import { useGetValue } from "@/hooks/useGetValue"
 import { Dispatch } from "@reduxjs/toolkit"
 import { useRef, useState } from "react"
-import './index.scss'
 import arrow from '@/assets/arrow.png'
 import { usePurge } from "@/hooks/usePurge"
 

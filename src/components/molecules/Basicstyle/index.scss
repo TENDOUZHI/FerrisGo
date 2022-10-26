@@ -12,11 +12,11 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
-    img{
+    img {
       margin-left: 0.5rem;
       height: 0.7rem;
       transform: rotate(0deg);
-      transition: all .3s;
+      transition: all 0.3s;
     }
   }
   &-content {
@@ -26,6 +26,35 @@
     flex-wrap: wrap;
     justify-content: left;
     overflow: hidden;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    &-sure {
+      width: 200px;
+      height: 40px;
+      margin-top: 8px;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &-btn{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        color: rgb(201, 201, 201);
+        background-color: #254e8f;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover{
+          background-color: #325ea6;
+        }
+        &:active{
+          transform: scale(95%);
+        }
+      }
+    }
   }
 }

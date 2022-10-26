@@ -32,7 +32,8 @@ export interface Swiper {
     auto_play_delay: number,
     pagination: boolean,
     scrollbar: boolean,
-    items: Array<SwiperItem>
+    items: Array<SwiperItem>,
+    garbage: number
 }
 
 export interface Style {

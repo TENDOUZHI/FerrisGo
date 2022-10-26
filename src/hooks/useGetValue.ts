@@ -16,15 +16,8 @@ import { useUpdate } from "./useUpdate"
 export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [string, (value: string) => void] => {
     const [value, setValue] = useState<string>('')
     let target = useSelector(selectTarget) as HTMLElement
-    const current = useSelector(selectCurRoutes)
-    const root = useSelector(selectRoot)
-    const device = useSelector(selectDevice)
-    const user = useSelector(selectUser)
-    const ws = useSelector(selectWs)
-    const program_id = useSelector(selectProgramId)
     const swiper = useSelector(selectSwiper)
-    const [curNode, setCurNode] = useState<any>(null)
-    const [pivot, preUpdate, update] = useUpdate()
+    const [preUpdate] = useUpdate()
     useEffect(() => {
         if (target !== null) {
             if (prop === 'content') {
@@ -40,9 +33,6 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
             }
         }
     }, [target])
-    useLayoutEffect(() => {
-        update()
-    }, [pivot])
     const setValues = (value: string) => {
         if (prop === 'swiper') {
             dispatch(swiperSliceAction.setAutoPlayDelay(value))
