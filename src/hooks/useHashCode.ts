@@ -21,5 +21,5 @@ export const useHashCode = (str: string) => {
             }
         }
     }
-    return str + ';' + uuid.join('');
+    return str + '-' + uuid.join('');
 }

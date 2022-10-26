@@ -27,7 +27,7 @@ const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Object): HTMLElement 
     const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
-        if(curNode.id === 'swiper'){
+        if (curNode.id === 'swiper') {
             target = curNode
         }
         decoration(curNode)
@@ -42,6 +42,8 @@ const seprate = (node: VNode, ctx: Object) => {
             return createViewText(node);
         case 'swiper':
             return createSwiper(node, ctx as SwiperRedux)
+        case 'button':
+            return createButton(node)
         default:
             return createViewText(node);
     }
@@ -96,7 +98,19 @@ const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
         garbage: swiper.garbage
     }))
     // console.log(swiper.items);
-    
+
+    parseCss(el, node)
+    return el
+}
+
+const createButton = (node: VNode): HTMLElement => {
+    const el = document.createElement(node.tag_name)
+    el.id = node.name
+    el.classList.add(node.class as string)
+    el.textContent = node.content
+    el.style.cursor = 'pointer'
+    el.style.border = '1px solid #000'
+    el.style.boxShadow = 'none'
     parseCss(el, node)
     return el
 }

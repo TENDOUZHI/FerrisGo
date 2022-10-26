@@ -67,6 +67,10 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Ob
                 compileSwiper(node, el, width, isRpx, ctx as SwiperRedux)
                 nextLevel()
                 break;
+            case 'button':
+                compileButton(node, el)
+                nextLevel()
+                break;
             default:
                 break;
         }
@@ -112,4 +116,8 @@ const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boole
     } catch (error) { }
 
 
+}
+
+const compileButton = (node: VNode, el: HTMLElement) => {
+    node.content = el.innerText
 }

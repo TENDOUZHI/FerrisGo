@@ -13,8 +13,12 @@ export const Ingredients = () => {
             {/* @ts-ignore */}
             <Collapse title='视图容器' dispatch={dispatch}>
                 <View />
-                <Text />
                 <Swiper />
+            </Collapse>
+            {/* @ts-ignore */}
+            <Collapse title='基础内容' dispatch={dispatch}>
+                <Text />
+                <Text />
             </Collapse>
             {/* @ts-ignore */}
             <Collapse title='表单组件' dispatch={dispatch}>

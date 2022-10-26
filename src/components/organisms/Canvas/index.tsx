@@ -122,10 +122,18 @@ export const Canvas = (props: Props) => {
     const createDom = (e: DragEvent) => {
         try {
             const target = e.target as HTMLElement
-            const element = document.createElement(newSource.nodeName)
-            useCreateCom(newSource.id as nodeName, element, dispatch, swiperRedux)
-
-
+            const seperate = () => {
+                if (newSource.id === 'button') {
+                    const element = document.createElement(newSource.id)
+                    useCreateCom(newSource.id as nodeName, element, dispatch, swiperRedux)
+                    return element
+                } else {
+                    const element = document.createElement(newSource.nodeName)
+                    useCreateCom(newSource.id as nodeName, element, dispatch, swiperRedux)
+                    return element
+                }
+            }
+            const element = seperate()
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,
                 size: num + 1,

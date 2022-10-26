@@ -3,10 +3,7 @@ import { useHashCode } from "./useHashCode"
 import { SwiperMini } from "@/components/atoms/SwiperMini"
 import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
-import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
-// import Swiper from 'swiper'
-// import 'swiper/css';
+import { SwiperRedux } from "@/store/swiper.slice";
 
 export type nodeName = 'view' | 'text' | 'button' | 'swiper'
 
@@ -23,6 +20,8 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             break;
         case 'text':
             createText(node)
+        case 'button':
+            createButton(node)
         default:
             break;
     }
@@ -42,9 +41,11 @@ export const decoration = (node: HTMLElement) => {
     // const cach = node.style.border
     node.style.outline = 'solid 2px #914bf8'
     node.style.transition = 'all .2s ease-in-out'
+    console.log(node);
+    
     // node.style.resize = 'both'
     // node.style.overflow = 'auto'
-    node.classList.add('relative')
+    node.classList.add('relatives')
     const decorateTop = document.createElement('div')
     const decorateBottom = document.createElement('div')
     const decorateMid = document.createElement('div')
@@ -104,8 +105,21 @@ const createSwiper = (node: HTMLElement, swiper: SwiperRedux) => {
             autoplayDelay: swiper.autoPlayDelay,
             pagination: swiper.pagination,
             scrollbar: swiper.scrollbar,
-            items: swiper.items
+            items: swiper.items,
+            garbage: swiper.garbage
         }))
     }, 100)
 
+}
+
+const createButton = (node: HTMLElement) => {
+    node.draggable = false
+    node.style.minWidth = '75px'
+    node.style.height = '2rem'
+    node.style.color = '#000'
+    node.style.backgroundColor = '#fff'
+    node.style.border = '1px solid #000'
+    node.style.cursor = 'pointer'
+    node.style.borderRadius = '3px'
+    node.style.boxShadow = 'none'
 }
