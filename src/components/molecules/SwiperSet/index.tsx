@@ -28,7 +28,7 @@ export const SwiperSet = (props: Props) => {
     const [delay, setDelay] = useGetValue('swiper', props.dispatch, 'autoPlayDelay')
     const [show, setShow] = useState<boolean>(false)
     const ensure = useRef<any>()
-    const purgeContainer = usePurge(container.current, arrowRef.current, 76 + 48 + (108 * swiper.items.length))
+    const purgeContainer = usePurge(container.current, arrowRef.current, 76 + 48 + 52 + (108 * (swiper.items.length - swiper.garbage)))
     useLayoutEffect(() => {
         whole.current.style.display = 'none'
         if (props.target !== null) {

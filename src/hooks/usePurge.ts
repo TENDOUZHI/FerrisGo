@@ -3,6 +3,7 @@ import { useState } from "react"
 export const usePurge = (container: HTMLElement, arrow: HTMLElement, height: number) => {
     const [purge, setPurge] = useState<boolean>(false)
     const purgeContainer = () => {
+        console.log(container);
         container.style.height = height + 'px'
         setTimeout(() => {
             if (!purge) {

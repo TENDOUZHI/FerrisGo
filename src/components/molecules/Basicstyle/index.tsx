@@ -27,7 +27,6 @@ export const Basicstyle = (props: Props) => {
         if (props.target !== null) {
             setTargetId(props.target.id)
         }
-
     }, [props])
     return (
         <div className="attribute">

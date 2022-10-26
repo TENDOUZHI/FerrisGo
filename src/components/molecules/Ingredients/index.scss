@@ -1,13 +1,23 @@
 .ingredients {
-    width: 100%;
-    padding: 1rem 1.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  &-wrapper {
+    padding: 1rem 0.5rem;
     display: flex;
-    flex-wrap: wrap;
-    &-wrapper {
-        padding: 1rem 0.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  &_container {
+    &_title {
+      padding: 00.5rem;
+      font-size: 14px;
     }
+    &_content {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
 }
