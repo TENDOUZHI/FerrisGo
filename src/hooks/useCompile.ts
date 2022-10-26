@@ -71,6 +71,9 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Ob
                 compileButton(node, el)
                 nextLevel()
                 break;
+            case 'image':
+                constImage(node,el)
+                nextLevel()
             default:
                 break;
         }
@@ -120,4 +123,9 @@ const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boole
 
 const compileButton = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
+}
+
+const constImage = (node: VNode, el: HTMLElement) => {
+    console.log(el.attributes.getNamedItem('src'));
+    
 }

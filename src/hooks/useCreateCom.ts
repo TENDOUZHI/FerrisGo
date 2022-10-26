@@ -4,8 +4,9 @@ import { SwiperMini } from "@/components/atoms/SwiperMini"
 import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { SwiperRedux } from "@/store/swiper.slice";
+import defaultImg from '@/assets/default.png'
 
-export type nodeName = 'view' | 'text' | 'button' | 'swiper'
+export type nodeName = 'view' | 'text' | 'button' | 'swiper' | 'image'
 
 export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch, ctx: Object) => {
     const className = useHashCode(nodeName)
@@ -22,6 +23,8 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             createText(node)
         case 'button':
             createButton(node)
+        case 'image':
+            createImage(node)
         default:
             break;
     }
@@ -41,8 +44,6 @@ export const decoration = (node: HTMLElement) => {
     // const cach = node.style.border
     node.style.outline = 'solid 2px #914bf8'
     node.style.transition = 'all .2s ease-in-out'
-    console.log(node);
-    
     // node.style.resize = 'both'
     // node.style.overflow = 'auto'
     node.classList.add('relatives')
@@ -55,6 +56,7 @@ export const decoration = (node: HTMLElement) => {
     decorateMid.classList.add('com_selected_mid')
     decorateBoard.classList.add('com_selected_board')
     node.append(decorateTop, decorateBottom, decorateMid, decorateBoard)
+    console.log(node);
     const blur = (ev: MouseEvent) => {
         if (ev.target !== node) {
             node.style.outline = 'none'
@@ -122,4 +124,16 @@ const createButton = (node: HTMLElement) => {
     node.style.cursor = 'pointer'
     node.style.borderRadius = '3px'
     node.style.boxShadow = 'none'
+}
+
+const createImage = (node: HTMLElement) => {
+    node.draggable = false
+    node.setAttribute('src',defaultImg)
+    node.style.width = '200px'
+    node.style.height = '100px'
+    node.style.color = '#000'
+    node.style.backgroundColor = 'transparant'
+    node.style.border = '1px solid #000'
+    node.style.cursor = 'pointer'
+    node.style.borderRadius = '3px'
 }

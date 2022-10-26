@@ -4,6 +4,7 @@ import './index.scss'
 import { Button } from '@/components/atoms/Button'
 import { Swiper } from '@/components/atoms/Swiper'
 import { Form } from '@/components/atoms/Form'
+import { Image } from '@/components/atoms/Image'
 import { Collapse } from '../Collapse'
 import { useDispatch } from 'react-redux'
 export const Ingredients = () => {
@@ -14,6 +15,7 @@ export const Ingredients = () => {
             <Collapse title='视图容器' dispatch={dispatch}>
                 <View />
                 <Swiper />
+                <Image/>
             </Collapse>
             {/* @ts-ignore */}
             <Collapse title='基础内容' dispatch={dispatch}>
