@@ -45,7 +45,7 @@ export const SwiperSet = (props: Props) => {
                 <StyleInput tip='播放间隔' title='DL' value={delay} changeValue={setDelay} hoc={true} />
                 <CheckBox title='滚动条' labelId='scrollbar' value={scrollbar} setValue={setScrollbar} />
                 {swiper.items.map(item => <SwiperItem
-                    // key={item.id}
+                    key={item.id}
                     id={item.id}
                     content={item.content} />)}
             </div>

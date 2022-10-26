@@ -11,6 +11,7 @@ import { useEffect, useLayoutEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
+import { useUpdate } from "./useUpdate"
 
 
 export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [boolean, (value: boolean) => void] => {
@@ -20,33 +21,17 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const swiper = useSelector(selectSwiper)
-    const vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const program_id = useSelector(selectProgramId)
-    const route = useSelector(selectRoutes)
     const [curNode, setCurNode] = useState<any>(null)
+    const [pivot, preUpdate, update] = useUpdate()
     useEffect(() => {
         setValue(swiper[rootValue])
     }, [target])
     useLayoutEffect(() => {
-        if (root !== null) {
-            // clear screen
-            const len = root!.childNodes.length as number
-            const childs = root!.childNodes
-            for (let i = len - 1; i >= 0; i--) {
-                // @ts-ignore
-                try {
-                    root!.removeChild(childs[i])
-                } catch (error) { }
-            }
-            // set into real dom
-            setTimeout(() => {
-                useRenderer(root as HTMLElement, curNode, dispatch, swiper)
-            })
-        }
-
-    }, [curNode])
+            update()
+    }, [pivot])
     // syn data to vnode and rerender root
     const setValues = (value: boolean) => {
         switch (rootValue) {
@@ -62,22 +47,7 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
             default:
                 break;
         }
-        // set vnode
-            const curVnode = {
-                id: current.id,
-                vNode: useCompile(root, device.width, false, swiper)
-            }
-            const curWnode = {
-                id: current.id,
-                vNode: useCompile(root, device.width, false, swiper)
-            }
-            dispatch(routesSliceAction.updateVnode({
-                curVnode, curWnode,
-                user_id: user.id,
-                program_id: program_id,
-                ws: ws
-            }))
-            setCurNode(curVnode.vNode)
+        preUpdate()
     }
 
     return [value, setValues]

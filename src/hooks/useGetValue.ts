@@ -10,6 +10,7 @@ import { selectUser } from "@/store/user.slice"
 import { selectWs } from "@/store/ws.slice"
 import { selectSwiper, swiperSliceAction } from "@/store/swiper.slice"
 import { useRenderer } from "./useRenderer"
+import { useUpdate } from "./useUpdate"
 
 
 export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [string, (value: string) => void] => {
@@ -23,6 +24,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
     const program_id = useSelector(selectProgramId)
     const swiper = useSelector(selectSwiper)
     const [curNode, setCurNode] = useState<any>(null)
+    const [pivot, preUpdate, update] = useUpdate()
     useEffect(() => {
         if (target !== null) {
             if (prop === 'content') {
@@ -39,23 +41,8 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
         }
     }, [target])
     useLayoutEffect(() => {
-        if (root !== null && hoc) {
-            // clear screen
-            const len = root!.childNodes.length as number
-            const childs = root!.childNodes
-            for (let i = len - 1; i >= 0; i--) {
-                // @ts-ignore
-                try {
-                    root!.removeChild(childs[i])
-                } catch (error) { }
-            }
-            // set into real dom
-            setTimeout(() => {
-                useRenderer(root as HTMLElement, curNode, dispatch, swiper)
-            })
-        }
-
-    }, [curNode])
+        update()
+    }, [pivot])
     const setValues = (value: string) => {
         if (prop === 'swiper') {
             dispatch(swiperSliceAction.setAutoPlayDelay(value))
@@ -82,21 +69,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
 
         // update element when change their attribute
         setTimeout(() => {
-            const curVnode = {
-                id: current.id,
-                vNode: useCompile(root, device.width, false, swiper)
-            }
-            const curWnode = {
-                id: current.id,
-                vNode: useCompile(root, device.width, false, swiper)
-            }
-            dispatch(routesSliceAction.updateVnode({
-                curVnode, curWnode,
-                user_id: user.id,
-                program_id: program_id,
-                ws: ws
-            }))
-            setCurNode(curVnode.vNode)
+            preUpdate()
         }, 300)
 
     }

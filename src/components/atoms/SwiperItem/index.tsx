@@ -11,6 +11,7 @@ import { selectRoot } from '@/store/source.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
+import { useUpdate } from '@/hooks/useUpdate'
 
 interface Props {
     id: number,
@@ -19,34 +20,13 @@ interface Props {
 
 export const SwiperItem = (props: Props) => {
     const dispatch = useDispatch()
-    const current = useSelector(selectCurRoutes)
-    const swiper = useSelector(selectSwiper)
-    const root = useSelector(selectRoot)
-    const device = useSelector(selectDevice)
-    const user = useSelector(selectUser)
-    const ws = useSelector(selectWs)
-    const program_id = useSelector(selectProgramId)
     const [defaultImg, setDefaultImg] = useState<string>(props.content)
     const reader = useRef<FileReader>(new FileReader())
-    const [curNode, setCurNode] = useState<any>(null)
+    const [pivot, preUpdate, update] = useUpdate()
+    // useUpdate()
     useLayoutEffect(() => {
-        if (root !== null) {
-            // clear screen
-            const len = root!.childNodes.length as number
-            const childs = root!.childNodes
-            for (let i = len - 1; i >= 0; i--) {
-                // @ts-ignore
-                try {
-                    root!.removeChild(childs[i])
-                } catch (error) { }
-            }
-            // set into real dom
-            setTimeout(() => {
-                useRenderer(root as HTMLElement, curNode, dispatch, swiper)
-            })
-        }
-
-    }, [curNode])
+        update()
+    }, [pivot])
     const onChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
         if (file.type === 'image/png' || file.type === 'image/jpeg') {
@@ -56,33 +36,16 @@ export const SwiperItem = (props: Props) => {
                 if (size <= 10000) {
                     setDefaultImg(res.target?.result as string)
                     dispatch(swiperSliceAction.setContent({ id: props.id, content: res.target?.result }))
-                    compile()
+                    // compile()
+                    preUpdate()
                     // useRenderer(root, '', dispatch, swiper)
                 } else {
                     dispatch(messageSliceAction.setError('文件大小不得大于10M'))
-                    console.error('文件大于10M');
                 }
             }
         } else {
             return
         }
-    }
-    const compile = () => {
-        const curVnode = {
-            id: current.id,
-            vNode: useCompile(root, device.width, false, swiper)
-        }
-        const curWnode = {
-            id: current.id,
-            vNode: useCompile(root, device.width, false, swiper)
-        }
-        dispatch(routesSliceAction.updateVnode({
-            curVnode, curWnode,
-            user_id: user.id,
-            program_id: program_id,
-            ws: ws
-        }))
-        setCurNode(curVnode.vNode)
     }
 
     return (
