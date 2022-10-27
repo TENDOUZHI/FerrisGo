@@ -25,6 +25,11 @@ export interface VNode {
 
 export interface Vprops {
     swiper: Swiper | null
+    img: Image | null
+}
+
+export interface Image {
+    src: string
 }
 
 export interface Swiper {

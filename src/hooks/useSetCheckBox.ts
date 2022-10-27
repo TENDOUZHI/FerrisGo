@@ -1,4 +1,4 @@
-import { VNode } from "@/store/ast"
+import { Swiper, VNode, Vprops } from "@/store/ast"
 import { selectDevice } from "@/store/device.slice"
 import { selectRoot } from "@/store/source.slice"
 import { selectSwiper, swiperSliceAction, SwiperType } from "@/store/swiper.slice"
@@ -12,12 +12,14 @@ import { useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
 import { useUpdate } from "./useUpdate"
+import { useVprops } from "./useVprops"
 
 
 export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [boolean, (value: boolean) => void] => {
     const [value, setValue] = useState<boolean>(false)
     let target = useSelector(selectTarget) as HTMLElement
-    const swiper = useSelector(selectSwiper)
+    const vprops = useVprops()
+    const swiper = vprops.swiper as Swiper
     const [preUpdate] = useUpdate()
     useEffect(() => {
         setValue(swiper[rootValue])
@@ -25,7 +27,7 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
     // syn data to vnode and rerender root
     const setValues = (value: boolean) => {
         switch (rootValue) {
-            case 'autoPlay':
+            case 'auto_play':
                 dispatch(swiperSliceAction.setAutoPlay(value))
                 break;
             case 'pagination':

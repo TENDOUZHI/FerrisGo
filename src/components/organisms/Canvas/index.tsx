@@ -9,7 +9,7 @@ import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/
 import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
-import { Vapp, VNode } from '@/store/ast'
+import { Vapp, VNode, Vprops } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
@@ -17,6 +17,7 @@ import { useHashCode } from '@/hooks/useHashCode'
 import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
 import { SwiperMini } from '@/components/atoms/SwiperMini'
 import { selectSwiper } from '@/store/swiper.slice'
+import { useVprops } from '@/hooks/useVprops'
 
 
 interface Props {
@@ -33,7 +34,7 @@ export const Canvas = (props: Props) => {
     const Vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
-    const swiperRedux = useSelector(selectSwiper)
+    const vprops = useVprops()
     const root = useRef<any>(null)
     // const firstUpdate = useRef<boolean>(true);
     const [fitst, setFitst] = useState<boolean>(true)
@@ -59,7 +60,7 @@ export const Canvas = (props: Props) => {
                         dispatch(routesSliceAction.retriveDom())
                         const index = vapp.routes[0].vnode
                         setNum(vapp.routes[current.id].size)
-                        useRenderer(root.current, index as VNode, dispatch, swiperRedux)
+                        useRenderer(root.current, index as VNode, dispatch, vprops)
                     }
                 }
             }
@@ -105,11 +106,11 @@ export const Canvas = (props: Props) => {
         // update route vNode to redux
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root.current, device.width, false, swiperRedux)
+            vNode: useCompile(root.current, device.width, false, vprops)
         }
         const curWnode = {
             id: current.id,
-            vNode: useCompile(root.current, device.width, true, swiperRedux)
+            vNode: useCompile(root.current, device.width, true, vprops)
         }
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
@@ -117,7 +118,7 @@ export const Canvas = (props: Props) => {
             program_id: props.program_id,
             ws: ws
         }))
-        console.log(curVnode);
+        // console.log(curVnode);
     }
     const createDom = (e: DragEvent) => {
         try {
@@ -127,13 +128,14 @@ export const Canvas = (props: Props) => {
                 newSource.id === 'button' ||
                 newSource.id === 'image'
             ) {
-                if(newSource.id === 'image') tagName = 'img'
+                if (newSource.id === 'image') tagName = 'img'
                 else tagName = newSource.id
             } else {
                 tagName = newSource.tagName
             }
+
             const element = document.createElement(tagName)
-            useCreateCom(newSource.id as nodeName, element, dispatch, swiperRedux)
+            useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,
                 size: num + 1,
@@ -156,11 +158,11 @@ export const Canvas = (props: Props) => {
             target?.remove()
             const curVnode = {
                 id: current.id,
-                vNode: useCompile(root.current, device.width, false, swiperRedux)
+                vNode: useCompile(root.current, device.width, false, vprops)
             }
             const curWnode = {
                 id: current.id,
-                vNode: useCompile(root.current, device.width, true, swiperRedux)
+                vNode: useCompile(root.current, device.width, true, vprops)
             }
             dispatch(routesSliceAction.updateVnode({
                 curVnode, curWnode,

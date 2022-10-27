@@ -5,10 +5,11 @@ import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
+import { Swiper, Vprops } from "@/store/ast";
 
 export type nodeName = 'view' | 'text' | 'button' | 'swiper' | 'image'
 
-export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch, ctx: Object) => {
+export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch, ctx: Vprops) => {
     const className = useHashCode(nodeName)
     node.classList.add(className)
     node.id = nodeName
@@ -17,7 +18,7 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             createView(node)
             break;
         case 'swiper':
-            createSwiper(node, ctx as SwiperRedux)
+            createSwiper(node, ctx.swiper as Swiper)
             break;
         case 'text':
             createText(node)
@@ -97,14 +98,14 @@ const createText = (node: HTMLElement) => {
     // node.style.resize = 'both'
 }
 
-const createSwiper = (node: HTMLElement, swiper: SwiperRedux) => {
+const createSwiper = (node: HTMLElement, swiper: Swiper) => {
     node.style.width = '100%'
     node.style.cursor = 'pointer'
     setTimeout(() => {
         const swiperNode = createRoot(node)
         swiperNode.render(SwiperMini({
-            autoplay: swiper.autoPlay,
-            autoplayDelay: swiper.autoPlayDelay,
+            autoplay: swiper.auto_play,
+            autoplayDelay: swiper.auto_play_delay,
             pagination: swiper.pagination,
             scrollbar: swiper.scrollbar,
             items: swiper.items,

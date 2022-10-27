@@ -9,8 +9,8 @@ export interface SwiperItem {
 }
 
 export interface SwiperRedux {
-    autoPlay: boolean,
-    autoPlayDelay: number,
+    auto_play: boolean,
+    auto_play_delay: number,
     pagination: boolean,
     scrollbar: boolean,
     items: Array<SwiperItem>,
@@ -18,11 +18,11 @@ export interface SwiperRedux {
 }
 
 
-export type SwiperType = 'autoPlay' | 'pagination' | 'scrollbar'
+export type SwiperType = 'auto_play' | 'pagination' | 'scrollbar'
 
 const initialState: SwiperRedux = {
-    autoPlay: false,
-    autoPlayDelay: 2000,
+    auto_play: false,
+    auto_play_delay: 2000,
     pagination: false,
     scrollbar: false,
     items: [
@@ -38,10 +38,10 @@ export const swiperSlice = createSlice({
     initialState,
     reducers: {
         setAutoPlay(state, payload) {
-            state.autoPlay = payload.payload
+            state.auto_play = payload.payload
         },
         setAutoPlayDelay(state, { payload }) {
-            state.autoPlayDelay = payload
+            state.auto_play_delay = payload
         },
         setPagination(state, { payload }) {
             state.pagination = payload

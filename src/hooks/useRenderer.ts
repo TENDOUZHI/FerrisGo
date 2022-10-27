@@ -1,6 +1,6 @@
 import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { VNode } from '@/store/ast'
+import { Swiper, VNode, Vprops } from '@/store/ast'
 import { useSelector } from "react-redux";
 import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
@@ -9,11 +9,11 @@ import { decoration } from "./useCreateCom";
 import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Object) => {
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
     dfs(root, vNode, dispatch, ctx)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: Object) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
     vNode.children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
             rootNode.appendChild(createNode(item, dispatch, ctx))
@@ -23,7 +23,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 
 }
 
-const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Object): HTMLElement => {
+const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement => {
     const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
@@ -36,12 +36,12 @@ const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Object): HTMLElement 
     return curNode
 }
 
-const seprate = (node: VNode, ctx: Object) => {
+const seprate = (node: VNode, ctx: Vprops) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
         case 'swiper':
-            return createSwiper(node, ctx as SwiperRedux)
+            return createSwiper(node, ctx.swiper as Swiper)
         case 'button':
             return createButton(node)
         default:
@@ -90,8 +90,8 @@ const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
     el.style.cursor = 'pointer'
     const swiperNode = createRoot(el)
     swiperNode.render(SwiperMini({
-        autoplay: swiper.autoPlay,
-        autoplayDelay: swiper.autoPlayDelay,
+        autoplay: swiper.auto_play,
+        autoplayDelay: swiper.auto_play_delay,
         pagination: swiper.pagination,
         scrollbar: swiper.scrollbar,
         items: swiper.items,

@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
+import { useVprops } from "./useVprops"
 
 export const useUpdate = (): [(() => void), any] => {
     const dispatch = useDispatch()
@@ -16,10 +17,10 @@ export const useUpdate = (): [(() => void), any] => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const user = useSelector(selectUser)
-    const swiper = useSelector(selectSwiper)
     const ws = useSelector(selectWs)
     const program_id = useSelector(selectProgramId)
     const [curNode, setCurNode] = useState<any>(null)
+    const vprops = useVprops()
     useLayoutEffect(() => {
         update()
     }, [curNode])
@@ -36,18 +37,18 @@ export const useUpdate = (): [(() => void), any] => {
             }
             // set into real dom
             setTimeout(() => {
-                useRenderer(root as HTMLElement, curNode, dispatch, swiper)
+                useRenderer(root as HTMLElement, curNode, dispatch, vprops)
             })
         }
     }
     const preUpdate = () => {
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, false, swiper)
+            vNode: useCompile(root, device.width, false, vprops)
         }
         const curWnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, true, swiper)
+            vNode: useCompile(root, device.width, true, vprops)
         }
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
@@ -55,7 +56,6 @@ export const useUpdate = (): [(() => void), any] => {
             program_id: program_id,
             ws: ws
         }))
-
         setCurNode(curVnode.vNode)
     }
     return [preUpdate, curNode]

@@ -1,4 +1,4 @@
-import { VNode } from "@/store/ast";
+import { Swiper, VNode, Vprops } from "@/store/ast";
 import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
 
@@ -7,7 +7,7 @@ import { useParseCss } from "./useParseCss";
 //  second: use redux to record vNode of every page, in order to impl create page 
 //  third: merge them into one json stream
 
-export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Object) => {
+export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Vprops) => {
     // inital the virtual dom
     let vNode: VNode = {
         name: 'root',
@@ -25,7 +25,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Ob
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
-const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Object) => {
+const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vprops) => {
     // 对rootNode的子节点进行遍历
 
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
@@ -49,7 +49,10 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Ob
             tag_name: el.tagName,
             style: styles,
             props: {
-                swiper: null
+                swiper: null,
+                img: {
+                    src: ''
+                }
             },
             content: null,
             children: []
@@ -64,7 +67,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Ob
                 nextLevel()
                 break;
             case 'swiper':
-                compileSwiper(node, el, width, isRpx, ctx as SwiperRedux)
+                compileSwiper(node, el, width, isRpx, ctx.swiper as Swiper)
                 nextLevel()
                 break;
             case 'button':
@@ -89,12 +92,12 @@ const compileText = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
 }
 
-const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boolean, swiperRedux: SwiperRedux) => {
+const compileSwiper = (node: VNode, el: HTMLElement, width: number, isRpx: boolean, swiperRedux: Swiper) => {
     // compile swiper
     node.name = 'swiper'
     node.props!.swiper = {
-        auto_play: swiperRedux.autoPlay,
-        auto_play_delay: swiperRedux.autoPlayDelay,
+        auto_play: swiperRedux.auto_play,
+        auto_play_delay: swiperRedux.auto_play_delay,
         pagination: swiperRedux.pagination,
         scrollbar: swiperRedux.scrollbar,
         items: swiperRedux.items,
@@ -126,6 +129,5 @@ const compileButton = (node: VNode, el: HTMLElement) => {
 }
 
 const constImage = (node: VNode, el: HTMLElement) => {
-    console.log(el.attributes.getNamedItem('src'));
-    
+    let scr = el.attributes.getNamedItem('src')?.value
 }
