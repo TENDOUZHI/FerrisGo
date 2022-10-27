@@ -51,7 +51,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
             props: {
                 swiper: null,
                 img: {
-                    src: ''
+                    src: new Map()
                 }
             },
             content: null,
@@ -129,6 +129,6 @@ const compileButton = (node: VNode, el: HTMLElement) => {
 }
 
 const constImage = (node: VNode, el: HTMLElement, image: Image) => {
-    let scr = el.attributes.getNamedItem('src')?.value
-    node.props!.img!.src = image.src as string
+    node.props!.img!.src = image.src
+    // console.log(image.src.entries());
 }

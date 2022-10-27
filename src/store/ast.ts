@@ -29,7 +29,7 @@ export interface Vprops {
 }
 
 export interface Image {
-    src: string
+    src: Map<string, string>
 }
 
 export interface Swiper {

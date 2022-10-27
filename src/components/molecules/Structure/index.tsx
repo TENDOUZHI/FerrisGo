@@ -12,6 +12,7 @@ import { RoutePage } from '@/components/atoms/RoutePage'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
 import { selectSwiper } from '@/store/swiper.slice'
+import { useVprops } from '@/hooks/useVprops'
 interface Props {
     program_id: number
 }
@@ -28,6 +29,7 @@ export const Structure = (props: Props) => {
     const swiperRedux = useSelector(selectSwiper)
     const routeDom = useRef<Array<any>>([])
     const layer = useRef<any>()
+    const vprops = useVprops()
     useEffect(() => {
         dispatch(routesSliceAction.retriveSize())
         // console.log(vapp);
@@ -54,11 +56,11 @@ export const Structure = (props: Props) => {
     const updateVNode = () => {
         const curVnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, false, swiperRedux)
+            vNode: useCompile(root, device.width, false, vprops)
         }
         const curWnode = {
             id: current.id,
-            vNode: useCompile(root, device.width, true, swiperRedux)
+            vNode: useCompile(root, device.width, true, vprops)
         }
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
@@ -95,11 +97,9 @@ export const Structure = (props: Props) => {
                 // @ts-ignore
                 root?.removeChild(childs[i])
             }
-            // console.log(route);
-
             // render dom
             try {
-                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch, swiperRedux)
+                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch, vprops)
             } catch (error) { }
 
         }

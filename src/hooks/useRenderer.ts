@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 import { SwiperMini } from "@/components/atoms/SwiperMini";
 import { decoration } from "./useCreateCom";
 import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
+import defaultImg from '@/assets/default.png'
 
 
 export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
@@ -117,8 +118,6 @@ const createButton = (node: VNode): HTMLElement => {
 }
 
 const createImage = (node: VNode, image: Image): HTMLElement => {
-    console.log(image);
-    
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
@@ -129,6 +128,7 @@ const createImage = (node: VNode, image: Image): HTMLElement => {
     el.style.border = '1px solid #000'
     el.style.cursor = 'pointer'
     el.style.borderRadius = '3px'
-    el.setAttribute('src', image.src as string)
+    if(image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
+    else el.setAttribute('src', image.src.get(node.class as string) as string)
     return el
 }

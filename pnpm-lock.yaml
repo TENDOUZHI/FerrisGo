@@ -10,6 +10,7 @@ specifiers:
   '@types/react-redux': ^7.1.24
   '@vitejs/plugin-react': ^2.0.0
   axios: ^0.27.2
+  immer: ^9.0.16
   react: ^18.2.0
   react-dnd: ^16.0.1
   react-dom: ^18.2.0
@@ -29,6 +30,7 @@ dependencies:
   '@types/node': 18.11.3
   '@types/react-redux': 7.1.24
   axios: 0.27.2
+  immer: 9.0.16
   react: 18.2.0
   react-dnd: 16.0.1_239690ac7153ccca035ad7bf5a1c9471
   react-dom: 18.2.0_react@18.2.0
@@ -401,7 +403,7 @@ packages:
       react-redux:
         optional: true
     dependencies:
-      immer: 9.0.15
+      immer: 9.0.16
       react: 18.2.0
       react-redux: 8.0.4_ed28c0204bb8461c8200289612f9802f
       redux: 4.2.0
@@ -1011,8 +1013,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /immer/9.0.15:
-    resolution: {integrity: sha512-2eB/sswms9AEUSkOm4SbV5Y7Vmt/bKRwByd52jfLkW4OLYeaTP3EEiJ9agqU0O/tq6Dk62Zfj+TJSqfm1rLVGQ==}
+  /immer/9.0.16:
+    resolution: {integrity: sha512-qenGE7CstVm1NrHQbMh8YaSzTZTFNP3zPqr3YU0S0UY441j4bJTg4A2Hh5KAhwgaiU6ZZ1Ar6y/2f4TblnMReQ==}
     dev: false
 
   /immutable/4.1.0:
