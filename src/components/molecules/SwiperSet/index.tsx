@@ -21,7 +21,7 @@ export const SwiperSet = (props: Props) => {
     const arrowRef = useRef<any>()
     const whole = useRef<any>()
     const swiper = useSelector(selectSwiper)
-    const [update] = useUpdate()
+    const update = useUpdate()
     const [autoplay, setAutoPlay] = useSetCheckBox('auto_play', props.dispatch)
     const [pagination, setPagination] = useSetCheckBox('pagination', props.dispatch)
     const [scrollbar, setScrollbar] = useSetCheckBox('scrollbar', props.dispatch)

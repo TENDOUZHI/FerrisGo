@@ -1,6 +1,6 @@
 import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { Swiper, VNode, Vprops } from '@/store/ast'
+import { Image, Swiper, VNode, Vprops } from '@/store/ast'
 import { useSelector } from "react-redux";
 import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
@@ -44,6 +44,8 @@ const seprate = (node: VNode, ctx: Vprops) => {
             return createSwiper(node, ctx.swiper as Swiper)
         case 'button':
             return createButton(node)
+        case 'image':
+            return createImage(node, ctx.img as Image)
         default:
             return createViewText(node);
     }
@@ -98,7 +100,6 @@ const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
         garbage: swiper.garbage
     }))
     // console.log(swiper.items);
-
     parseCss(el, node)
     return el
 }
@@ -112,5 +113,22 @@ const createButton = (node: VNode): HTMLElement => {
     el.style.border = '1px solid #000'
     el.style.boxShadow = 'none'
     parseCss(el, node)
+    return el
+}
+
+const createImage = (node: VNode, image: Image): HTMLElement => {
+    console.log(image);
+    
+    const el = document.createElement(node.tag_name)
+    el.id = node.name
+    el.classList.add(node.class as string)
+    el.style.width = '200px'
+    el.style.height = '100px'
+    el.style.color = '#000'
+    el.style.backgroundColor = 'transparant'
+    el.style.border = '1px solid #000'
+    el.style.cursor = 'pointer'
+    el.style.borderRadius = '3px'
+    el.setAttribute('src', image.src as string)
     return el
 }

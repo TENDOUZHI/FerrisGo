@@ -40,7 +40,7 @@
 }
 
 .com_selected_top {
-  z-index: 10;
+  z-index: 999;
   &::before {
     content: "";
     position: absolute;
@@ -65,7 +65,7 @@
   }
 }
 .com_selected_bottom {
-  z-index: 10;
+  z-index: 999;
   &::before {
     content: "";
     position: absolute;
@@ -90,7 +90,7 @@
   }
 }
 .com_selected_mid {
-  z-index: 10;
+  z-index: 999;
   &::before {
     content: "";
     position: absolute;
@@ -115,7 +115,7 @@
   }
 }
 .com_selected_board {
-  z-index: 10;
+  z-index: 999;
   &::before {
     content: "";
     position: absolute;

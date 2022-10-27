@@ -1,4 +1,4 @@
-import { Swiper, VNode, Vprops } from "@/store/ast";
+import { Image, Swiper, VNode, Vprops } from "@/store/ast";
 import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
 
@@ -75,7 +75,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 nextLevel()
                 break;
             case 'image':
-                constImage(node,el)
+                constImage(node,el, ctx.img as Image)
                 nextLevel()
             default:
                 break;
@@ -128,6 +128,7 @@ const compileButton = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
 }
 
-const constImage = (node: VNode, el: HTMLElement) => {
+const constImage = (node: VNode, el: HTMLElement, image: Image) => {
     let scr = el.attributes.getNamedItem('src')?.value
+    node.props!.img!.src = image.src as string
 }

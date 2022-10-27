@@ -17,7 +17,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
     const [value, setValue] = useState<string>('')
     let target = useSelector(selectTarget) as HTMLElement
     const swiper = useSelector(selectSwiper)
-    const [preUpdate] = useUpdate()
+    const preUpdate = useUpdate()
     useEffect(() => {
         if (target !== null) {
             if (prop === 'content') {

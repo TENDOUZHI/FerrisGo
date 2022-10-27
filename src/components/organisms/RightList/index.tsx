@@ -3,6 +3,7 @@ import { Basicstyle } from '@/components/molecules/Basicstyle'
 import { Bgc } from '@/components/molecules/BGC'
 import { Border } from '@/components/molecules/Border'
 import { Display } from '@/components/molecules/Display'
+import { ImageSet } from '@/components/molecules/ImageSet'
 import { Margin } from '@/components/molecules/Margin'
 import { Padding } from '@/components/molecules/Padding'
 import { SwiperSet } from '@/components/molecules/SwiperSet'
@@ -22,6 +23,7 @@ export const RighttList = (props: Props) => {
     const dispatch = useDispatch()
     return (
         <div className="rightlist-wrapper">
+            <ImageSet target={target} dispatch={dispatch} />
             <SwiperSet target={target} dispatch={dispatch} />
             <Basicstyle target={target} dispatch={dispatch} />
             <Margin target={target} dispatch={dispatch} />

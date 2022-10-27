@@ -11,7 +11,7 @@ import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
 import { useVprops } from "./useVprops"
 
-export const useUpdate = (): [(() => void), any] => {
+export const useUpdate = (): (() => void) => {
     const dispatch = useDispatch()
     const current = useSelector(selectCurRoutes)
     const root = useSelector(selectRoot)
@@ -58,5 +58,5 @@ export const useUpdate = (): [(() => void), any] => {
         }))
         setCurNode(curVnode.vNode)
     }
-    return [preUpdate, curNode]
+    return preUpdate
 }

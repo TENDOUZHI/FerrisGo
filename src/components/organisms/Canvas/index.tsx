@@ -118,15 +118,14 @@ export const Canvas = (props: Props) => {
             program_id: props.program_id,
             ws: ws
         }))
-        // console.log(curVnode);
     }
     const createDom = (e: DragEvent) => {
         try {
             const target = e.target as HTMLElement
             let tagName = 'div';
             if (
-                newSource.id === 'button' ||
-                newSource.id === 'image'
+                newSource.id === 'button' 
+                || newSource.id === 'image'
             ) {
                 if (newSource.id === 'image') tagName = 'img'
                 else tagName = newSource.id

@@ -20,7 +20,7 @@ export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [bool
     let target = useSelector(selectTarget) as HTMLElement
     const vprops = useVprops()
     const swiper = vprops.swiper as Swiper
-    const [preUpdate] = useUpdate()
+    const preUpdate = useUpdate()
     useEffect(() => {
         setValue(swiper[rootValue])
     }, [target])
