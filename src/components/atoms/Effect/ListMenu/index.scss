@@ -1,3 +1,63 @@
 .listmenu {
-    cursor: pointer;
+  width: 92px;
+  height: 32px;
+  border-radius: 6px;
+  margin-top: 8px;
+  margin-left: 8px;
+  background-color: #414141;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  &_arrow {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 40%;
+    }
+  }
+  &_option {
+    width: 70%;
+    height: 100%;
+    font-size: 12px;
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    // position: relative;
+    &_ul {
+      width: 120px;
+      display: none;
+      opacity: 0;
+      position: absolute;
+      border-radius: 6px;
+      background-color: #414141;
+      box-shadow: 1px 1px 10px rgb(26, 26, 26);
+      transform: scale(95%);
+      transition: all .2s;
+      z-index: 999;
+      &_li {
+        padding: 0.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+        &:hover {
+          background-color: #565656;
+        }
+        &:first-child{
+            border-top-right-radius: 6px;
+            border-top-left-radius: 6px;
+        }
+        &:last-child{
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+      }
+    }
+  }
 }

@@ -9,6 +9,8 @@ import { decoration } from "./useCreateCom";
 import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
 import success from '@/assets/icon/success.png'
+import tip from '@/assets/icon/tip.png'
+import warn from '@/assets/icon/normal-warn.png'
 import { Icon } from "@/store/icon.slice";
 
 
@@ -50,7 +52,7 @@ const seprate = (node: VNode, ctx: Vprops) => {
         case 'image':
             return createImage(node, ctx.img as Image)
         case 'icon':
-            return createIcon(node,ctx.icon as Icon)
+            return createIcon(node, ctx.icon as Icon)
         default:
             return createViewText(node);
     }
@@ -132,15 +134,15 @@ const createImage = (node: VNode, image: Image): HTMLElement => {
     el.style.border = '1px solid #000'
     el.style.cursor = 'pointer'
     el.style.borderRadius = '3px'
-    if(image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
+    if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
     else el.setAttribute('src', image.src.get(node.class as string) as string)
     return el
 }
 
-const createIcon = (node:VNode, icon: Icon): HTMLElement => {
+const createIcon = (node: VNode, icon: Icon): HTMLElement => {
     const el = document.createElement(node.tag_name)
     let classStr = node.class as string
-    if(icon.content.get(classStr) === undefined){
+    if (icon.content.get(classStr) === undefined) {
         classStr = 'default'
     }
     const size = icon.content.get(classStr)?.size as string
@@ -151,7 +153,20 @@ const createIcon = (node:VNode, icon: Icon): HTMLElement => {
     el.setAttribute('data-size', size)
     el.style.width = size + 'px'
     el.style.height = size + 'px'
-    el.style.backgroundImage = 'url(' + success + ')'
+    switch (type) {
+        case 'success':
+            el.style.backgroundImage = 'url(' + success + ')'
+            break;
+        case 'tip':
+            el.style.backgroundImage = 'url(' + tip + ')'
+            break;
+        case 'warn':
+            el.style.backgroundImage = 'url(' + warn + ')'
+            break;
+        default:
+            break;
+    }
+
     el.style.backgroundSize = '100% 100%'
     el.style.cursor = 'pointer'
     return el

@@ -15,7 +15,7 @@ import { useVprops } from "../useVprops"
 import { iconSliceAction } from "@/store/icon.slice"
 
 
-export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string, classStr?: string): [string, (value: string) => void] => {
+export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [string, (value: string) => void] => {
     const [value, setValue] = useState<string>('')
     let target = useSelector(selectTarget) as HTMLElement
     const swiper = useSelector(selectSwiper)
@@ -33,13 +33,11 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string, clas
                         setValue(swiper[hoc])
                         break;
                     case 'icon':
-                        console.log(vprops.icon.content.get(classStr as string));
-                        
-                        let classs = classStr
-                        if (vprops.icon.content.get(classStr as string) === undefined) {
+                        let classs = target.classList[0]
+                        if (vprops.icon.content.get(classs as string) === undefined) {
                             classs = 'default'
                         }
-                        let icon = vprops.icon.content.get(classStr as string)
+                        let icon = vprops.icon.content.get(classs as string)
                         setValue(icon?.size as string)
                         break;
 
@@ -57,7 +55,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string, clas
         if (prop === 'swiper') {
             dispatch(swiperSliceAction.setAutoPlayDelay(value))
         } else if (prop === 'icon') {
-            dispatch(iconSliceAction.updateIconSize({ className: classStr, size: value }))
+            dispatch(iconSliceAction.updateIconSize({ className: target.classList[0], size: value }))
         }
         else {
             if (prop === 'content') {
