@@ -32,12 +32,10 @@ module.exports = {
       },
       {
         text: '深入了解',
-        collapsible: true,
-        collapsed: true,
+        // collapsible: true,
+        // collapsed: true,
         items: [
-          { text: '简介', link: 'deeper/index.md' },
-          { text: '生命周期', link: 'deeper/lifecycle.md' },
-          { text: '响应式系统', link: 'deeper/effective.md' }
+          { text: '简介', link: 'deeper/index.md' }
         ]
       },
     ],
