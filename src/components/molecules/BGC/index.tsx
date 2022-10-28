@@ -1,4 +1,4 @@
-import { StyleInput } from "@/components/atoms/StyleInput"
+import { StyleInput } from "@/components/atoms/Effect/StyleInput"
 import { useGetValue } from "@/hooks/useGetValue"
 import { Dispatch } from "@reduxjs/toolkit"
 import { useRef, useState } from "react"
