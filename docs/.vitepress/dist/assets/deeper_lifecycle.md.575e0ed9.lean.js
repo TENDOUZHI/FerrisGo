@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as c}from"./app.e90c7ca7.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"deeper/lifecycle.md"}'),r={name:"deeper/lifecycle.md"};function a(o,s,n,p,i,l){return c(),t("div")}const f=e(r,[["render",a]]);export{_ as __pageData,f as default};
