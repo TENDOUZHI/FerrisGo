@@ -8,6 +8,8 @@ import { SwiperMini } from "@/components/atoms/SwiperMini";
 import { decoration } from "./useCreateCom";
 import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
+import success from '@/assets/icon/success.png'
+import { Icon } from "@/store/icon.slice";
 
 
 export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
@@ -47,6 +49,8 @@ const seprate = (node: VNode, ctx: Vprops) => {
             return createButton(node)
         case 'image':
             return createImage(node, ctx.img as Image)
+        case 'icon':
+            return createIcon(node,ctx.icon as Icon)
         default:
             return createViewText(node);
     }
@@ -130,5 +134,25 @@ const createImage = (node: VNode, image: Image): HTMLElement => {
     el.style.borderRadius = '3px'
     if(image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
     else el.setAttribute('src', image.src.get(node.class as string) as string)
+    return el
+}
+
+const createIcon = (node:VNode, icon: Icon): HTMLElement => {
+    const el = document.createElement(node.tag_name)
+    let classStr = node.class as string
+    if(icon.content.get(classStr) === undefined){
+        classStr = 'default'
+    }
+    const size = icon.content.get(classStr)?.size as string
+    const type = icon.content.get(classStr)?.type as string
+    el.id = node.name
+    el.classList.add(node.class as string)
+    el.setAttribute('data-type', type)
+    el.setAttribute('data-size', size)
+    el.style.width = size + 'px'
+    el.style.height = size + 'px'
+    el.style.backgroundImage = 'url(' + success + ')'
+    el.style.backgroundSize = '100% 100%'
+    el.style.cursor = 'pointer'
     return el
 }

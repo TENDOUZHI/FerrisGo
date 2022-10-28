@@ -1,5 +1,5 @@
 import { StyleInput } from '@/components/atoms/Effect/StyleInput'
-import { useGetValue } from '@/hooks/useGetValue'
+import { useGetValue } from '@/hooks/effective/useGetValue'
 import { Dispatch } from '@reduxjs/toolkit'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './index.scss'

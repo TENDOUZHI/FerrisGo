@@ -9,10 +9,10 @@ import { selectWs } from "@/store/ws.slice"
 import { Dispatch } from "@reduxjs/toolkit"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { useCompile } from "./useCompile"
-import { useRenderer } from "./useRenderer"
-import { useUpdate } from "./useUpdate"
-import { useVprops } from "./useVprops"
+import { useCompile } from "../useCompile"
+import { useRenderer } from "../useRenderer"
+import { useUpdate } from "../useUpdate"
+import { useVprops } from "../useVprops"
 
 
 export const useSetCheckBox = (rootValue: SwiperType, dispatch: Dispatch): [boolean, (value: boolean) => void] => {

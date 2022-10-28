@@ -1,3 +1,4 @@
+import { Icon } from "./icon.slice"
 import { SwiperItem } from "./swiper.slice"
 
 export interface Vapp {
@@ -26,6 +27,7 @@ export interface VNode {
 export interface Vprops {
     swiper: Swiper | null
     img: Image | null
+    icon: Icon | null
 }
 
 export interface Image {

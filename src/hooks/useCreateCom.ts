@@ -5,9 +5,10 @@ import { targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
+import success from '@/assets/icon/success.png'
 import { Swiper, Vprops } from "@/store/ast";
 
-export type nodeName = 'view' | 'text' | 'button' | 'swiper' | 'image'
+export type nodeName = 'view' | 'text' | 'button' | 'swiper' | 'image' | 'icon'
 
 export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Dispatch, ctx: Vprops) => {
     const className = useHashCode(nodeName)
@@ -22,10 +23,16 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
             break;
         case 'text':
             createText(node)
+            break;
         case 'button':
             createButton(node)
+            break;
         case 'image':
             createImage(node)
+            break;
+        case 'icon':
+            createIcon(node)
+            break;
         default:
             break;
     }
@@ -129,7 +136,7 @@ const createButton = (node: HTMLElement) => {
 
 const createImage = (node: HTMLElement) => {
     node.draggable = false
-    node.setAttribute('src',defaultImg)
+    node.setAttribute('src', defaultImg)
     node.style.width = '200px'
     node.style.height = '100px'
     node.style.color = '#000'
@@ -137,4 +144,16 @@ const createImage = (node: HTMLElement) => {
     node.style.border = '1px solid #000'
     node.style.cursor = 'pointer'
     node.style.borderRadius = '3px'
+}
+
+const createIcon = (node: HTMLElement) => {
+    node.draggable = false
+    node.style.width = '93px'
+    node.style.height = '93px'
+    node.style.color = '#000'
+    node.style.backgroundImage = 'url(' + success + ')'
+    node.style.backgroundSize = '100% 100%'
+    node.setAttribute('data-type', 'success')
+    node.setAttribute('data-size', '93')
+    node.style.cursor = 'pointer'
 }

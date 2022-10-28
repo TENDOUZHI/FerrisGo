@@ -1,4 +1,5 @@
 import { Image, Swiper, VNode, Vprops } from "@/store/ast";
+import { Icon } from "@/store/icon.slice";
 import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
 
@@ -52,6 +53,9 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 swiper: null,
                 img: {
                     src: new Map()
+                },
+                icon: {
+                    content: new Map()
                 }
             },
             content: null,
@@ -75,8 +79,13 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 nextLevel()
                 break;
             case 'image':
-                constImage(node,el, ctx.img as Image)
+                compileImage(node, el, ctx.img as Image)
                 nextLevel()
+                break;
+            case 'icon':
+                compileIcon(node, el, ctx.icon as Icon)
+                nextLevel()
+                break;
             default:
                 break;
         }
@@ -128,7 +137,10 @@ const compileButton = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
 }
 
-const constImage = (node: VNode, el: HTMLElement, image: Image) => {
+const compileImage = (node: VNode, el: HTMLElement, image: Image) => {
     node.props!.img!.src = image.src
-    // console.log(image.src.entries());
+}
+
+const compileIcon = (node: VNode, el: HTMLElement, icon: Icon) => {
+    node.props!.icon!.content = icon.content
 }

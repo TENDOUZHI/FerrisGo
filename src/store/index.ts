@@ -9,6 +9,7 @@ import { wsSlice } from "./ws.slice";
 import { messageSlice } from "./message.slice";
 import { swiperSlice } from "./swiper.slice";
 import { imageSlice } from "./image.slice";
+import { iconSlice } from "./icon.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -20,7 +21,8 @@ export const rootReducer = {
         wsElemeent: wsSlice.reducer,
         messageElement: messageSlice.reducer,
         swiperElement: swiperSlice.reducer,
-        imageElement: imageSlice.reducer
+        imageElement: imageSlice.reducer,
+        iconElement: iconSlice.reducer
 }
 
 export const store = configureStore({

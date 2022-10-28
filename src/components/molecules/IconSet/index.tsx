@@ -8,24 +8,25 @@ import { useSelector } from "react-redux"
 import { selectImage } from "@/store/image.slice"
 import { FileInput } from "@/components/atoms/Effect/FileInput"
 import { useVprops } from "@/hooks/useVprops"
+import { StyleInput } from "@/components/atoms/Effect/StyleInput"
+import { useGetValue } from "@/hooks/effective/useGetValue"
 interface Props {
     target: HTMLElement,
     dispatch: Dispatch
 }
-export const ImageSet = (props: Props) => {
+export const IconSet = (props: Props) => {
     const container = useRef<any>()
     const arrowRef = useRef<any>()
     const whole = useRef<any>()
-    const image = useSelector(selectImage)
     const vprops = useVprops()
-    const purgeContainer = usePurge(container.current, arrowRef.current, 38)
-    const [src, setSrc] = useState<string>(vprops.img.src.get('default') as string)
+    const purgeContainer = usePurge(container.current, arrowRef.current, 40)
+    const [classList, setClassList] = useState<string>('default')
+    const [size, setSize] = useGetValue('icon', props.dispatch,'size',classList)
     useLayoutEffect(() => {
         whole.current.style.display = 'none'
         if (props.target !== null) {
-            // console.log(image.src.keys());
-            setSrc(image.src.get(props.target.classList[0]) as string)
-            if (props.target.id === 'image') {
+            setClassList(props.target.classList[0])
+            if (props.target.id === 'icon') {
                 whole.current.style.display = 'flex'
             }
         }
@@ -33,11 +34,11 @@ export const ImageSet = (props: Props) => {
     return (
         <div className="attribute" ref={whole}>
             <div className='attribute-title' onClick={purgeContainer}>
-                <span>图片设置</span>
+                <span>icon设置</span>
                 <img src={arrow} ref={arrowRef} alt="" />
             </div>
             <div className="attribute-content" ref={container}>
-                <FileInput class={props.target} src={src} />
+                <StyleInput title="SZ" tip="size" hoc={true} value={size} changeValue={setSize} />
             </div>
         </div>
     )
