@@ -41,7 +41,7 @@ const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement 
     return curNode
 }
 
-const seprate = (node: VNode, ctx: Vprops) => {
+export const seprate = (node: VNode, ctx: Vprops) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
@@ -139,7 +139,7 @@ const createImage = (node: VNode, image: Image): HTMLElement => {
     return el
 }
 
-const createIcon = (node: VNode, icon: Icon): HTMLElement => {
+export const createIcon = (node: VNode, icon: Icon): HTMLElement => {
     const el = document.createElement(node.tag_name)
     let classStr = node.class as string
     if (icon.content.get(classStr) === undefined) {

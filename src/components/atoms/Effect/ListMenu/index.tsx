@@ -3,6 +3,7 @@ import arrow from '@/assets/arrow.png'
 import { useDispatch } from 'react-redux'
 import { useListMenu } from '@/hooks/effective/useListMenu'
 import { useRef, useState } from 'react'
+import selected from '@/assets/selected.png'
 
 interface Props {
     // title: string,
@@ -44,7 +45,13 @@ export const ListMenu = (props: Props) => {
                 <ul className="listmenu_option_ul" ref={ul} style={{ left: props.left, top: props.top, right: props.right, bottom: props.bottom }}>
                     {
                         props.value.map((item, index) => {
-                            return <li key={index} onClick={() => setTitle(item)} className="listmenu_option_ul_li">{item}</li>
+                            return <li key={index} onClick={() => setTitle(item)} className="listmenu_option_ul_li">
+                                <div className="listmenu_option_ul_li_selected">
+                                    {item === title && <img src={selected} alt="" />}
+                                </div>
+                                <div className="listmenu_option_ul_li_item"> {item}</div>
+                               
+                            </li>
                         })
                     }
                 </ul>

@@ -23,7 +23,7 @@
   &_option {
     width: 70%;
     height: 100%;
-    font-size: 12px;
+    font-size: 13px;
     padding-left: 0.5rem;
     display: flex;
     justify-content: flex-start;
@@ -42,10 +42,24 @@
       z-index: 999;
       &_li {
         padding: 0.2rem;
+        font-size: 13px;
         display: flex;
         justify-content: center;
         align-items: center;
         transition: all 0.3s;
+        &_selected{
+            width: 30%;
+            padding-right: 8px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            img {
+                width: 70%;
+            }
+        }
+        &_item{
+            width: 70%;
+        }
         &:hover {
           background-color: #565656;
         }
