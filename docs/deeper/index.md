@@ -8,17 +8,27 @@
 
 
 ## 生命周期
-每个能够被放置在工作区的元素都有一个生命周期
+每个能够被放置在工作区的组件都有一个生命周期
+![image](../.vitepress/public/lifecycle.png)
 
-包含**created，update，destroy**三个阶段
+包含**beforeCreate,created，update，mounted,unMounted**五个阶段
 
-在你初始将元素放置的时候进入**created**周期，在这个created阶段，FerrisGo会初始化一个HTMLElement实例并在鼠标对应的位置创建该元素，并且初始化该元素的虚拟dom
+### beforeCreate
+在这个阶段，FerrisGo会通过虚拟dom获取对应元素的对应属性，准备**create**元素
 
-当你选中元素后并修改其属性，就会触发**update**操作，在这个阶段FerrisGo会更新虚拟dom并且会将属性dispatch到redux
-并且同步更新属性栏的信息。
+### created
+在created阶段，元素通过刚刚准备好的数据进行创建元素，虽然元素已经创建好了但是元素在这时还没有真正被渲染到页面上
 
-在update阶段末期，会触发**destory**操作，在这个操作FerrisGo会清除目标元素并根据虚拟dom重新
-创建元素到页面上
+### mounted
+当程序进行到这个阶段的时候，元素会被FerrisGo渲染到页面上，用户可以看到对应元素并修改其数据
+
+### update
+只有创建好的元素的数据被修改时才会进入update阶段，在这个阶段首先FerrisGo会根据修改后的数据进行更新虚拟dom
+然后把对应的元素unMount进行卸载操作，卸载后会根据修改后的虚拟dom进行patch操作，完成update这一流程
+
+### unMounted
+unMounted阶段只有元素被销毁的时候执行，即用户主动删除元素或者update操作会执行
+
 
 ## 响应式系统
 

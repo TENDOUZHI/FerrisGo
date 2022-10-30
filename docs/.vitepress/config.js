@@ -1,14 +1,17 @@
 module.exports = {
   title: 'FerrisGo',
   description: 'Just playing around.',
-  lang: 'utf-8',
+  lang: 'zh-CN',
   plugins: [
     '@vuepress/active-header-links',   // 页面滚动时自动激活侧边栏链接的插件
     '@vuepress/back-to-top',          // 返回顶部插件
     '@vuepress/medium-zoom',          // 图片预览插件
     '@vuepress/nprogress',        //页面顶部进度条
   ],
+
   themeConfig: {
+    repo: 'TENDOUZHI/FerrisGo',
+    repoLabel: 'GitHub',
     // nav: [
     //   {
     //     text: 'Introduction',
