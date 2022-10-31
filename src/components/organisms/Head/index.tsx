@@ -41,13 +41,14 @@ export const Head = (props: Props) => {
         //     setTitle(data.project_name)
         // }
     }, [])
-    useLayoutEffect(()=>{
+    useLayoutEffect(() => {
         setAvatar(user.avatar)
     })
 
     const click = async () => {
         setDownload(true)
-        await invoke('vapp',{info: vapp})
+        // await invoke('vapp',{info: vapp})
+        await invoke('read_path_fn', { name: "vapp" })
         await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             if (res.status === 200) {
                 const blob = new Blob([res.data], { type: 'application/zip' })
