@@ -9,7 +9,7 @@ import { useLayoutEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
-import { useDiff } from "./useDiff"
+import { useDiff } from "./usePatch"
 import { useRenderer } from "./useRenderer"
 import { useVprops } from "./useVprops"
 
@@ -24,7 +24,7 @@ export const useUpdate = (): (() => void) => {
     const program_id = useSelector(selectProgramId)
     const [curNode, setCurNode] = useState<any>(null)
     const vprops = useVprops()
-    const diff = useDiff()
+    const patch = useDiff()
     useLayoutEffect(() => {
         update()
     }, [curNode])
@@ -43,7 +43,7 @@ export const useUpdate = (): (() => void) => {
             // set into real dom
             setTimeout(() => {
                 // console.log(target);
-                diff(curNode)
+                patch(curNode)
                 // useRenderer(root as HTMLElement, curNode, dispatch, vprops)
             })
         }

@@ -19,11 +19,7 @@ export const StyleInput = (props: Props) => {
     let target = useSelector(selectTarget) as HTMLElement
     const [timer, setTimer] = useState<any>(null)
     const title = useRef<any>()
-    // const [moveValue, setMoveValue] = useState<string>('')
     const moveValue = useRef<string>('')
-    // let timer: any = null;
-    // const [move, setMove] = useState<boolean>(false)
-    // const [mouseAxis, setMouseAxis] = useState<number>(0)
     let move = false
     let mouseAxis = 0
     // after select el show the data
@@ -76,14 +72,12 @@ export const StyleInput = (props: Props) => {
     }
     function mouseMoveChange(e: MouseEvent) {
         if (move) {
-            const value = Math.round((e.clientX - mouseAxis) / 2)
+            const value = Math.round((e.clientX - mouseAxis) * 0.2)
             const sourceValue = parseInt(Ivalue.substring(0, Ivalue.length - 2))
             setValue(sourceValue + value + 'px')
-            // setMoveValue(sourceValue + value + 'px')
             moveValue.current = sourceValue + value + 'px'
         }
     }
-
     const mouseDownChange = (e: me) => {
         setTimer(
             setTimeout(() => {
@@ -103,8 +97,6 @@ export const StyleInput = (props: Props) => {
         clearTimeout(timer)
         setTimer(null)
         move = false
-        console.log('awd');
-        // title.current.style.cursor = 'default'
         document.removeEventListener('mouseup', mouseUpChange)
         document.removeEventListener('mousemove', mouseMoveChange)
     }

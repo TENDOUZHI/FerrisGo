@@ -28,7 +28,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 
 }
 
-const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement => {
+export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement => {
     const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
@@ -41,7 +41,7 @@ const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement 
     return curNode
 }
 
-export const seprate = (node: VNode, ctx: Vprops) => {
+const seprate = (node: VNode, ctx: Vprops) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
@@ -88,6 +88,7 @@ const createViewText = (node: VNode): HTMLElement => {
     el.draggable = false
     el.style.cursor = 'pointer'
     el.style.border = '1px solid #000'
+    el.style.transition = 'all .2s'
     parseCss(el, node)
     return el
 }
