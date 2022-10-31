@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .loading_fade {
+        opacity: 0;
+      }
+      .loading {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right bottom, #adecf7, #c9c0ed);
+        transition: all 0.5s;
+        z-index: 100;
+      }
+      .loading_content {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+      }
+      .svg_item {
+        transition: all 0.3s ease-in-out;
+        stroke-width: 10;
+        stroke-linecap: round;
+        fill: none;
+      }
+      .long {
+        stroke-dasharray: 57, 67;
+      }
+      .dot {
+        stroke-dasharray: 1, 125;
+      }
+
+      .svg_rotate {
+        animation: loading 3s ease-in-out infinite;
+      }
+
+      @keyframes loading {
+        0% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-360deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading" id="loading">
+      <div class="loading_content">
+        <svg class="svg svg_rotate" id="svg" height="100%" width="100%">
+          <linearGradient id="gradients">
+            <stop offset="0" stop-color="#fe7970" />
+            <stop offset="25%" stop-color="#ff5c80" />
+            <stop offset="50%" stop-color="#fead67" />
+            <stop offset="75%" stop-color="#fccd64" />
+            <stop offset="100%" stop-color="#f99a7f" />
+          </linearGradient>
+          <circle
+            class="svg_item long"
+            id="circle"
+            stroke="url(#gradients)"
+            cx="50%"
+            cy="50%"
+            r="40"
+          ></circle>
+        </svg>
+      </div>
+    </div>
+    <script>
+      const loading = document.getElementById("loading");
+      const svg = document.getElementById("svg");
+      const circle = document.getElementById("circle");
+      let long = true;
+      const timer = setInterval(() => {
+        try {
+          if (long) {
+            circle.classList.add("dot");
+            circle.classList.remove("long");
+            long = false;
+          } else {
+            circle.classList.add("long");
+            circle.classList.remove("dot");
+            long = true;
+          }
+        } catch (error) {}
+      }, 1500);
+    </script>
+  </body>
+</html>

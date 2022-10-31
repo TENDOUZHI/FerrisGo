@@ -1,6 +1,5 @@
-use serde::Deserialize;
-use serde_json::{Result, Value};
-use std::{fs, path::{PathBuf, Path}};
+use serde_json::Value;
+use std::{fs, path::Path};
 
 #[tauri::command]
 pub async fn read_path_fn(name: String) {
@@ -10,19 +9,18 @@ pub async fn read_path_fn(name: String) {
     for file_path in json_value["file_path"].as_array() {
         for i in file_path {
             let value = i[&name].clone();
+            // println!("{:?}",i);
             if value != Value::Null {
                 read_file_data(value.as_str().unwrap());
                 break;
             }
         }
     }
-
-    
 }
 
 fn read_file_data(file_path: &str) {
     let path = Path::new(file_path);
-    println!("{:?}",file_path);
+    println!("{:?}", file_path);
     let content = fs::read_to_string(path);
     match content {
         Ok(v) => {
