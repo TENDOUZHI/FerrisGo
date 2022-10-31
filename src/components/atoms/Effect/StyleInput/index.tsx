@@ -1,5 +1,5 @@
 import { selectTarget, targetSliceAction } from '@/store/target.slice'
-import { ChangeEvent, FocusEvent, KeyboardEvent, memo, MouseEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FocusEvent, KeyboardEvent, memo, MouseEvent as me, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHexColor } from '@/hooks/useHexColor'
 import './index.scss'
@@ -17,6 +17,15 @@ export const StyleInput = (props: Props) => {
     const wrapper = useRef<any>(null)
     const [Ivalue, setValue] = useState<string>(props.value)
     let target = useSelector(selectTarget) as HTMLElement
+    const [timer, setTimer] = useState<any>(null)
+    const title = useRef<any>()
+    // const [moveValue, setMoveValue] = useState<string>('')
+    const moveValue = useRef<string>('')
+    // let timer: any = null;
+    // const [move, setMove] = useState<boolean>(false)
+    // const [mouseAxis, setMouseAxis] = useState<number>(0)
+    let move = false
+    let mouseAxis = 0
     // after select el show the data
     useEffect(() => {
         if (props.hoc) {
@@ -65,9 +74,47 @@ export const StyleInput = (props: Props) => {
     const resetTarget = () => {
         dispatch(targetSliceAction.updateState(false))
     }
+    function mouseMoveChange(e: MouseEvent) {
+        if (move) {
+            const value = Math.round((e.clientX - mouseAxis) / 2)
+            const sourceValue = parseInt(Ivalue.substring(0, Ivalue.length - 2))
+            setValue(sourceValue + value + 'px')
+            // setMoveValue(sourceValue + value + 'px')
+            moveValue.current = sourceValue + value + 'px'
+        }
+    }
+
+    const mouseDownChange = (e: me) => {
+        setTimer(
+            setTimeout(() => {
+                if (!props.type) {
+                    console.log('mousedown');
+                    mouseAxis = e.clientX
+                    move = true
+                    document.addEventListener('mouseup', mouseUpChange)
+                    document.addEventListener('mousemove', mouseMoveChange)
+                }
+            }, 300)
+        )
+
+    }
+    const mouseUpChange = () => {
+        props.changeValue(moveValue.current)
+        clearTimeout(timer)
+        setTimer(null)
+        move = false
+        console.log('awd');
+        // title.current.style.cursor = 'default'
+        document.removeEventListener('mouseup', mouseUpChange)
+        document.removeEventListener('mousemove', mouseMoveChange)
+    }
     return (
         <div className="input-wrapper" ref={wrapper} onClick={resetTarget}>
-            <div className="input-title">{props.title}</div>
+            <div className="input-title"
+                ref={title}
+                onMouseDown={mouseDownChange}
+            // onMouseUp={mouseUpChange}
+            >{props.title}</div>
             <input type={props.type}
                 className='input-item'
                 value={Ivalue}

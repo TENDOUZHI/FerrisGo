@@ -10,12 +10,18 @@
   align-items: center;
   cursor: pointer;
   user-select: none;
+  &:hover{
+    .listmenu_arrow{
+      transform: translateY(8%);
+    }
+  }
   &_arrow {
     width: 30%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all .3s;
     img {
       width: 40%;
     }
