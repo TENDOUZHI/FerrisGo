@@ -8,12 +8,12 @@ pub async fn read_path_fn(name: String) {
     let json_value: Value = serde_json::from_str(&json_file).expect("JSON was not well-formatted");
     for file_path in json_value["file_path"].as_array() {
         for i in file_path {
-            let value = i[&name].clone();
-            // println!("{:?}",i);
-            if value != Value::Null {
-                read_file_data(value.as_str().unwrap());
-                break;
-            }
+            // let value = i[&name].clone();
+            println!("{:?}",i.as_str().unwrap());
+            // if value != Value::Null {
+            //     read_file_data(value.as_str().unwrap());
+            //     break;
+            // }
         }
     }
 }

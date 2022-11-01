@@ -19,7 +19,7 @@ export const useListMenu = ( dispatch: Dispatch, component: string): [string, (v
                 classs = 'default'
             }
             let icon = vprops.icon.content.get(classs as string)
-            setValue(icon?.type as string)
+            setValue(icon?.icon_type as string)
         }
 
     }, [target])

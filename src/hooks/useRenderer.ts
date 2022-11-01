@@ -1,6 +1,6 @@
 import { selectTarget, targetSliceAction } from "@/store/target.slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { Image, Swiper, VNode, Vprops } from '@/store/ast'
+import { Image, Swiper, VNode, Vprops, VpropsState } from '@/store/ast'
 import { useSelector } from "react-redux";
 import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
@@ -11,14 +11,15 @@ import defaultImg from '@/assets/default.png'
 import success from '@/assets/icon/success.png'
 import tip from '@/assets/icon/tip.png'
 import warn from '@/assets/icon/normal-warn.png'
-import { Icon } from "@/store/icon.slice";
+import { IconState } from "@/store/icon.slice";
+import { ImageState } from "@/store/image.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState) => {
     dfs(root, vNode, dispatch, ctx)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: Vprops) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState) => {
     vNode.children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
             rootNode.appendChild(createNode(item, dispatch, ctx))
@@ -28,7 +29,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 
 }
 
-export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLElement => {
+export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState): HTMLElement => {
     const curNode = seprate(vNode, ctx)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
@@ -41,7 +42,7 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: Vprops): HTMLE
     return curNode
 }
 
-const seprate = (node: VNode, ctx: Vprops) => {
+const seprate = (node: VNode, ctx: VpropsState) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
@@ -50,9 +51,9 @@ const seprate = (node: VNode, ctx: Vprops) => {
         case 'button':
             return createButton(node)
         case 'image':
-            return createImage(node, ctx.img as Image)
+            return createImage(node, ctx.img as ImageState)
         case 'icon':
-            return createIcon(node, ctx.icon as Icon)
+            return createIcon(node, ctx.icon as IconState)
         default:
             return createViewText(node);
     }
@@ -124,7 +125,7 @@ const createButton = (node: VNode): HTMLElement => {
     return el
 }
 
-const createImage = (node: VNode, image: Image): HTMLElement => {
+const createImage = (node: VNode, image: ImageState): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
@@ -140,14 +141,14 @@ const createImage = (node: VNode, image: Image): HTMLElement => {
     return el
 }
 
-export const createIcon = (node: VNode, icon: Icon): HTMLElement => {
+export const createIcon = (node: VNode, icon: IconState): HTMLElement => {
     const el = document.createElement(node.tag_name)
     let classStr = node.class as string
     if (icon.content.get(classStr) === undefined) {
         classStr = 'default'
     }
-    const size = icon.content.get(classStr)?.size as string
-    const type = icon.content.get(classStr)?.type as string
+    const size = icon.content.get(classStr)?.icon_size as string
+    const type = icon.content.get(classStr)?.icon_type as string
     el.id = node.name
     el.classList.add(node.class as string)
     el.setAttribute('data-type', type)

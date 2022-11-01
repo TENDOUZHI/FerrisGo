@@ -1,10 +1,6 @@
 {
     "file_path": [
-        {
-            "vapp":"C:/Users/HP/Documents/大三上/cache.txt."
-        },
-        {
-            "wapp":"D:/myCode/TAURI/Ferris/cache.txt"
-        }
+        "C:/Users/HP/Documents/大三上/cache.txt.",
+        "D:/myCode/TAURI/Ferris/cache.txt"
     ]
 }

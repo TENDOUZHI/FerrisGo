@@ -1,4 +1,5 @@
-import { Icon } from "./icon.slice"
+import { IconState } from "./icon.slice"
+import { ImageState } from "./image.slice"
 import { SwiperItem } from "./swiper.slice"
 
 export interface Vapp {
@@ -30,8 +31,21 @@ export interface Vprops {
     icon: Icon | null
 }
 
+export interface Icon {
+    content: {
+        icon_type: string,
+        icon_size: string
+    }
+}
+
+export interface VpropsState {
+    swiper: Swiper | null
+    img: ImageState | null
+    icon: IconState | null
+}
+
 export interface Image {
-    src: Map<string, string>
+    src: string
 }
 
 export interface Swiper {

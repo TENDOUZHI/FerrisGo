@@ -2,17 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { enableMapSet } from 'immer'
 
-export interface Icon {
+export interface IconState {
     content: Map<string, iconValue>
 }
 
 export interface iconValue {
-    type: string,
-    size: string
+    icon_type: string,
+    icon_size: string
 }
 
-const initialState: Icon = {
-    content: new Map<string, iconValue>().set('default', { type: 'success', size: '93' })
+const initialState: IconState = {
+    content: new Map<string, iconValue>().set('default', { icon_type: 'success', icon_size: '93' })
 }
 
 export const iconSlice = createSlice({
@@ -26,8 +26,8 @@ export const iconSlice = createSlice({
                 classes = 'default'
             }
             state.content.set(payload.className, {
-                type: payload.type,
-                size: state.content.get(classes)!.size
+                icon_type: payload.type,
+                icon_size: state.content.get(classes)!.icon_size
             })
         },
         updateIconSize(state, { payload }) {
@@ -37,8 +37,8 @@ export const iconSlice = createSlice({
                 classes = 'default'
             }
             state.content.set(payload.className, {
-                type: state.content.get(classes)!.type,
-                size: payload.size
+                icon_type: state.content.get(classes)!.icon_type,
+                icon_size: payload.size
             })
         }
     }

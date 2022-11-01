@@ -1,5 +1,7 @@
+use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Style {
@@ -92,8 +94,48 @@ pub struct VNode {
     pub tag_name: String,
     pub class: Option<String>,
     pub style: Option<Style>,
+    pub props: Option<Vprops>,
     pub content: Option<String>,
     pub children: Vec<VNode>,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Vprops {
+    pub swiper: Option<Swiper>,
+    pub img: Option<Image>,
+    pub icon: Option<Icon>,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Swiper {
+    pub auto_play: bool,
+    pub auto_play_delay: i128,
+    pub pagination: bool,
+    pub scrollbar: bool,
+    pub items: Vec<SwiperItem>,
+    pub garbage: i32,
+}
+#[derive(Deserialize, Serialize, Debug)]
+pub struct SwiperItem {
+    pub id: i32,
+    pub content: String,
+    pub status: bool,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Image {
+    pub src: String,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Icon {
+    pub content: IconValue,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct IconValue {
+    pub icon_type: String,
+    pub icon_size: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

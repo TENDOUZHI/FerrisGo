@@ -38,7 +38,7 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
                             classs = 'default'
                         }
                         let icon = vprops.icon.content.get(classs as string)
-                        setValue(icon?.size as string)
+                        setValue(icon?.icon_size as string)
                         break;
 
                     default:

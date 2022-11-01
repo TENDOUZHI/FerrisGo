@@ -1,5 +1,5 @@
-import { Image, Swiper, VNode, Vprops } from "@/store/ast";
-import { Icon } from "@/store/icon.slice";
+import { Icon, Image, Swiper, VNode, Vprops, VpropsState } from "@/store/ast";
+import { IconState } from "@/store/icon.slice";
 import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
 
@@ -8,7 +8,7 @@ import { useParseCss } from "./useParseCss";
 //  second: use redux to record vNode of every page, in order to impl create page 
 //  third: merge them into one json stream
 
-export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Vprops) => {
+export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: VpropsState) => {
     // inital the virtual dom
     let vNode: VNode = {
         name: 'root',
@@ -26,7 +26,7 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Vp
 }
 // traverse the real dom
 // during the traversing, compile the real dom into virtual dom
-const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vprops) => {
+const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: VpropsState) => {
     // 对rootNode的子节点进行遍历
 
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
@@ -52,11 +52,9 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
             props: {
                 swiper: null,
                 img: {
-                    src: new Map()
+                    src: ''
                 },
-                icon: {
-                    content: new Map()
-                }
+                icon: null
             },
             content: null,
             children: []
@@ -79,11 +77,11 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 nextLevel()
                 break;
             case 'image':
-                compileImage(node, el, ctx.img as Image)
+                compileImage(node, el)
                 nextLevel()
                 break;
             case 'icon':
-                compileIcon(node, el, ctx.icon as Icon)
+                compileIcon(node, el)
                 nextLevel()
                 break;
             default:
@@ -137,10 +135,17 @@ const compileButton = (node: VNode, el: HTMLElement) => {
     node.content = el.innerText
 }
 
-const compileImage = (node: VNode, el: HTMLElement, image: Image) => {
-    node.props!.img!.src = image.src
+const compileImage = (node: VNode, el: HTMLElement) => {
+    node.props!.img!.src = el.getAttribute('src') as string
 }
 
-const compileIcon = (node: VNode, el: HTMLElement, icon: Icon) => {
-    node.props!.icon!.content = icon.content
+const compileIcon = (node: VNode, el: HTMLElement) => {
+    const content = {
+        icon_type: el.getAttribute('data-type'),
+        icon_size: el.getAttribute('data-size')
+    }
+    const iconInfo = {
+        content: content
+    }
+    node.props!.icon! = iconInfo as Icon
 }

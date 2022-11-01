@@ -3,11 +3,11 @@ import { RootState } from ".";
 import defaultImg from '@/assets/default.png'
 import { enableMapSet } from 'immer'
 
-export interface State {
+export interface ImageState {
     src: Map<string, string>
 }
 
-const initialState: State = {
+const initialState: ImageState = {
     src: new Map().set('default', defaultImg)
 }
 
