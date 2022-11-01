@@ -15,12 +15,15 @@ use super::{
 
 pub fn parse_vapp(vapp: Vapp) {
     let project_name = vapp.project_name;
-    let dev_path = format!("mini/{}", &project_name);
-    let root_path = "mini/".to_string();
+    let globel_path = String::from("C:/Users/HP/Documents/大三上/Ferris/");
+    let dev_path = format!("{}{}",&globel_path, &project_name);
     let path = Path::new(&dev_path);
     let file_path = format!("{}", path.to_str().expect("file path"));
-    remove_dir_all(&root_path).expect("occur at remove_dir_all");
-    create_dir(&root_path).expect("create mini dir");
+    match remove_dir_all(&globel_path) {
+        Ok(_) => println!("remove successfully"),
+        Err(e) => println!("{:?}",e)
+    }
+    create_dir(&globel_path).expect("create mini dir");
     create_dir(&path).expect("create_root_dir");
     create_pages_dir(&file_path);
     create_utils_dir(&file_path);
