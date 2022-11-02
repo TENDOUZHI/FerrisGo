@@ -99,14 +99,14 @@ pub struct VNode {
     pub children: Vec<VNode>,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Vprops {
     pub swiper: Option<Swiper>,
     pub img: Option<Image>,
     pub icon: Option<Icon>,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Swiper {
     pub auto_play: bool,
     pub auto_play_delay: i128,
@@ -115,24 +115,24 @@ pub struct Swiper {
     pub items: Vec<SwiperItem>,
     pub garbage: i32,
 }
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct SwiperItem {
     pub id: i32,
     pub content: String,
     pub status: bool,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Image {
     pub src: String,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Icon {
     pub content: IconValue,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct IconValue {
     pub icon_type: String,
     pub icon_size: String,

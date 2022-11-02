@@ -25,6 +25,7 @@ pub fn parse_vapp(vapp: Vapp) {
     }
     create_dir(&globel_path).expect("create mini dir");
     create_dir(&path).expect("create_root_dir");
+    create_images_dir(&file_path);
     create_pages_dir(&file_path);
     create_utils_dir(&file_path);
     // loop render pages
@@ -39,6 +40,11 @@ pub fn parse_vapp(vapp: Vapp) {
         )
     }
     create_basic_file(&file_path,route_name);
+}
+
+fn create_images_dir(file_path:&str) {
+    let path = format!("{}/images", file_path);
+    create_dir(path).expect("create_pages");
 }
 
 fn create_pages_dir(file_path: &str) {
