@@ -16,12 +16,12 @@ use super::{
 pub fn parse_vapp(vapp: Vapp) {
     let project_name = vapp.project_name;
     let globel_path = String::from("C:/Users/HP/Documents/大三上/Ferris/");
-    let dev_path = format!("{}{}",&globel_path, &project_name);
+    let dev_path = format!("{}{}", &globel_path, &project_name);
     let path = Path::new(&dev_path);
     let file_path = format!("{}", path.to_str().expect("file path"));
     match remove_dir_all(&globel_path) {
         Ok(_) => println!("remove successfully"),
-        Err(e) => println!("{:?}",e)
+        Err(e) => println!("{:?}", e),
     }
     create_dir(&globel_path).expect("create mini dir");
     create_dir(&path).expect("create_root_dir");
@@ -32,17 +32,17 @@ pub fn parse_vapp(vapp: Vapp) {
     let routes = vapp.routes;
     let mut route_name: Vec<String> = vec![];
     for page in routes {
-        route_name.push(format!("pages/{}/{}",page.name.clone(),page.name.clone()));
+        route_name.push(format!("pages/{}/{}", page.name.clone(), page.name.clone()));
         create_page(
             &file_path,
             &page.name,
             &page.vnode.expect("traverse routes"),
         )
     }
-    create_basic_file(&file_path,route_name);
+    create_basic_file(&file_path, route_name);
 }
 
-fn create_images_dir(file_path:&str) {
+fn create_images_dir(file_path: &str) {
     let path = format!("{}/images", file_path);
     create_dir(path).expect("create_pages");
 }
@@ -85,7 +85,7 @@ fn create_page(file_path: &str, name: &str, data: &VNode) {
     let path = format!("{}/{}", &dir_path, &name);
     write_js(&path);
     write_json(&path);
-    write_wxml(&path, data);
+    write_wxml(&path, data, file_path);
     write_wxss(&path, data);
 }
 
@@ -110,10 +110,10 @@ fn write_json(path: &str) {
         .expect("write page json");
 }
 
-fn write_wxml(path: &str, data: &VNode) {
+fn write_wxml(path: &str, data: &VNode, image_path: &str) {
     let page_path = format!("{}.wxml", path);
     let mut wxml = File::create(page_path).expect("create wxml file");
-    let content = parser(data);
+    let content = parser(data, image_path);
     wxml.write_all(content.as_bytes()).expect("writing wxml");
 }
 
