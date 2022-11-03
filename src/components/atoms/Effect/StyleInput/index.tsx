@@ -82,7 +82,6 @@ export const StyleInput = (props: Props) => {
         setTimer(
             setTimeout(() => {
                 if (!props.type) {
-                    console.log('mousedown');
                     mouseAxis = e.clientX
                     move = true
                     document.addEventListener('mouseup', mouseUpChange)

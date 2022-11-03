@@ -77,7 +77,6 @@ export const useGetValue = (prop: string, dispatch: Dispatch, hoc?: string): [st
                 }
             }
         }
-
         // update element when change their attribute
         setTimeout(() => {
             preUpdate()

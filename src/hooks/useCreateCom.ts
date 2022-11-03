@@ -107,6 +107,7 @@ const createText = (node: HTMLElement) => {
 
 const createSwiper = (node: HTMLElement, swiper: Swiper) => {
     node.style.width = '100%'
+    node.style.height = '150px'
     node.style.cursor = 'pointer'
     setTimeout(() => {
         const swiperNode = createRoot(node)

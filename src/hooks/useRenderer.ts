@@ -129,11 +129,12 @@ const createImage = (node: VNode, image: ImageState): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
-    el.style.width = '200px'
-    el.style.height = '100px'
+    el.style.width = node.style?.width as string
+    el.style.height = node.style?.height as string
     el.style.color = '#000'
     el.style.backgroundColor = 'transparant'
-    el.style.border = '1px solid #000'
+    el.style.border = node.style?.border_width + ' solid ' + node.style?.border_color
+    el.style.borderRadius = node.style?.border_radius as string
     el.style.cursor = 'pointer'
     el.style.borderRadius = '3px'
     if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)

@@ -3,6 +3,7 @@ use std::{
     io::Write,
     path::Path,
 };
+use image::io::Reader as ImageReader;
 
 use serde_json::json;
 
@@ -44,7 +45,10 @@ pub fn parse_vapp(vapp: Vapp) {
 
 fn create_images_dir(file_path: &str) {
     let path = format!("{}/images", file_path);
-    create_dir(path).expect("create_pages");
+    create_dir(path.clone()).expect("create_pages");
+    let image_path = format!("{}/default.png",path);
+    let img = ImageReader::open("../src/assets/default.png").unwrap().decode().unwrap();
+    img.save(image_path).unwrap();
 }
 
 fn create_pages_dir(file_path: &str) {

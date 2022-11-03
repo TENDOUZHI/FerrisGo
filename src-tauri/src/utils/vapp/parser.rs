@@ -93,19 +93,24 @@ fn write_icon(name: &str, props: Icon) -> String {
 }
 
 fn image_operate(src: String, class: &str, image_path: &str, id: Option<i32>) -> String {
-    let bytes = from_base64(src.clone());
-    let mut image_name = format!("{}", class);
-    if let Some(num) = id {
-        image_name = format!("{}-{}", image_name, num);
+    if src == "/src/assets/default.png".to_string() {
+        let relative_path = "/images/default.png".to_string();
+        relative_path
+    } else {
+        let bytes = from_base64(src.clone());
+        let mut image_name = format!("{}", class);
+        if let Some(num) = id {
+            image_name = format!("{}-{}", image_name, num);
+        }
+        let image_full = format!("{}.png", image_name);
+        let image = ImageReader::new(Cursor::new(bytes))
+            .with_guessed_format()
+            .expect("guessed format")
+            .decode()
+            .expect("decode");
+        let path = format!("{}/images/{}", image_path, image_full);
+        let relative_path = format!("/images/{}", image_full);
+        image.save(path).unwrap();
+        relative_path
     }
-    let image_full = format!("{}.png", image_name);
-    let image = ImageReader::new(Cursor::new(bytes))
-        .with_guessed_format()
-        .expect("guessed format")
-        .decode()
-        .expect("decode");
-    let path = format!("{}/images/{}", image_path, image_full);
-    let relative_path = format!("/images/{}", image_full);
-    image.save(path).unwrap();
-    relative_path
 }

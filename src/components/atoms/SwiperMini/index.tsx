@@ -32,13 +32,14 @@ export const SwiperMini = (props: Props) => {
             effect='slide'
             controller={{ inverse: true }}
             slidesPerView={1}
+            style={{ height: '100%' }}
         // onSlideChange={() => console.log('slide change')}
         // onSwiper={(swiper) => console.log(swiper)}
         >
             {props.items.map(item => item.status &&
                 <SwiperSlide
                     style={{
-                        height: '150px',
+                        height: '100%',
                         backgroundColor: 'transparent',
                         userSelect: 'none',
                     }}
