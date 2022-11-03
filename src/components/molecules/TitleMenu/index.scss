@@ -1,0 +1,38 @@
+.titlemenu {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px 0;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 200px;
+  background-color: #303031;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px rgb(22, 22, 22);
+  &_list {
+    width: 100%;
+    padding: 2px 20px;
+    color: #c4c4c4;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    &_sidelist{
+        width: 360px;
+        position: absolute;
+        left: 100%;
+        top: -10%;
+        background-color: #303031;
+        border-radius: 8px;
+        box-shadow: 1px 1px 5px rgb(22, 22, 22);
+    }
+    &:hover {
+      color: #fff;
+      background-color: #04395e;
+    }
+  }
+}

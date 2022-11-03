@@ -1,7 +1,5 @@
-use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
-use serde_json::{Map, Value};
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Style {

@@ -4,13 +4,9 @@
 )]
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
-use std::collections::HashMap;
-
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
 use tauri::Manager;
 
-use crate::utils::{atoms::tes::hello2, forever::forever::read_path_fn, vapp::vapp_route::vapp};
+use crate::utils::{atoms::tes::hello2, forever::forever::{read_path_fn, select_file}, vapp::vapp_route::vapp};
 
 mod utils;
 #[tauri::command]
@@ -45,7 +41,8 @@ fn main() {
             close_splashscreen,
             hello2,
             vapp,
-            read_path_fn
+            read_path_fn,
+            select_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
