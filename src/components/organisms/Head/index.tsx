@@ -31,8 +31,8 @@ export const Head = (props: Props) => {
     const userAvatar = useRef<any>()
     const userList = useRef<any>()
     const bar = useRef<any>()
-    // const [title, setTitle] = useState<string>(vapp.project_name)
-    const [title, setTitle] = useState<string>(props.title)
+    const [title, setTitle] = useState<string>(vapp.project_name)
+    // const [title, setTitle] = useState<string>(props.title)
     const [download, setDownload] = useState<boolean>(false)
     const [avatar, setAvatar] = useState<string>(user.avatar)
     useEffect(() => {

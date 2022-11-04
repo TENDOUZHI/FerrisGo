@@ -23,8 +23,15 @@
   img {
     width: 30px;
     height: 30px;
+    -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
+  }
+  span {
+    width: calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   &:hover {
     background-color: rgb(75, 75, 75);

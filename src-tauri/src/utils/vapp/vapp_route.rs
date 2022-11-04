@@ -3,7 +3,7 @@ use crate::utils::vapp::{ast::Vapp, renderer::parse_vapp};
 
 // #[post("/vapp")]
 #[tauri::command]
-pub async fn vapp(info: Vapp) {
+pub async fn vapp(info: Vapp) -> Result<String,String> {
     // println!("{:?}",info);
     // println!("{:?}",info.routes[0].vnode.as_ref().unwrap().children[0].props.as_ref().unwrap());
     // println!("--------------");
@@ -13,4 +13,5 @@ pub async fn vapp(info: Vapp) {
     parse_vapp(info);
     // compress(project_name);
     // Ok(NamedFile::open(path).expect("return file"))
+    Ok("export project successfully".to_string())
 }

@@ -14,25 +14,33 @@
   &_list {
     width: 100%;
     padding: 2px 20px;
-    color: #c4c4c4;
+    color: #cccccc;
     font-size: 12px;
+    font-family: "Microsoft YaHei";
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
-    &_sidelist{
-        width: 360px;
-        position: absolute;
-        left: 100%;
-        top: -10%;
-        background-color: #303031;
-        border-radius: 8px;
-        box-shadow: 1px 1px 5px rgb(22, 22, 22);
+    span {
+      font-size: 12px;
+    }
+    &_sidelist {
+      width: 360px;
+      position: absolute;
+      left: 100%;
+      top: -10%;
+      background-color: #303031;
+      border-radius: 8px;
+      box-shadow: 1px 1px 5px rgb(22, 22, 22);
     }
     &:hover {
       color: #fff;
       background-color: #04395e;
+      span {
+        color: #fff;
+        background-color: #04395e;
+      }
     }
   }
 }

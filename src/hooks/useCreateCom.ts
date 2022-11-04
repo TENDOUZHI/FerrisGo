@@ -63,7 +63,7 @@ export const decoration = (node: HTMLElement) => {
     decorateBottom.classList.add('com_selected_bottom')
     decorateMid.classList.add('com_selected_mid')
     decorateBoard.classList.add('com_selected_board')
-    node.append(decorateTop, decorateBottom, decorateMid, decorateBoard)
+    node.prepend(decorateTop, decorateBottom, decorateMid, decorateBoard)
     // console.log(node);
     const blur = (ev: MouseEvent) => {
         if (ev.target !== node) {

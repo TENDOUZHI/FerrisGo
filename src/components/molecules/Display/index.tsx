@@ -5,6 +5,7 @@ import { Dispatch } from '@reduxjs/toolkit'
 import { useEffect, useRef, useState } from 'react'
 import arrow from '@/assets/arrow.png'
 import './index.scss'
+import { ListMenu } from '@/components/atoms/Effect/ListMenu'
 
 interface Props {
     target: HTMLElement,
@@ -31,6 +32,7 @@ export const Display = (props: Props) => {
     const container = useRef<any>()
     const arrowRef = useRef<any>()
     const purgeContainer = usePurge(container.current, arrowRef.current, 114)
+    const dis = ['block', 'flex']
 
     return (
         <div className="attribute">
@@ -39,6 +41,7 @@ export const Display = (props: Props) => {
                 <img src={arrow} ref={arrowRef} alt="" />
             </div>
             <div className="attribute-content" ref={container}>
+                {/* <ListMenu value={dis} left='30px' top="105px" bottom="" right="" /> */}
                 <StyleInput tip='display' title='Ds' value={display} changeValue={setDisplay} ifValue={updateDis} />
                 {
                     status === 'flex' &&

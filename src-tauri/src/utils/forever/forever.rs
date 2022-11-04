@@ -47,7 +47,7 @@ pub fn select_file() {
 
 #[tauri::command]
 pub async fn save_file_data(data: String, project_name: String) -> Result<String, String> {
-    let path = format!("C:/Users/HP/Documents/大三上/{}.txt", project_name);
+    let path = format!("C:/Users/HP/Documents/大三上/{}.FES", project_name);
     let file = File::create(path);
     match file {
         Ok(mut v) => {
@@ -66,6 +66,15 @@ pub async fn read_file_data(file_path: String) -> String {
         Ok(v) => v,
         Err(_) => "failed to read file".to_string(),
     }
+}
+
+#[tauri::command]
+pub async fn open_doc_browser()-> Result<String, String> {
+    let path = "file:///D:/myCode/vitepress/FerrisDoc/docs/.vitepress/dist/index.html";
+    match webbrowser::open(path) {
+        Ok(_) => Ok("open in browser successfully".to_string()),
+        Err(_) => Err("failed to open document".to_string())
+    } 
 }
 
 fn read_json_value() -> Value {
