@@ -7,8 +7,11 @@ import maxmizes from '@/assets/system/maxmize.png'
 import shutdown from '@/assets/system/shutdown.png'
 import { TitleMenu } from '@/components/molecules/TitleMenu';
 import { invoke } from '@tauri-apps/api';
+import { useSelector } from 'react-redux';
+import { selectVapp, selectWapp } from '@/store/vapp.slice';
 
 export const TitleBar = () => {
+    const vapp = useSelector(selectVapp)
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
     const closewindow = useRef<any>()
@@ -63,6 +66,14 @@ export const TitleBar = () => {
     const newProject = () => {
         invoke('select_file')
     }
+    const saveFileData = async () => {
+        const data = JSON.stringify(vapp)
+        const project_name = vapp.project_name
+        console.log(project_name);
+        await invoke('save_file_data', { data: data, projectName: project_name }).then(res => {
+            console.log(res);
+        })
+    }
 
     return (
         <div data-tauri-drag-region className="titlebar">
@@ -79,6 +90,12 @@ export const TitleBar = () => {
                         </div>
                         <div className="titlemenu_list">
                             新建文件
+                        </div>
+                        <div className="titlemenu_list" onClick={saveFileData}>
+                            保存文件
+                        </div>
+                        <div className="titlemenu_list">
+                            导出项目
                         </div>
                         <div className="titlemenu_list" onMouseEnter={showPathMenu} onMouseLeave={hidePathMenu}>
                             <span>打开最近的文件</span>

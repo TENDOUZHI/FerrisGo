@@ -6,7 +6,7 @@
 
 use tauri::Manager;
 
-use crate::utils::{atoms::tes::hello2, forever::forever::{read_path_fn, select_file}, vapp::vapp_route::vapp};
+use crate::utils::{atoms::tes::hello2, forever::forever::{read_path_fn, select_file, save_file_data}, vapp::vapp_route::vapp};
 
 mod utils;
 #[tauri::command]
@@ -41,6 +41,7 @@ fn main() {
             close_splashscreen,
             hello2,
             vapp,
+            save_file_data,
             read_path_fn,
             select_file
         ])

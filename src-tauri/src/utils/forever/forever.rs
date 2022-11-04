@@ -1,6 +1,10 @@
-use serde_json::Value;
-use std::{fs, path::Path};
 use rfd::FileDialog;
+use serde_json::Value;
+use std::{
+    fs::{self, File},
+    io::Write,
+    path::Path,
+};
 
 #[tauri::command]
 pub async fn read_path_fn() -> Vec<String> {
@@ -24,12 +28,23 @@ pub async fn read_path_fn() -> Vec<String> {
 
 #[tauri::command]
 pub fn select_file() {
-    let files = FileDialog::new()
-    .add_filter("name", &["txt"])
-    .pick_file();
+    let files = FileDialog::new().add_filter("name", &["txt"]).pick_file();
     match files {
-        Some(path) => println!("{:?}",path),
-        None => println!("target object is null")
+        Some(path) => println!("{:?}", path),
+        None => println!("target object is null"),
+    }
+}
+
+#[tauri::command]
+pub async fn save_file_data(data: String, project_name: String) -> String {
+    let path = format!("C:/Users/HP/Documents/大三上/{}.txt", project_name);
+    let file = File::create(path);
+    match file {
+        Ok(mut v) => {
+            v.write_all(data.as_bytes()).expect("save file");
+            "save data successfully".to_string()
+        }
+        Err(_) => "failed to save data".to_string(),
     }
 }
 
