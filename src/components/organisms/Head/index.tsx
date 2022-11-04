@@ -47,8 +47,8 @@ export const Head = (props: Props) => {
 
     const click = async () => {
         setDownload(true)
-        // console.log('vapp',vapp);
-        await invoke('vapp',{info: vapp})
+        console.log('vapp',vapp);
+        // await invoke('vapp',{info: vapp})
        
         await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             if (res.status === 200) {

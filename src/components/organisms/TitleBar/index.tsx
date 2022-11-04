@@ -8,22 +8,36 @@ import shutdown from '@/assets/system/shutdown.png'
 import { TitleMenu } from '@/components/molecules/TitleMenu';
 import { invoke } from '@tauri-apps/api';
 import { useSelector } from 'react-redux';
-import { selectVapp, selectWapp } from '@/store/vapp.slice';
+import { routesSliceAction, selectVapp, selectWapp } from '@/store/vapp.slice';
+import { useDispatch } from 'react-redux';
+import { useRenderer } from '@/hooks/useRenderer';
+import { VNode } from '@/store/ast';
+import { selectRoot } from '@/store/source.slice';
+import { useVprops } from '@/hooks/useVprops';
+import { cacheSliceAction } from '@/store/cache.slice';
+import { messageSliceAction } from '@/store/message.slice';
 
 export const TitleBar = () => {
+    let dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
+    const root = useSelector(selectRoot)
+    const vprops = useVprops()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
     const closewindow = useRef<any>()
     const [secondMenu, setSecondMenu] = useState<boolean>(false)
     const [pathList, setPathList] = useState<Array<string>>([])
+    const [lastFilePath, setLastFilePath] = useState<string>('')
     const [file, setFile] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const [path, setPath] = useState<boolean>(false)
     useEffect(() => {
         invoke('read_path_fn').then(res => {
-            console.log(res);
             setPathList(res as Array<string>)
+        })
+        invoke('last_file_path').then(res => {
+            setLastFilePath(res as string)
+            dispatch(cacheSliceAction.initialLastPath(res))
         })
         minimize.current
             .addEventListener("click", () => appWindow.minimize());
@@ -69,11 +83,26 @@ export const TitleBar = () => {
     const saveFileData = async () => {
         const data = JSON.stringify(vapp)
         const project_name = vapp.project_name
-        console.log(project_name);
+        // console.log(project_name);
         await invoke('save_file_data', { data: data, projectName: project_name }).then(res => {
             console.log(res);
+            dispatch(messageSliceAction.setCorrect('保存成功'))
+        }, (res) => {
+            dispatch(messageSliceAction.setError('保存失败'))
         })
     }
+    const readFileData = async (path: string) => {
+        await invoke('read_file_data', { filePath: path }).then(res => {
+            const data = JSON.parse(res as string)
+            console.log(data);
+        })
+    }
+    // ctrl+s to save data
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+            if(e.ctrlKey && e.key === 's'){
+                saveFileData()
+            }
+    })
 
     return (
         <div data-tauri-drag-region className="titlebar">
@@ -104,7 +133,11 @@ export const TitleBar = () => {
                             <TitleMenu show={secondMenu} secShow={path} width='320px' left='100%' top='-10%'>
                                 {
                                     pathList.map((item, index) => {
-                                        return <div className="titlemenu_list" key={index}>{item}</div>
+                                        return <div className="titlemenu_list"
+                                            onClick={() => readFileData(item)}
+                                            key={index}>
+                                            {item}
+                                        </div>
                                     })
                                 }
                             </TitleMenu>

@@ -18,6 +18,8 @@ import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
 import { SwiperMini } from '@/components/atoms/SwiperMini'
 import { selectSwiper } from '@/store/swiper.slice'
 import { useVprops } from '@/hooks/useVprops'
+import { invoke } from '@tauri-apps/api'
+import { selectCache } from '@/store/cache.slice'
 
 
 interface Props {
@@ -34,6 +36,7 @@ export const Canvas = (props: Props) => {
     const Vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
+    const cache = useSelector(selectCache)
     const vprops = useVprops()
     const root = useRef<any>(null)
     // const firstUpdate = useRef<boolean>(true);
@@ -45,39 +48,18 @@ export const Canvas = (props: Props) => {
     const drag = (e: DragEvent) => {
         e.preventDefault()
     }
-    const selectData = useCallback(async (id: number) => {
-        const payload = {
-            id
-        }
-        await axios.post('/programlist/data', payload).then(res => {
-            if (res.status === 200) {
-                dispatch(sourceSliceAction.initialRoot(root.current))
-                if (res.data) {
-                    const vapp = JSON.parse(res.data.data)
-                    if (vapp !== null) {
-                        localStorage.setItem('vapp', JSON.stringify(vapp))
-                        // localStorage.setItem('wapp', JSON.stringify(vapp))
-                        dispatch(routesSliceAction.retriveDom())
-                        const index = vapp.routes[0].vnode
-                        setNum(vapp.routes[current.id].size)
-                        useRenderer(root.current, index as VNode, dispatch, vprops)
-                    }
-                }
-            }
+    const retrive = useCallback(async () => {
+        await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
+            const data = JSON.parse(res as string)
+            localStorage.setItem('vapp', JSON.stringify(data))
+            dispatch(routesSliceAction.retriveDom())
+            const index = data.routes[0].vnode
+            console.log(index);
+            
+            setNum(Vapp.routes[current.id].size)
+            useRenderer(root.current, index as VNode, dispatch, vprops)
         })
-        // if user not login
-        // free try use
-        // if (user.isLogin === false) {
-        //     const data = JSON.parse(localStorage.getItem('vapp') as string) as Vapp
-        //     if (data !== null) {
-        //         dispatch(routesSliceAction.retriveDom())
-        //         const index = data.routes[0].vnode
-        //         // console.log(data.routes[current.id].size);
-        //         setNum(data.routes[current.id].size)
-        //         useRenderer(root.current, index as vNode, dispatch)
-        //     }
-        // }
-    }, [props.program_id])
+    }, [cache.last_path])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
@@ -85,7 +67,7 @@ export const Canvas = (props: Props) => {
             setFitst(false);
             return;
         } else {
-            selectData(props.program_id)
+            retrive()
         }
         const len = root?.current.childNodes.length as number
         const childs = root?.current.childNodes
@@ -99,7 +81,7 @@ export const Canvas = (props: Props) => {
                 } catch (error) { }
             }
         })
-    }, [props])
+    }, [props,cache.last_path])
 
     const drop = (e: DragEvent) => {
         createDom(e)
@@ -124,7 +106,7 @@ export const Canvas = (props: Props) => {
             const target = e.target as HTMLElement
             let tagName = 'div';
             if (
-                newSource.id === 'button' 
+                newSource.id === 'button'
                 || newSource.id === 'image'
             ) {
                 if (newSource.id === 'image') tagName = 'img'
@@ -134,6 +116,7 @@ export const Canvas = (props: Props) => {
             }
 
             const element = document.createElement(tagName)
+            // @ts-ignore
             useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,

@@ -6,7 +6,7 @@
 
 use tauri::Manager;
 
-use crate::utils::{atoms::tes::hello2, forever::forever::{read_path_fn, select_file, save_file_data}, vapp::vapp_route::vapp};
+use crate::utils::{atoms::tes::hello2, forever::forever::{read_path_fn, select_file, save_file_data, read_file_data, last_file_path}, vapp::vapp_route::vapp};
 
 mod utils;
 #[tauri::command]
@@ -42,8 +42,10 @@ fn main() {
             hello2,
             vapp,
             save_file_data,
+            read_file_data,
             read_path_fn,
-            select_file
+            select_file,
+            last_file_path
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

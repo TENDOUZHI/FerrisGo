@@ -10,6 +10,7 @@ import { messageSlice } from "./message.slice";
 import { swiperSlice } from "./swiper.slice";
 import { imageSlice } from "./image.slice";
 import { iconSlice } from "./icon.slice";
+import { cacheSlice } from "./cache.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -22,7 +23,8 @@ export const rootReducer = {
         messageElement: messageSlice.reducer,
         swiperElement: swiperSlice.reducer,
         imageElement: imageSlice.reducer,
-        iconElement: iconSlice.reducer
+        iconElement: iconSlice.reducer,
+        cahceElement: cacheSlice.reducer
 }
 
 export const store = configureStore({
