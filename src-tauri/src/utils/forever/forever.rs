@@ -2,7 +2,7 @@ use rfd::FileDialog;
 use serde::{Deserialize, Serialize};
 use serde_json::to_string;
 use std::{
-    fs::{self, remove_file, File},
+    fs::{self, File},
     io::Write,
     path::Path,
 };
@@ -36,77 +36,59 @@ pub async fn last_file_path() -> String {
 }
 
 #[tauri::command]
-pub fn select_file() {
+pub fn select_file() -> Result<String, ()> {
     let files = FileDialog::new().add_filter("name", &["FES"]).pick_folder();
     match files {
-        Some(path) => println!("{:?}", path),
-        None => println!("target object is null"),
+        Some(path) => Ok(path.to_string_lossy().to_string()),
+        None => Err(()),
     }
 }
 
 #[tauri::command]
-pub async fn create_project() -> Result<String, String> {
-    let path_buf = FileDialog::new().add_filter("name", &["FES"]).pick_folder();
-    match path_buf {
-        Some(path) => {
-            let file_path = format!("{}/新建Ferris项目.FES", path.to_string_lossy());
-            let file = File::create(file_path);
-            match file {
-                Ok(_) => Ok("新建项目成功".to_string()),
-                Err(e) => Err(format!("{:?}", e)),
-            }
-        }
-        None => Err("新建项目失败".to_string()),
-    }
-}
-
-#[tauri::command]
-pub async fn save_file_data(data: String, project_name: String) -> Result<String, String> {
-    let path = format!("C:/Users/HP/Documents/大三上/{}.FES", project_name);
-    // try open the file
-    // if is not existed create a new file
-    // if existed recreated it
-    let new_file = File::open(path.clone());
-    match new_file {
+pub async fn create_project(path: String, project_name: String) -> Result<String, String> {
+    let file_path = format!("{}\\{}.FES", path, project_name);
+    let file = File::create(file_path.clone());
+    match file {
         Ok(_) => {
-            if let Ok(mut file) = File::create(path.clone()) {
-                if let Ok(_) = file.write_all(data.as_bytes()) {
-                    Ok("save data successfully".to_string())
-                } else {
-                    Err("failed to save data".to_string())
-                }
-            } else {
-                Err("failed to recreate file".to_string())
+            match read_file_data(file_path).await {
+                Ok(_) => Ok("创建项目成功".to_string()),
+                Err(e) => Err(e)
             }
-        }
-        Err(_) => {
-            let file = File::create(path.clone());
-            match file {
-                Ok(mut v) => {
-                    v.write_all(data.as_bytes()).expect("save file");
-                    let json_value: Caches = read_json_value();
-                    let value = json_value.last_file.clone();
-                    remove_file(value).expect("remove formal file");
-                    let new_json_value = json_value.update_last_file(path);
-                    let write_res = write_json_value(new_json_value);
-                    match write_res {
-                        Ok(_) => Ok("save data successfully".to_string()),
-                        Err(e) => Err(e),
-                    }
-                }
-                Err(_) => Err("failed to save data".to_string()),
-            }
-        }
+        },
+        Err(_) => Err("创建项目失败".to_string()),
     }
 }
 
 #[tauri::command]
-pub async fn read_file_data(file_path: String) -> String {
+pub async fn save_file_data(data: String) -> Result<String, String> {
+    let path = read_json_value().last_file;
+    let file = File::create(path);
+    match file {
+        Ok(mut file) => {
+            if let Ok(_) = file.write_all(data.as_bytes()) {
+                Ok("save successfully".to_string())
+            } else {
+                Err("failed to save file".to_string())
+            }
+        }
+        Err(_) => Err("failed to save file".to_string()),
+    }
+}
+
+#[tauri::command]
+pub async fn read_file_data(file_path: String) -> Result<String, String> {
     let path = Path::new(file_path.as_str());
     let content = fs::read_to_string(path);
     match content {
-        Ok(v) => v,
-        Err(_) => "failed to read file".to_string(),
+        Ok(v) => {
+            let last_path = read_json_value();
+            let new_path = last_path.update_last_file(file_path);
+            match write_json_value(new_path) {
+                Ok(_) => Ok(v),
+                Err(e) => Err(e),
+            }
+        }
+        Err(_) => Err("failed to read file".to_string()),
     }
 }
 

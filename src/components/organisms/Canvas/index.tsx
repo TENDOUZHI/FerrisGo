@@ -51,10 +51,10 @@ export const Canvas = (props: Props) => {
     const retrive = useCallback(async () => {
         await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
             const data = JSON.parse(res as string)
-            localStorage.setItem('vapp', JSON.stringify(data))
+            localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
-            console.log(index);
+            console.log(data);
             
             setNum(Vapp.routes[current.id].size)
             useRenderer(root.current, index as VNode, dispatch, vprops)

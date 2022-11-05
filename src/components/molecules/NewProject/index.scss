@@ -1,0 +1,128 @@
+.newproject {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(21, 21, 21, 0.37);
+  z-index: 999999;
+  &_create {
+    width: 400px;
+    height: 240px;
+    padding: 1rem;
+    background-color: #252526;
+    border: 2px solid rgb(77, 77, 77);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    &_title {
+      width: 100%;
+      font-size: 13px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    &_name {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-left: 3rem;
+      span {
+        margin-right: 16px;
+      }
+      input {
+        border: none;
+        outline: none;
+        border: 1px solid rgb(79, 79, 79);
+        font-size: 14px;
+        border-radius: 4px;
+        padding: 0.3rem 1rem;
+        background-color: rgb(51, 51, 51);
+        transition: all 0.2s;
+        outline: 2px solid transparent;
+        &:focus {
+          outline: 2px solid #3367e9;
+        }
+      }
+    }
+    &_path {
+      width: 85%;
+      height: 30px;
+      background-color: rgb(51, 51, 51);
+      border: 1px solid rgb(79, 79, 79);
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      border-radius: 4px;
+      &_show {
+        width: 85%;
+        height: 100%;
+        border-radius: 4px;
+        font-size: 13px;
+        padding-left: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 26px;
+      }
+      &_btn {
+        width: 15%;
+        height: 100%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        transition: all 0.3s;
+        img {
+          width: 60%;
+        }
+        &:hover {
+          background-color: rgb(35, 35, 35);
+        }
+      }
+    }
+    &_choice {
+      width: 100%;
+      margin-top: 32px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      &_sure {
+        background-color: #365880;
+        margin-left: 16px;
+        border: 2px solid #476985;
+        &:hover {
+          background-color: #28496d;
+        }
+      }
+      &_cancel {
+        background-color: #4c5052;
+        border: 2px solid #5e6060;
+        &:hover {
+          background-color: #45484a;
+        }
+      }
+    }
+  }
+  &_btn {
+    width: 80px;
+    height: 28px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: all 0.3s;
+  }
+}
