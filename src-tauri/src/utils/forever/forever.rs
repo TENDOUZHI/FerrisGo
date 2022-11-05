@@ -20,6 +20,14 @@ impl Caches {
             last_file: path,
         }
     }
+    fn update_file_path(&mut self, path: String) -> Self {
+        let mut file_path = self.file_path.clone();
+        file_path.push(path);
+        Self {
+            file_path,
+            last_file: self.last_file.clone(),
+        }
+    }
 }
 
 #[tauri::command]
@@ -49,11 +57,15 @@ pub async fn create_project(path: String, project_name: String) -> Result<String
     let file_path = format!("{}\\{}.FES", path, project_name);
     let file = File::create(file_path.clone());
     match file {
-        Ok(_) => {
-            match read_file_data(file_path).await {
-                Ok(_) => Ok("创建项目成功".to_string()),
-                Err(e) => Err(e)
+        Ok(_) => match read_file_data(file_path.clone()).await {
+            Ok(_) => {
+                let json_value = read_json_value().update_file_path(file_path);
+                match write_json_value(json_value) {
+                    Ok(_) => Ok("创建项目成功".to_string()),
+                    Err(e) => Err(e),
+                }
             }
+            Err(e) => Err(e),
         },
         Err(_) => Err("创建项目失败".to_string()),
     }

@@ -30,17 +30,25 @@ export const TitleBar = () => {
     const [secondMenu, setSecondMenu] = useState<boolean>(false)
     const [pathList, setPathList] = useState<Array<string>>([])
     const [lastFilePath, setLastFilePath] = useState<string>('')
+    const [path, setPath] = useState<boolean>(false)
+    const [projectName, setProjectName] = useState<string>('')
     const [file, setFile] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const [help, setHelp] = useState<boolean>(false)
-    const [path, setPath] = useState<boolean>(false)
     const [createProject, setCreateProject] = useState<boolean>(false)
     useEffect(() => {
         invoke('read_path_fn').then(res => {
             setPathList(res as Array<string>)
         })
         invoke('last_file_path').then(res => {
-            console.log(res);
+            let project_name: Array<string> = []
+            let path = res as string
+            path = path.replace(/\\/g, "/")
+            for (let i = path.length - 5; i > 0; i--) {
+                if (path[i] === '/') break;
+                project_name.unshift(path[i])
+            }
+            setProjectName(project_name.join(''))
             setLastFilePath(res as string)
             dispatch(cacheSliceAction.initialLastPath(res))
         })
@@ -107,7 +115,7 @@ export const TitleBar = () => {
     const readFileData = async (path: string) => {
         await invoke('read_file_data', { filePath: path }).then(res => {
             const data = JSON.parse(res as string)
-            console.log(data);
+            location.reload()
         })
     }
     const openDocumentBrowser = async () => {
@@ -201,6 +209,9 @@ export const TitleBar = () => {
                             </div>
                         </TitleMenu>
                     </div>
+                </div>
+                <div className="titlebar_projectname">
+                    {projectName} - FerrisGo
                 </div>
                 <div className="titlebar-buttons">
                     <div className="titlebar-button" ref={minimize}>
