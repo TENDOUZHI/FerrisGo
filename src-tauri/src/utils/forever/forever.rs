@@ -22,9 +22,24 @@ impl Caches {
     }
     fn update_file_path(&mut self, path: String) -> Self {
         let mut file_path = self.file_path.clone();
-        file_path.push(path);
+        file_path.insert(0, path);
         Self {
             file_path,
+            last_file: self.last_file.clone(),
+        }
+    }
+    fn update_sequence(&mut self, path: String) -> Self {
+        let mut cache_file_path = self.file_path.clone();
+        let mut cache_path = String::from("");
+        for (i, p) in self.file_path.iter().enumerate() {
+            if path == *p {
+                cache_path = cache_file_path.remove(i);
+                break;
+            }
+        }
+        cache_file_path.insert(0, cache_path);
+        Self {
+            file_path: cache_file_path,
             last_file: self.last_file.clone(),
         }
     }
@@ -94,7 +109,8 @@ pub async fn read_file_data(file_path: String) -> Result<String, String> {
     match content {
         Ok(v) => {
             let last_path = read_json_value();
-            let new_path = last_path.update_last_file(file_path);
+            let new_path = last_path.update_last_file(file_path.clone()).update_sequence(file_path);
+            // let json_value = new_path;
             match write_json_value(new_path) {
                 Ok(_) => Ok(v),
                 Err(e) => Err(e),
