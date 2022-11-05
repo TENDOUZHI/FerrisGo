@@ -1,39 +1,38 @@
 use rfd::FileDialog;
-use serde::Serialize;
-use serde_json::Value;
+use serde::{Deserialize, Serialize};
+use serde_json::to_string;
 use std::{
-    fs::{self, File},
+    fs::{self, remove_file, File},
     io::Write,
     path::Path,
 };
 
-#[derive(Debug, Serialize)]
-pub struct Response {
-    status: bool,
-    msg: String,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Caches {
+    file_path: Vec<String>,
+    last_file: String,
 }
 
-// impl InvokeResponder for Response {
-
-// }
+impl Caches {
+    fn update_last_file(&self, path: String) -> Self {
+        Self {
+            file_path: self.file_path.clone(),
+            last_file: path,
+        }
+    }
+}
 
 #[tauri::command]
 pub async fn read_path_fn() -> Vec<String> {
-    let json_value: Value = read_json_value();
-    let mut cach_path: Vec<String> = vec![];
-    for file_path in json_value["file_path"].as_array() {
-        for i in file_path {
-            cach_path.push(String::from(i.as_str().unwrap()));
-        }
-    }
-    return cach_path;
+    let json_value: Caches = read_json_value();
+    json_value.file_path
 }
 
 #[tauri::command]
 pub async fn last_file_path() -> String {
-    let json_value: Value = read_json_value();
-    let value = &json_value["last_file"];
-    String::from(value.as_str().unwrap())
+    let json_value: Caches = read_json_value();
+    let value = json_value.last_file;
+    value
 }
 
 #[tauri::command]
@@ -54,23 +53,50 @@ pub async fn create_project() -> Result<String, String> {
             let file = File::create(file_path);
             match file {
                 Ok(_) => Ok("新建项目成功".to_string()),
-                Err(e) => Err(format!("{:?}",e))
+                Err(e) => Err(format!("{:?}", e)),
             }
         }
-        None => Err("新建项目失败".to_string())
+        None => Err("新建项目失败".to_string()),
     }
 }
 
 #[tauri::command]
 pub async fn save_file_data(data: String, project_name: String) -> Result<String, String> {
     let path = format!("C:/Users/HP/Documents/大三上/{}.FES", project_name);
-    let file = File::create(path);
-    match file {
-        Ok(mut v) => {
-            v.write_all(data.as_bytes()).expect("save file");
-            Ok("save data successfully".to_string())
+    // try open the file
+    // if is not existed create a new file
+    // if existed recreated it
+    let new_file = File::open(path.clone());
+    match new_file {
+        Ok(_) => {
+            if let Ok(mut file) = File::create(path.clone()) {
+                if let Ok(_) = file.write_all(data.as_bytes()) {
+                    Ok("save data successfully".to_string())
+                } else {
+                    Err("failed to save data".to_string())
+                }
+            } else {
+                Err("failed to recreate file".to_string())
+            }
         }
-        Err(_) => Err("failed to save data".to_string()),
+        Err(_) => {
+            let file = File::create(path.clone());
+            match file {
+                Ok(mut v) => {
+                    v.write_all(data.as_bytes()).expect("save file");
+                    let json_value: Caches = read_json_value();
+                    let value = json_value.last_file.clone();
+                    remove_file(value).expect("remove formal file");
+                    let new_json_value = json_value.update_last_file(path);
+                    let write_res = write_json_value(new_json_value);
+                    match write_res {
+                        Ok(_) => Ok("save data successfully".to_string()),
+                        Err(e) => Err(e),
+                    }
+                }
+                Err(_) => Err("failed to save data".to_string()),
+            }
+        }
     }
 }
 
@@ -93,9 +119,25 @@ pub async fn open_doc_browser() -> Result<String, String> {
     }
 }
 
-fn read_json_value() -> Value {
+fn read_json_value() -> Caches {
     let json_path = "../caches.json";
     let json_file = fs::read_to_string(json_path).unwrap();
-    let json_value: Value = serde_json::from_str(&json_file).expect("JSON was not well-formatted");
+    let json_value: Caches = serde_json::from_str(&json_file).expect("JSON was not well-formatted");
     json_value
+}
+
+fn write_json_value(data: Caches) -> Result<(), String> {
+    let json_path = "../caches.json";
+    let json_file = File::create(json_path);
+    let json_string = to_string(&data).unwrap();
+    match json_file {
+        Ok(mut file) => match file.write_all(json_string.as_bytes()) {
+            Ok(_) => Ok(()),
+            Err(e) => {
+                println!("failed to write cache json,{}", e);
+                Err("failed to write cache json".to_string())
+            }
+        },
+        Err(e) => Err(format!("{:?}", e)),
+    }
 }
