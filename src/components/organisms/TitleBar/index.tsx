@@ -88,10 +88,12 @@ export const TitleBar = () => {
         appWindow.close()
     }
     const newProject = () => {
-        invoke('select_file')
+        invoke('create_project')
     }
     const saveFileData = async () => {
         const data = JSON.stringify(vapp)
+        console.log(data);
+        
         const project_name = vapp.project_name
         // console.log(project_name);
         await invoke('save_file_data', { data: data, projectName: project_name }).then(res => {
@@ -137,9 +139,6 @@ export const TitleBar = () => {
                     <TitleMenu show={secondMenu} secShow={file} width='280px'>
                         <div className="titlemenu_list" onClick={newProject}>
                             新建项目
-                        </div>
-                        <div className="titlemenu_list">
-                            新建文件
                         </div>
                         <div className="titlemenu_list" onClick={saveFileData}>
                             <span>保存文件</span>

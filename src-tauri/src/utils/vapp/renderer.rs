@@ -14,9 +14,10 @@ use super::{
     parser_wxss::parser_wxss,
 };
 
-pub fn parse_vapp(vapp: Vapp) {
+pub fn parse_vapp(vapp: Vapp, root_path: &str) {
     let project_name = vapp.project_name;
-    let globel_path = String::from("C:/Users/HP/Documents/大三上/Ferris/");
+    println!("{:?}",root_path);
+    let globel_path =format!("{}\\FerrisGo\\",root_path);
     let dev_path = format!("{}{}", &globel_path, &project_name);
     let path = Path::new(&dev_path);
     let file_path = format!("{}", path.to_str().expect("file path"));

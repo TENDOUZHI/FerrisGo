@@ -38,10 +38,26 @@ pub async fn last_file_path() -> String {
 
 #[tauri::command]
 pub fn select_file() {
-    let files = FileDialog::new().add_filter("name", &["txt"]).pick_file();
+    let files = FileDialog::new().add_filter("name", &["FES"]).pick_folder();
     match files {
         Some(path) => println!("{:?}", path),
         None => println!("target object is null"),
+    }
+}
+
+#[tauri::command]
+pub async fn create_project() -> Result<String, String> {
+    let path_buf = FileDialog::new().add_filter("name", &["FES"]).pick_folder();
+    match path_buf {
+        Some(path) => {
+            let file_path = format!("{}/新建Ferris项目.FES", path.to_string_lossy());
+            let file = File::create(file_path);
+            match file {
+                Ok(_) => Ok("新建项目成功".to_string()),
+                Err(e) => Err(format!("{:?}",e))
+            }
+        }
+        None => Err("新建项目失败".to_string())
     }
 }
 
@@ -69,12 +85,12 @@ pub async fn read_file_data(file_path: String) -> String {
 }
 
 #[tauri::command]
-pub async fn open_doc_browser()-> Result<String, String> {
+pub async fn open_doc_browser() -> Result<String, String> {
     let path = "file:///D:/myCode/vitepress/FerrisDoc/docs/.vitepress/dist/index.html";
     match webbrowser::open(path) {
         Ok(_) => Ok("open in browser successfully".to_string()),
-        Err(_) => Err("failed to open document".to_string())
-    } 
+        Err(_) => Err("failed to open document".to_string()),
+    }
 }
 
 fn read_json_value() -> Value {
