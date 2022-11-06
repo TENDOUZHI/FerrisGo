@@ -2,8 +2,9 @@ import { selectDevice } from "@/store/device.slice"
 import { selectRoot } from "@/store/source.slice"
 import { selectSwiper } from "@/store/swiper.slice"
 import { selectTarget } from "@/store/target.slice"
+import { undoSliceAction } from "@/store/undo.slice"
 import { selectUser } from "@/store/user.slice"
-import { selectCurRoutes, selectProgramId, routesSliceAction } from "@/store/vapp.slice"
+import { selectCurRoutes, selectProgramId, routesSliceAction, selectVapp } from "@/store/vapp.slice"
 import { selectWs } from "@/store/ws.slice"
 import { useLayoutEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -26,25 +27,13 @@ export const useUpdate = (): (() => void) => {
     const vprops = useVprops()
     const patch = useDiff()
     useLayoutEffect(() => {
-        update()
+        update()    
     }, [curNode])
+
     const update = () => {
         if (root !== null) {
-            // clear screen
-            // const len = root!.childNodes.length as number
-            // const childs = root!.childNodes
-            // for (let i = len - 1; i >= 0; i--) {
-            //     // @ts-ignore
-            //     try {
-            //         root!.removeChild(childs[i])
-            //     } catch (error) { }
-            // }
-            // root?.removeChild(target as Node)
-            // set into real dom
             setTimeout(() => {
-                // console.log(target);
                 patch(curNode)
-                // useRenderer(root as HTMLElement, curNode, dispatch, vprops)
             })
         }
     }
@@ -63,6 +52,8 @@ export const useUpdate = (): (() => void) => {
             program_id: program_id,
             ws: ws
         }))
+        // console.log(curVnode);
+        // dispatch(undoSliceAction.newdo(curVnode))
         setCurNode(curVnode.vNode)
     }
     return preUpdate

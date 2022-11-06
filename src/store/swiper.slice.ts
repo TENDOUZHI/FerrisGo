@@ -10,7 +10,7 @@ export interface SwiperItem {
 
 export interface SwiperRedux {
     auto_play: boolean,
-    auto_play_delay: number,
+    auto_play_delay: string,
     pagination: boolean,
     scrollbar: boolean,
     items: Array<SwiperItem>,
@@ -22,7 +22,7 @@ export type SwiperType = 'auto_play' | 'pagination' | 'scrollbar'
 
 const initialState: SwiperRedux = {
     auto_play: false,
-    auto_play_delay: 2000,
+    auto_play_delay: '2000',
     pagination: false,
     scrollbar: false,
     items: [

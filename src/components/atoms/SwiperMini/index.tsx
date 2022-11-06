@@ -9,7 +9,7 @@ import { SwiperItem } from '@/store/swiper.slice';
 
 interface Props {
     autoplay: boolean,
-    autoplayDelay: number,
+    autoplayDelay: string,
     pagination: boolean,
     scrollbar: boolean,
     items: Array<SwiperItem>,
@@ -28,7 +28,7 @@ export const SwiperMini = (props: Props) => {
             ]}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            autoplay={{ delay: props.autoplayDelay }}
+            autoplay={{ delay: parseInt(props.autoplayDelay) }}
             effect='slide'
             controller={{ inverse: true }}
             slidesPerView={1}

@@ -50,7 +50,7 @@ export interface Image {
 
 export interface Swiper {
     auto_play: boolean,
-    auto_play_delay: number,
+    auto_play_delay: string,
     pagination: boolean,
     scrollbar: boolean,
     items: Array<SwiperItem>,

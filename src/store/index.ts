@@ -11,6 +11,7 @@ import { swiperSlice } from "./swiper.slice";
 import { imageSlice } from "./image.slice";
 import { iconSlice } from "./icon.slice";
 import { cacheSlice } from "./cache.slice";
+import { undoSlice } from "./undo.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -24,7 +25,8 @@ export const rootReducer = {
         swiperElement: swiperSlice.reducer,
         imageElement: imageSlice.reducer,
         iconElement: iconSlice.reducer,
-        cahceElement: cacheSlice.reducer
+        cahceElement: cacheSlice.reducer,
+        undoElement: undoSlice.reducer
 }
 
 export const store = configureStore({

@@ -86,7 +86,7 @@ pub struct Routes {
     pub vnode: Option<VNode>,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug,Clone)]
 pub struct VNode {
     pub name: String,
     pub tag_name: String,
@@ -107,7 +107,7 @@ pub struct Vprops {
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Swiper {
     pub auto_play: bool,
-    pub auto_play_delay: i128,
+    pub auto_play_delay: String,
     pub pagination: bool,
     pub scrollbar: bool,
     pub items: Vec<SwiperItem>,

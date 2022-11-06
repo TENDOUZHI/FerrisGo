@@ -1,6 +1,6 @@
 import './index.scss'
 import { appWindow } from "@tauri-apps/api/window";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Ferris from '@/assets/Ferris.png'
 import minimizes from '@/assets/system/minimize.png'
 import maxmizes from '@/assets/system/maxmize.png'
@@ -17,12 +17,14 @@ import { useVprops } from '@/hooks/useVprops';
 import { cacheSliceAction } from '@/store/cache.slice';
 import { messageSliceAction } from '@/store/message.slice';
 import { NewProject } from '@/components/molecules/NewProject';
+import { selectUndo, undoSliceAction } from '@/store/undo.slice';
 
 export const TitleBar = () => {
     let dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
     const root = useSelector(selectRoot)
+    const undo = useSelector(selectUndo)
     const vprops = useVprops()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
@@ -104,13 +106,16 @@ export const TitleBar = () => {
     const saveFileData = async () => {
         const data = JSON.stringify(vapp)
         const project_name = vapp.project_name
-        // console.log(project_name);
+        console.log(vapp);
         await invoke('save_file_data', { data: data }).then(res => {
             console.log(res);
             dispatch(messageSliceAction.setCorrect('保存成功'))
         }, () => {
             dispatch(messageSliceAction.setError('保存失败'))
         })
+    }
+    const undoFn = () => {
+        // dispatch(undoSliceAction.undo())
     }
     const readFileData = async (path: string) => {
         await invoke('read_file_data', { filePath: path }).then(res => {
@@ -129,10 +134,32 @@ export const TitleBar = () => {
             dispatch(messageSliceAction.setCorrect('项目导出成功'))
         })
     }
+
+    const throttle = (fn: any, wait: number) => {
+        let context;
+        let last = 0
+        return function () {
+            let now = new Date().getTime()
+            // @ts-ignore
+            context = this
+            if (now - last > wait) {
+                fn.call(context)
+                last = now
+            }
+        }
+    }
     // ctrl+s to save data
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.ctrlKey && e.key === 's') {
-            saveFileData()
+        const save = () => {
+            if (e.ctrlKey && e.key === 's') {
+                saveFileData()
+            }
+        }
+        save()
+    })
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.ctrlKey && e.key == 'z') {
+            
         }
     })
 
@@ -183,8 +210,9 @@ export const TitleBar = () => {
                         <span >编辑</span>
                         {/* @ts-ignore */}
                         <TitleMenu show={secondMenu} secShow={edit} >
-                            <div className="titlemenu_list">
-                                撤销
+                            <div className="titlemenu_list" onClick={undoFn}>
+                                <span>撤销</span>
+                                <span>Ctrl+Z</span>
                             </div>
                             <div className="titlemenu_list">
                                 回复

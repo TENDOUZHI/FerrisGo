@@ -20,6 +20,7 @@ import { selectSwiper } from '@/store/swiper.slice'
 import { useVprops } from '@/hooks/useVprops'
 import { invoke } from '@tauri-apps/api'
 import { selectCache } from '@/store/cache.slice'
+import { selectUndo, undoSliceAction } from '@/store/undo.slice'
 
 
 interface Props {
@@ -34,6 +35,7 @@ export const Canvas = (props: Props) => {
     const target = useSelector(selectTarget)
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
+    const undo = useSelector(selectUndo)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
@@ -41,6 +43,7 @@ export const Canvas = (props: Props) => {
     const root = useRef<any>(null)
     // const firstUpdate = useRef<boolean>(true);
     const [fitst, setFitst] = useState<boolean>(true)
+    const [onece, setOnece] = useState<boolean>(true)
     // clone the HTMLElement
     const newSource = source?.cloneNode(true) as HTMLElement
     // record the number of element in canvas
@@ -54,9 +57,9 @@ export const Canvas = (props: Props) => {
             localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
-            console.log(data);
-            
+            // console.log(data);
             setNum(Vapp.routes[current.id].size)
+            // dispatch(undoSliceAction.newdo(index))
             useRenderer(root.current, index as VNode, dispatch, vprops)
         })
     }, [cache.last_path])
@@ -81,7 +84,11 @@ export const Canvas = (props: Props) => {
                 } catch (error) { }
             }
         })
-    }, [props,cache.last_path])
+    }, [props, cache.last_path])
+
+    // useLayoutEffect(() => {
+    //     dispatch(undoSliceAction.newdo(Vapp.routes[current.id].vnode))
+    // }, [Vapp])
 
     const drop = (e: DragEvent) => {
         createDom(e)
