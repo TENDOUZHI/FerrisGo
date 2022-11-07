@@ -62,6 +62,22 @@ export const TitleBar = () => {
         closewindow.current
             .addEventListener("click", () => appWindow.close());
     }, [])
+    useEffect(() => {
+        document.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.ctrlKey && e.key == 'z') {
+                undoFn()
+            }
+        })
+        // ctrl+s to save data
+        document.addEventListener('keydown', (e: KeyboardEvent) => {
+            const save = () => {
+                if (e.ctrlKey && e.key === 's') {
+                    saveFileData()
+                }
+            }
+            save()
+        })
+    })
     const showSecondMenu = () => {
         if (secondMenu) {
             setSecondMenu(false)
@@ -128,6 +144,8 @@ export const TitleBar = () => {
                 } catch (error) { }
             }
             useRenderer(root as HTMLElement, res as VNode, dispatch, vprops)
+        }, () => {
+            dispatch(messageSliceAction.setWarn('无可撤回操作执行'))
         })
     }
     const readFileData = async (path: string) => {
@@ -161,20 +179,7 @@ export const TitleBar = () => {
             }
         }
     }
-    // ctrl+s to save data
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-        const save = () => {
-            if (e.ctrlKey && e.key === 's') {
-                saveFileData()
-            }
-        }
-        save()
-    })
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.ctrlKey && e.key == 'z') {
 
-        }
-    })
 
     return (
         <>

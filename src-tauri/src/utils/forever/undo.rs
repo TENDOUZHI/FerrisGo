@@ -3,7 +3,7 @@ use std::{
     io::Write,
 };
 
-use serde::{ Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use serde_json::to_string;
 
 use crate::utils::vapp::ast::VNode;
@@ -11,7 +11,7 @@ use crate::utils::vapp::ast::VNode;
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Undo {
     history: Vec<VNode>,
-    buffer: Option<VNode>
+    buffer: Option<VNode>,
 }
 
 impl Undo {
@@ -43,42 +43,49 @@ impl Undo {
         }
     }
 
-    fn newdo(&mut self, new_operate: VNode)  {
+    fn newdo(&mut self, new_operate: VNode) {
         self.history.push(self.buffer.clone().unwrap());
         self.buffer = Some(new_operate);
     }
-    fn undo(&mut self) -> VNode {
-        let value = self.history.pop();
-        value.unwrap()
+    fn undo(&mut self) -> Result<VNode, ()> {
+        if self.history.len() > 1 {
+            let value = self.history.pop();
+            self.buffer = value.clone();
+            Ok(value.unwrap())
+        } else {
+            Err(())
+        }
     }
 }
 
 #[tauri::command]
-pub async fn flush_operate() -> Result<(),()> {
+pub async fn flush_operate() -> Result<(), ()> {
     let mut undo = Undo::new();
     undo.flush();
     match undo.write() {
         Ok(_) => Ok(()),
-        Err(_) => Err(())
+        Err(_) => Err(()),
     }
 }
 
 #[tauri::command]
-pub async fn save_operate(new_operate: VNode) -> Result<(),()> {
+pub async fn save_operate(new_operate: VNode) -> Result<(), ()> {
     let mut undo = Undo::new();
     undo.newdo(new_operate);
-   match undo.write() {
-       Ok(_) => Ok(()),
-       Err(_) => Err(())
-   }
+    match undo.write() {
+        Ok(_) => Ok(()),
+        Err(_) => Err(()),
+    }
 }
 
 #[tauri::command]
-pub async fn undo_operate() -> Result<VNode,()> {
+pub async fn undo_operate() -> Result<VNode, ()> {
     let mut undo = Undo::new();
-    let value = undo.undo();
-    match undo.write() {
-        Ok(_) => Ok(value),
+    match undo.undo() {
+        Ok(val) => match undo.write() {
+            Ok(_) => Ok(val),
+            Err(_) => Err(()),
+        },
         Err(_) => Err(())
     }
 }
