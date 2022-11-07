@@ -1,19 +1,15 @@
 import { Device } from '@/components/molecules/Device'
-import { Vapp } from '@/store/ast'
 import { routesSliceAction, selectCurRoutes, selectVapp, selectWapp } from '@/store/vapp.slice'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import './index.scss'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { targetSliceAction } from '@/store/target.slice'
 import { selectUser, userSliceAction } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
-import { DownLoad } from '@/components/molecules/DownLoad'
-import { useAutoHide } from '@/hooks/useAutoHide'
-import file from '@/assets/file.png'
 import { useNavigate } from 'react-router'
-import { invoke } from '@tauri-apps/api'
+import { Navigator } from '@/components/molecules/Navigator'
+import setting from '@/assets/setting.png'
 interface Props {
     id: number,
     title: string
@@ -26,10 +22,12 @@ export const Head = (props: Props) => {
     const ws = useSelector(selectWs)
     const navigate = useNavigate()
     const [progress, setProgress] = useState<number>(0)
+    const [navigator, setNavigator] = useState<boolean>(false)
     const [message, setMessage] = useState('');
     const [show, setShow] = useState<boolean>(false)
     const userAvatar = useRef<any>()
     const userList = useRef<any>()
+    const settingList = useRef<any>()
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
     const [download, setDownload] = useState<boolean>(false)
@@ -43,7 +41,7 @@ export const Head = (props: Props) => {
 
     const click = async () => {
         setDownload(true)
-        console.log('vapp',vapp);
+        console.log('vapp', vapp);
         await axios.post('/vapp', wapp, { responseType: 'blob', onDownloadProgress: loadingProgress }).then((res) => {
             if (res.status === 200) {
                 const blob = new Blob([res.data], { type: 'application/zip' })
@@ -83,24 +81,28 @@ export const Head = (props: Props) => {
     const updateTitle = (e: { target: { value: any } }) => {
         setTitle(e.target.value)
     }
-    const handleUserList = () => {
+    const handleSettingList = () => {
         if (!show) {
-            userList.current.style.display = 'block'
+            settingList.current.style.display = 'block'
             setTimeout(() => {
-                userList.current.classList.add('etc_user_list_move')
+                settingList.current.classList.add('etc_setting_list_move')
                 document.addEventListener('click', hide)
             })
             setShow(true)
         }
     }
     const hide = () => {
-        userList.current.style.display = 'none'
+        settingList.current.style.display = 'none'
         setTimeout(() => {
-            userList.current.classList.remove('etc_user_list_move')
+            settingList.current.classList.remove('etc_setting_list_move')
             document.removeEventListener('click', hide)
         })
         setShow(false)
 
+    }
+
+    const showNavigator = () => {
+        setNavigator(true)
     }
     const back = () => {
         navigate(-1)
@@ -119,6 +121,7 @@ export const Head = (props: Props) => {
 
     return (
         <>
+            <Navigator show={navigator} setShow={setNavigator} />
             <div className="head">
                 <div className='head-title'>
                     <input className='head-title-input' type="text"
@@ -132,7 +135,15 @@ export const Head = (props: Props) => {
                     <Device program_id={props.id} />
                 </div>
                 <div className="etc">
-                    <div className='download_btn' onClick={click}>
+                    <div className="etc_setting" onClick={handleSettingList}>
+                        <div className="etc_setting_img">
+                            <img src={setting} alt="" />
+                        </div>
+                        <ul className="etc_setting_list" ref={settingList}>
+                            <li className="etc_setting_list_li" onClick={showNavigator}>导航栏</li>
+                        </ul>
+                    </div>
+                    {/* <div className='download_btn' onClick={click}>
                         <DownLoad download={download} />
                     </div>
                     <div className="etc_user">
@@ -145,7 +156,7 @@ export const Head = (props: Props) => {
                             <li className="etc_user_list_li" onClick={account}>账号设置</li>
                             <li className="etc_user_list_li" onClick={logout}>退出登录</li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

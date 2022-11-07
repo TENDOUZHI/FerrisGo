@@ -257,7 +257,7 @@ export const TitleBar = () => {
                     </div>
                 </div>
                 <div className="titlebar_projectname">
-                    {projectName} - FerrisGo
+                    {projectName} <span className="titlebar_projectname_name">-</span> <span className="titlebar_projectname_name">FerrisGo</span>
                 </div>
                 <div className="titlebar-buttons">
                     <div className="titlebar-button" ref={minimize}>

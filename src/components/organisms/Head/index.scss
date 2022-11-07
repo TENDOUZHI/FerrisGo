@@ -7,7 +7,7 @@ $height: 50px;
   color: #fff;
   font-size: 30px;
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   &-title {
@@ -47,9 +47,11 @@ $height: 50px;
   }
   .etc {
     width: 20%;
+    height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
+    padding-right: 2rem;
     &_user {
       width: 40px;
       height: 40px;
@@ -88,8 +90,8 @@ $height: 50px;
         opacity: 0;
         transition: all 0.3s;
         z-index: 9;
-        &::before{
-          content: '';
+        &::before {
+          content: "";
           position: absolute;
           width: 0;
           height: 0;
@@ -109,6 +111,72 @@ $height: 50px;
           border-radius: 4px;
           font-size: 14px;
           transition: all 0.3s;
+          &:hover {
+            background-color: rgb(91, 91, 91);
+          }
+        }
+      }
+    }
+    &_setting {
+      height: 100%;
+      &_img {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+        position: relative;
+        cursor: pointer;
+        img {
+          height: 80%;
+        }
+        &:hover {
+          transform: rotate(45deg);
+        }
+      }
+      .etc_setting_list_move {
+        top: 100%;
+        opacity: 1;
+        transform: translateX(-28%) scale(100%);
+      }
+      &_list {
+        width: 80px;
+        padding: 0.3rem 0.5rem;
+        display: none;
+        opacity: 0;
+        box-sizing: content-box;
+        position: absolute;
+        top: 80%;
+        transform: translateX(-28%) scale(97%);
+        background-color: rgb(63, 63, 63);
+        box-shadow: 1px 1px 10px rgb(19, 19, 19);
+        border-radius: 4px;
+        transition: all 0.3s;
+        z-index: 9;
+        &::before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          top: -35%;
+          left: 48%;
+          transform: translateX(-50%);
+          border: 10px solid rgb(63, 63, 63);
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-top: 5px solid transparent;
+        }
+        &_li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0.1rem 0.1rem;
+          border-radius: 4px;
+          font-size: 13px;
+          transition: all 0.3s;
+          cursor: pointer;
+          -webkit-user-select: none;
+          user-select: none;
           &:hover {
             background-color: rgb(91, 91, 91);
           }
@@ -141,6 +209,7 @@ $height: 50px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.1s;
+    -webkit-user-select: none;
     user-select: none;
     &:active {
       transform: scale(95%);
