@@ -57,9 +57,8 @@ export const Canvas = (props: Props) => {
             localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
             const index = data.routes[0].vnode
-            // console.log(data);
             setNum(Vapp.routes[current.id].size)
-            // dispatch(undoSliceAction.newdo(index))
+            invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops)
         })
     }, [cache.last_path])
@@ -86,11 +85,18 @@ export const Canvas = (props: Props) => {
         })
     }, [props, cache.last_path])
 
-    // useLayoutEffect(() => {
-    //     dispatch(undoSliceAction.newdo(Vapp.routes[current.id].vnode))
-    // }, [Vapp])
+    const newdo = () => {
+        if (onece) {
+            setOnece(false);
+            return;
+        } else {
+            invoke('save_operate', { newOperate: Vapp.routes[current.id].vnode })
+            setOnece(true);
+        }
+    }
 
-    const drop = (e: DragEvent) => {
+    const drop = (e: DragEvent) => { 
+        newdo()
         createDom(e)
         // update route vNode to redux
         const curVnode = {

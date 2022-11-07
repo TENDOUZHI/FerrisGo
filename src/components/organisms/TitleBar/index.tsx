@@ -25,6 +25,7 @@ export const TitleBar = () => {
     const wapp = useSelector(selectWapp)
     const root = useSelector(selectRoot)
     const undo = useSelector(selectUndo)
+
     const vprops = useVprops()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
@@ -116,6 +117,18 @@ export const TitleBar = () => {
     }
     const undoFn = () => {
         // dispatch(undoSliceAction.undo())
+        invoke('undo_operate').then((res) => {
+            console.log(res);
+            const len = root?.childNodes.length as number
+            const childs = root?.childNodes
+            for (let i = len - 1; i >= 0; i--) {
+                try {
+                    // @ts-ignore
+                    root?.removeChild(childs[i])
+                } catch (error) { }
+            }
+            useRenderer(root as HTMLElement, res as VNode, dispatch, vprops)
+        })
     }
     const readFileData = async (path: string) => {
         await invoke('read_file_data', { filePath: path }).then(res => {
@@ -159,7 +172,7 @@ export const TitleBar = () => {
     })
     document.addEventListener('keydown', (e: KeyboardEvent) => {
         if (e.ctrlKey && e.key == 'z') {
-            
+
         }
     })
 

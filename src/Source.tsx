@@ -7,12 +7,14 @@ import axios from 'axios'
 import { User, userSliceAction } from './store/user.slice'
 import { Message } from './components/organisms/Message'
 import { Loading } from './components/organisms/Loading'
+import { invoke } from '@tauri-apps/api'
 export const Source = () => {
     const dispatch = useDispatch()
     const verifyUser = () => {
     }
     useEffect(() => {
             verifyUser()
+            invoke('flush_operate')
     }, [])
     return (
         <Router>

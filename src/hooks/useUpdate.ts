@@ -6,6 +6,7 @@ import { undoSliceAction } from "@/store/undo.slice"
 import { selectUser } from "@/store/user.slice"
 import { selectCurRoutes, selectProgramId, routesSliceAction, selectVapp } from "@/store/vapp.slice"
 import { selectWs } from "@/store/ws.slice"
+import { invoke } from "@tauri-apps/api"
 import { useLayoutEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
@@ -19,6 +20,7 @@ export const useUpdate = (): (() => void) => {
     const current = useSelector(selectCurRoutes)
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
+    const vapp = useSelector(selectVapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const target = useSelector(selectTarget)
@@ -27,7 +29,7 @@ export const useUpdate = (): (() => void) => {
     const vprops = useVprops()
     const patch = useDiff()
     useLayoutEffect(() => {
-        update()    
+        update()
     }, [curNode])
 
     const update = () => {
@@ -52,8 +54,8 @@ export const useUpdate = (): (() => void) => {
             program_id: program_id,
             ws: ws
         }))
-        // console.log(curVnode);
-        // dispatch(undoSliceAction.newdo(curVnode))
+        console.log(curVnode.vNode);
+        invoke('save_operate', { newOperate: curVnode.vNode })
         setCurNode(curVnode.vNode)
     }
     return preUpdate

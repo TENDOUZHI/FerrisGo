@@ -3,7 +3,7 @@ use std::{
     io::Write,
 };
 
-use serde::{de::Error, Deserialize, Serialize};
+use serde::{ Deserialize, Serialize};
 use serde_json::to_string;
 
 use crate::utils::vapp::ast::VNode;
@@ -11,6 +11,7 @@ use crate::utils::vapp::ast::VNode;
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Undo {
     history: Vec<VNode>,
+    buffer: Option<VNode>
 }
 
 impl Undo {
@@ -20,6 +21,10 @@ impl Undo {
         let json_value: Undo =
             serde_json::from_str(&json_file).expect("JSON was not well-formatted");
         json_value
+    }
+
+    fn flush(&mut self) {
+        self.history = vec![];
     }
 
     fn write(self) -> Result<(), ()> {
@@ -38,39 +43,42 @@ impl Undo {
         }
     }
 
-    fn newdo(&mut self, new_operate: VNode) -> Self {
-        self.history.push(new_operate);
-        Self {
-            history: self.history.clone(),
-        }
+    fn newdo(&mut self, new_operate: VNode)  {
+        self.history.push(self.buffer.clone().unwrap());
+        self.buffer = Some(new_operate);
     }
-}
-
-fn write_json_value(data: Undo) -> Result<(), ()> {
-    let json_path = "../undo.json";
-    let json_file = File::create(json_path);
-    let json_string = to_string(&data).unwrap();
-    match json_file {
-        Ok(mut file) => {
-            if let Ok(_) = file.write_all(json_string.as_bytes()) {
-                Ok(())
-            } else {
-                Err(())
-            }
-        }
-        Err(_) => Err(()),
+    fn undo(&mut self) -> VNode {
+        let value = self.history.pop();
+        value.unwrap()
     }
 }
 
 #[tauri::command]
-pub async fn save_operate(new_operate: VNode) {
+pub async fn flush_operate() -> Result<(),()> {
+    let mut undo = Undo::new();
+    undo.flush();
+    match undo.write() {
+        Ok(_) => Ok(()),
+        Err(_) => Err(())
+    }
+}
+
+#[tauri::command]
+pub async fn save_operate(new_operate: VNode) -> Result<(),()> {
     let mut undo = Undo::new();
     undo.newdo(new_operate);
    match undo.write() {
-       Ok(_) => todo!(),
-       Err(_) => todo!()
+       Ok(_) => Ok(()),
+       Err(_) => Err(())
    }
 }
 
 #[tauri::command]
-pub async fn undo_operate() {}
+pub async fn undo_operate() -> Result<VNode,()> {
+    let mut undo = Undo::new();
+    let value = undo.undo();
+    match undo.write() {
+        Ok(_) => Ok(value),
+        Err(_) => Err(())
+    }
+}
