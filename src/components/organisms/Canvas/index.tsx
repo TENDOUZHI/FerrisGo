@@ -186,7 +186,7 @@ export const Canvas = (props: Props) => {
         <div className="canvas-wrapper">
             <div className="device" id='device' ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
                 {/* <SwiperMini/> */}
-                <div className="device_tabBar" ref={tabBar}></div>
+                <div className="device_tabBar" ref={tabBar}>awdasds</div>
             </div>
         </div>
     )

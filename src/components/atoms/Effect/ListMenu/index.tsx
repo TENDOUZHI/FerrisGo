@@ -7,6 +7,7 @@ import selected from '@/assets/selected.png'
 
 interface Props {
     // title: string,
+    type: string
     value: Array<string>,
     left: string
     top: string
@@ -18,7 +19,7 @@ interface Props {
 export const ListMenu = (props: Props) => {
     const dispatch = useDispatch()
     const ul = useRef<any>()
-    const [title, setTitle] = useListMenu(dispatch, 'icon')
+    const [title, setTitle] = useListMenu(dispatch, props.type,props.value[0])
     const [show, setShow] = useState<boolean>(false)
     const demonstrate = () => {
         if(!show) {

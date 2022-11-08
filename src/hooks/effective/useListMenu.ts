@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import { useUpdate } from "../useUpdate"
 import { useVprops } from "../useVprops"
 
-export const useListMenu = ( dispatch: Dispatch, component: string): [string, (value: string) => void] => {
+export const useListMenu = (dispatch: Dispatch, component: string, option: string): [string, (value: string) => void] => {
     const [value, setValue] = useState<string>('')
     let target = useSelector(selectTarget) as HTMLElement
     const vprops = useVprops()
@@ -14,12 +14,16 @@ export const useListMenu = ( dispatch: Dispatch, component: string): [string, (v
 
     useEffect(() => {
         if (target !== null) {
-            let classs = target.classList[0]
-            if (vprops.icon.content.get(classs as string) === undefined) {
-                classs = 'default'
+            if (component === 'icon') {
+                let classs = target.classList[0]
+                if (vprops.icon.content.get(classs as string) === undefined) {
+                    classs = 'default'
+                }
+                let icon = vprops.icon.content.get(classs as string)
+                setValue(icon?.icon_type as string)
             }
-            let icon = vprops.icon.content.get(classs as string)
-            setValue(icon?.icon_type as string)
+        } else {
+            setValue(option)
         }
 
     }, [target])
@@ -37,7 +41,7 @@ export const useListMenu = ( dispatch: Dispatch, component: string): [string, (v
                 break;
         }
         preUpdate()
-        
+
     }
 
     return [value, setValues]

@@ -32,7 +32,7 @@ export const IconSet = (props: Props) => {
             </div>
             <div className="attribute-content" ref={container}>
                 <StyleInput title="SZ" tip="size" hoc={true} value={size} changeValue={setSize} />
-                <ListMenu value={types} left='' top="105px" bottom="" right="50px"/>
+                <ListMenu value={types} type='icon' left='' top="105px" bottom="" right="50px"/>
             </div>
         </div>
     )
