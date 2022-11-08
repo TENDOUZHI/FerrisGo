@@ -9,37 +9,43 @@
   left: 0;
   background-color: rgba(21, 21, 21, 0.37);
   z-index: 999999;
-  &_setting {
-    width: 500px;
-    height: 300px;
-    background-color: #252526;
-    border: 1px solid #4d4d4d;
-    border-radius: 8px;
-    &_head {
-      width: 100%;
-      height: 30px;
+  &_switch {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    &_title {
+      letter-spacing: 1px;
+    }
+    &_btn {
+      width: 60px;
+      height: 100%;
+      border-radius: 4px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      &_title {
-        font-size: 14px;
-        margin-left: 1rem;
-      }
-      &_close {
-        width: 30px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        -webkit-user-select: none;
-        border-radius: 4px;
-        user-select: none;
-        cursor: pointer;
-        transition: all .3s;
-        &:hover {
-            background-color: rgb(56, 56, 56);
-        }
-      }
+      font-size: 14px;
+      margin-left: 16px;
+      -webkit-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+  }
+
+  &_start {
+    border: 1px solid #476985;
+    background-color: #32537a;
+    &:hover {
+      background-color: #28496d;
+    }
+  }
+  &_abuse {
+    border: 1px solid #854747;
+    background-color: #a86f6f;
+    &:hover {
+      background-color: #763e3e;
     }
   }
 }

@@ -10,6 +10,7 @@ import { selectWs } from '@/store/ws.slice'
 import { useNavigate } from 'react-router'
 import { Navigator } from '@/components/molecules/Navigator'
 import setting from '@/assets/setting.png'
+import { JumpLayer } from '@/components/molecules/JumpLayer'
 interface Props {
     id: number,
     title: string
@@ -121,7 +122,9 @@ export const Head = (props: Props) => {
 
     return (
         <>
-            <Navigator show={navigator} setShow={setNavigator} />
+            <JumpLayer title='设置导航栏' show={navigator} setShow={setNavigator}>
+                <Navigator/>
+            </JumpLayer>
             <div className="head">
                 <div className='head-title'>
                     <input className='head-title-input' type="text"

@@ -41,6 +41,7 @@ export const Canvas = (props: Props) => {
     const cache = useSelector(selectCache)
     const vprops = useVprops()
     const root = useRef<any>(null)
+    const tabBar = useRef<any>(null)
     // const firstUpdate = useRef<boolean>(true);
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
@@ -65,6 +66,7 @@ export const Canvas = (props: Props) => {
     // initial root dom at the first time of render
     useLayoutEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
+        dispatch(sourceSliceAction.initialTabBar(tabBar.current))
         if (fitst) {
             setFitst(false);
             return;
@@ -184,6 +186,7 @@ export const Canvas = (props: Props) => {
         <div className="canvas-wrapper">
             <div className="device" id='device' ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
                 {/* <SwiperMini/> */}
+                <div className="device_tabBar" ref={tabBar}></div>
             </div>
         </div>
     )
