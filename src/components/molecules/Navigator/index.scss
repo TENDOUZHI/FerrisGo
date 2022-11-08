@@ -37,7 +37,18 @@
     width: 100%;
     max-height: 0;
     overflow: hidden;
+    overflow-y: scroll;
+    padding-right: 0.5rem;
     transition: all 0.3s ease-in-out;
+    &::-webkit-scrollbar {
+      width: 4px;
+      background-color: #282828;
+    }
+    &::-webkit-scrollbar-thumb {
+      width: 100%;
+      border-radius: 4px;
+      background-color: #121212;
+    }
     &_title {
       font-size: 14px;
       margin-bottom: 16px;

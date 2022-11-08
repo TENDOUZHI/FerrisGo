@@ -21,6 +21,7 @@ import { useVprops } from '@/hooks/useVprops'
 import { invoke } from '@tauri-apps/api'
 import { selectCache } from '@/store/cache.slice'
 import { selectUndo, undoSliceAction } from '@/store/undo.slice'
+import { navigatorSliceAction } from '@/store/navigator.slice'
 
 
 interface Props {
@@ -66,7 +67,7 @@ export const Canvas = (props: Props) => {
     // initial root dom at the first time of render
     useLayoutEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
-        dispatch(sourceSliceAction.initialTabBar(tabBar.current))
+        dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
         if (fitst) {
             setFitst(false);
             return;

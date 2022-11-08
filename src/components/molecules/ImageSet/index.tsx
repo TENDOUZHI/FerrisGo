@@ -18,7 +18,7 @@ export const ImageSet = (props: Props) => {
     const whole = useRef<any>()
     const image = useSelector(selectImage)
     const vprops = useVprops()
-    const purgeContainer = usePurge(container.current, arrowRef.current, 38)
+    const purgeContainer = usePurge(container.current, arrowRef.current, 108)
     const [src, setSrc] = useState<string>(vprops.img.src.get('default') as string)
     useLayoutEffect(() => {
         whole.current.style.display = 'none'

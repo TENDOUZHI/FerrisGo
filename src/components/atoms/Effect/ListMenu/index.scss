@@ -38,7 +38,7 @@
     // position: relative;
     &_ul {
       width: 120px;
-      max-height: 90px;
+      min-height: 90px;
       overflow-y: scroll;
       display: none;
       opacity: 0;

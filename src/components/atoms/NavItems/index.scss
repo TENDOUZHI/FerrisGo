@@ -3,7 +3,6 @@
     margin-top: 16px;
     width: 100%;
     max-height: 0;
-    overflow: hidden;
     transition: all 0.3s ease-in-out;
     &_title {
       font-size: 14px;
@@ -11,60 +10,16 @@
     }
     &_attr {
       width: 100%;
-      max-height: 300px;
-      overflow-y: scroll;
       display: flex;
       justify-content: space-around;
       align-items: center;
       flex-wrap: wrap;
-      &::-webkit-scrollbar {
-        width: 8px;
-        border-right-color: rgb(14, 14, 14);
-      }
-      &::-webkit-scrollbar-button {
-        display: none;
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-corner {
-        // display: none;
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-        background-color: rgb(27, 27, 27);
-      }
     }
     &_items {
       margin-top: 16px;
+      margin-bottom: 32px;
       width: 100%;
-      &_title {
-        width: 100%;
-        height: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        &_span {
-          font-size: 14px;
-        }
-        &_add {
-          width: 24%;
-          height: 100%;
-          font-size: 14px;
-          background-color: #254e8f;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 4px;
-          -webkit-user-select: none;
-          user-select: none;
-          cursor: pointer;
-          transition: all 0.3s;
-          &:hover {
-            background-color: #325ea6;
-          }
-        }
-      }
+      border-bottom: 1px solid rgb(77, 77, 77);
       &_attr {
         width: 100%;
         margin-bottom: 8px;
@@ -73,13 +28,18 @@
         align-items: center;
         flex-wrap: wrap;
         &_icon {
-          width: 40%;
-          height: 56px;
+          width: 50%;
+        //   height: 56px;
           display: flex;
           justify-content: space-around;
           align-items: center;
           span {
+            // width: 30%;
             font-size: 13px;
+          }
+          &_input {
+            display: flex;
+            width: 60%;
           }
           img {
             border: 1px solid rgb(136, 136, 136);
@@ -88,7 +48,7 @@
           }
         }
         &_text {
-          width: 40%;
+          width: 50%;
           height: 40px;
           display: flex;
           justify-content: space-around;
@@ -116,6 +76,7 @@
         &_path {
           width: 50%;
           height: 40px;
+          position: relative;
           display: flex;
           justify-content: space-around;
           align-items: center;

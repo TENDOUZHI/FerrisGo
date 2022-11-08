@@ -1,4 +1,4 @@
-import { selectTabBar } from "@/store/source.slice"
+import { selectTabBar } from "@/store/navigator.slice"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 

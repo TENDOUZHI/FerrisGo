@@ -1,13 +1,12 @@
 import { StyleInput } from '@/components/atoms/Effect/StyleInput'
 import { useNavigator } from '@/hooks/effective/useNavigator'
-import { selectTabBar } from '@/store/source.slice'
-import { useEffect, useRef, useState } from 'react'
+import { navigatorSliceAction, selectNav, selectTabBar } from '@/store/navigator.slice'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import './index.scss'
-import defaultImg from '@/assets/default.png'
-import arrow from '@/assets/arrow.png'
-import { ListMenu } from '@/components/atoms/Effect/ListMenu'
 import { NavItems } from '@/components/atoms/NavItems'
+import { useDispatch } from 'react-redux'
+import { messageSliceAction } from '@/store/message.slice'
 
 interface Props {
     // show: boolean,
@@ -15,7 +14,9 @@ interface Props {
 }
 
 export const Navigator = (props: Props) => {
+    const dispatch = useDispatch()
     const tabBar = useSelector(selectTabBar)
+    const navigator = useSelector(selectNav)
     const switchBtn = useRef<any>()
     const setting = useRef<any>()
     const [tabBarText, setTabBarText] = useState<string>('启用')
@@ -41,6 +42,13 @@ export const Navigator = (props: Props) => {
         }
     }
 
+    const newItem = () => {
+        if(navigator.items.length < 5) dispatch(navigatorSliceAction.newItem())
+        else dispatch(messageSliceAction.setWarn('导航栏最多设置五个选项'))
+        
+        
+    }
+
     return (
         <>
             <div className="navigator_switch">
@@ -55,7 +63,19 @@ export const Navigator = (props: Props) => {
                     <StyleInput tip='边框颜色' title='BC' type='color' value={borderColor} changeValue={setBorderColor} />
                     <div style={{ width: '40%', height: '30px', marginLeft: '8px', marginTop: '8px' }}></div>
                 </div>
-                <NavItems />
+                <div className="navigator_setting_items_title">
+                    <div className="navigator_setting_items_title_span">
+                        导航栏选项设置
+                    </div>
+                    <div className="navigator_setting_items_title_add" onClick={newItem}>
+                        新增item
+                    </div>
+                </div>
+                {
+                    navigator.items.map(item => {
+                        return <NavItems key={item.id} />
+                    })
+                }
             </div>
 
         </>
