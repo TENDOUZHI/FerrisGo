@@ -5,6 +5,7 @@ import { FileInput } from '../Effect/FileInput'
 import { useSelector } from 'react-redux'
 import { selectTabBar } from '@/store/navigator.slice'
 import { useState } from 'react'
+import { NavIcon } from '../Effect/NavIcon'
 
 export const NavItems = () => {
     const tabBar = useSelector(selectTabBar)
@@ -33,7 +34,7 @@ export const NavItems = () => {
                     <span>icon图片:</span>
                     {/* <img src={defaultImg} alt="" /> */}
                     <div className="navitems_setting_items_attr_icon_input">
-                        <FileInput class={tabBar as HTMLElement} src={defaultImg} />
+                        <NavIcon />
                     </div>
 
                 </div>
@@ -41,7 +42,7 @@ export const NavItems = () => {
                     <span>选中icon图片:</span>
                     {/* <img src={defaultImg} alt="" /> */}
                     <div className="navitems_setting_items_attr_icon_input">
-                        <FileInput class={tabBar as HTMLElement} src={defaultImg} />
+                    <NavIcon />
                     </div>
                 </div>
             </div>

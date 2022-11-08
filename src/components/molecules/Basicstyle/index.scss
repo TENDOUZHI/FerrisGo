@@ -12,6 +12,7 @@
     justify-items: left;
     align-items: center;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     img {
       margin-left: 0.5rem;
