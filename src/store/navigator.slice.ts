@@ -16,6 +16,7 @@ interface NavItem {
     selectedIcon: ImageData | null
     text: string
     path: string
+    status: boolean
 }
 
 const initialState: Navigator = {
@@ -25,19 +26,21 @@ const initialState: Navigator = {
     selectedColor: '#fff',
     borderColor: '#fff',
     items: [
-        {   
+        {
             id: 0,
             icon: null,
             selectedIcon: null,
             text: '首页',
-            path: ''
+            path: '',
+            status: true
         },
-        {   
+        {
             id: 1,
             icon: null,
             selectedIcon: null,
             text: '首页',
-            path: ''
+            path: '',
+            status: true
         }
     ]
 }
@@ -49,15 +52,24 @@ export const navigatorSlice = createSlice({
         initialTabBar(state, { payload }) {
             state.tabBar = payload
         },
+        updateTabBarStatus(state, { payload }) {
+            state.tabBarStatus = payload
+        },
         newItem(state) {
             const item: NavItem = {
                 id: state.items.length,
                 icon: null,
                 selectedIcon: null,
                 text: '首页',
-                path: ''
+                path: '',
+                status: true
             }
             state.items.push(item)
+        },
+        updateText(state, { payload }) {
+            payload.forEach((item: string, i: number) => {
+                state.items[i].text = item
+            });
         }
     }
 })

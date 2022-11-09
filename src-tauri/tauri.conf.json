@@ -110,11 +110,11 @@
       {
         "fullscreen": true,
         "height": 600,
-        "resizable": true,
+        "resizable": false,
         "title": "FerrisGo",
         "width": 1280,
         "decorations": false,
-        "transparent": true,
+        "transparent": false,
         "fileDropEnabled": false
       },
       {

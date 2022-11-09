@@ -1,12 +1,13 @@
 import { StyleInput } from '@/components/atoms/Effect/StyleInput'
 import { useNavigator } from '@/hooks/effective/useNavigator'
 import { navigatorSliceAction, selectNav, selectTabBar } from '@/store/navigator.slice'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import './index.scss'
 import { NavItems } from '@/components/atoms/NavItems'
 import { useDispatch } from 'react-redux'
 import { messageSliceAction } from '@/store/message.slice'
+import { selectVapp } from '@/store/vapp.slice'
 
 interface Props {
     // show: boolean,
@@ -15,6 +16,7 @@ interface Props {
 
 export const Navigator = (props: Props) => {
     const dispatch = useDispatch()
+    const vapp = useSelector(selectVapp)
     const tabBar = useSelector(selectTabBar)
     const navigator = useSelector(selectNav)
     const switchBtn = useRef<any>()
@@ -24,6 +26,17 @@ export const Navigator = (props: Props) => {
     const [color, setColor] = useNavigator('color')
     const [selectColor, setSelectColor] = useState<string>('#fff')
     const [borderColor, setBorderColor] = useNavigator('border-color')
+    const [paths, setPaths] = useState<Array<string>>([])
+    useEffect(() => {
+        paths.length = 0
+        vapp.routes.forEach((route) => {
+            if (route.state === 0) {
+                paths.push(route.name)
+                setPaths([...paths])
+            }
+        })
+        dispatch(navigatorSliceAction.updateText(paths))
+    }, [vapp])
     const switchTabBar = () => {
         if (show) {
             setTabBarText('启用')
@@ -32,21 +45,23 @@ export const Navigator = (props: Props) => {
             setting.current.style.maxHeight = 0
             switchBtn.current.classList.add('navigator_start')
             switchBtn.current.classList.remove('navigator_abuse')
+            dispatch(navigatorSliceAction.updateTabBarStatus(false))
         } else {
             setTabBarText('禁用')
             setShow(true)
-            tabBar!.style.display = 'block'
+            tabBar!.style.display = 'flex'
             setting.current.style.maxHeight = '500px'
             switchBtn.current.classList.add('navigator_abuse')
             switchBtn.current.classList.remove('navigator_start')
+            dispatch(navigatorSliceAction.updateTabBarStatus(true))
         }
     }
 
     const newItem = () => {
-        if(navigator.items.length < 5) dispatch(navigatorSliceAction.newItem())
+        if (navigator.items.length < 5) dispatch(navigatorSliceAction.newItem())
         else dispatch(messageSliceAction.setWarn('导航栏最多设置五个选项'))
-        
-        
+
+
     }
 
     return (
@@ -73,7 +88,7 @@ export const Navigator = (props: Props) => {
                 </div>
                 {
                     navigator.items.map(item => {
-                        return <NavItems key={item.id} />
+                        return <NavItems key={item.id} paths={paths} />
                     })
                 }
             </div>

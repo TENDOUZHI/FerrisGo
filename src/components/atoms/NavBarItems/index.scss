@@ -1,0 +1,30 @@
+.navbaritems {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    &_icon {
+        width: 100%;
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            height: 100%;
+        }
+    }
+    &_text {
+        width: 100%;
+        height: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10px;
+        color: #000;
+    }
+}

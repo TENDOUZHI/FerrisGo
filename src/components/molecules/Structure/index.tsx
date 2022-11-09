@@ -110,7 +110,7 @@ export const Structure = (props: Props) => {
             <div className="page-structure-layer none" ref={layer}></div>
             <div className='page-structure-create' onClick={createPage}>create page + </div>
             <ul className='page-structure-wrapper'>
-                {route.map(item =>
+                {vapp.routes.map(item =>
                     item.state === 0 &&
                     <RoutePage key={item.id} program_id={props.program_id} value={item.name} id={item.id} changeRoute={changeRoute} />
                 )}

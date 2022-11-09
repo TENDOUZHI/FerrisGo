@@ -21,7 +21,8 @@ import { useVprops } from '@/hooks/useVprops'
 import { invoke } from '@tauri-apps/api'
 import { selectCache } from '@/store/cache.slice'
 import { selectUndo, undoSliceAction } from '@/store/undo.slice'
-import { navigatorSliceAction } from '@/store/navigator.slice'
+import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
+import { NavBarItems } from '@/components/atoms/NavBarItems'
 
 
 interface Props {
@@ -36,7 +37,7 @@ export const Canvas = (props: Props) => {
     const target = useSelector(selectTarget)
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
-    const undo = useSelector(selectUndo)
+    const navigator = useSelector(selectNav)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
@@ -66,6 +67,7 @@ export const Canvas = (props: Props) => {
     }, [cache.last_path])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
+
         dispatch(sourceSliceAction.initialRoot(root.current))
         dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
         if (fitst) {
@@ -88,6 +90,39 @@ export const Canvas = (props: Props) => {
         })
     }, [props, cache.last_path])
 
+    useEffect(() => {
+        tabBar.current.style.borderColor = navigator.borderColor
+        if (getComputedStyle(tabBar.current).display !== 'none') {
+            root.current.style.height = '93%'
+            tabBar.current.style.height = '7%'
+        } else {
+            root.current.style.height = '100%'
+            tabBar.current.style.height = '0'
+        }
+    }, [navigator.tabBarStatus])
+
+    useEffect(() => {
+        // delete element
+        document.onkeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Backspace' && state) {
+                target?.remove()
+                const curVnode = {
+                    id: current.id,
+                    vNode: useCompile(root.current, device.width, false, vprops)
+                }
+                const curWnode = {
+                    id: current.id,
+                    vNode: useCompile(root.current, device.width, true, vprops)
+                }
+                dispatch(routesSliceAction.updateVnode({
+                    curVnode, curWnode,
+                    user_id: user.id,
+                    program_id: props.program_id,
+                    ws: ws
+                }))
+            }
+        }
+    }, [])
     const newdo = () => {
         if (onece) {
             setOnece(false);
@@ -98,7 +133,7 @@ export const Canvas = (props: Props) => {
         }
     }
 
-    const drop = (e: DragEvent) => { 
+    const drop = (e: DragEvent) => {
         newdo()
         createDom(e)
         // update route vNode to redux
@@ -150,26 +185,7 @@ export const Canvas = (props: Props) => {
 
 
     }
-    // delete element
-    document.onkeydown = (e: KeyboardEvent) => {
-        if (e.key === 'Backspace' && state) {
-            target?.remove()
-            const curVnode = {
-                id: current.id,
-                vNode: useCompile(root.current, device.width, false, vprops)
-            }
-            const curWnode = {
-                id: current.id,
-                vNode: useCompile(root.current, device.width, true, vprops)
-            }
-            dispatch(routesSliceAction.updateVnode({
-                curVnode, curWnode,
-                user_id: user.id,
-                program_id: props.program_id,
-                ws: ws
-            }))
-        }
-    }
+
     const saveData = async () => {
         const payload = {
             id: props.program_id,
@@ -185,9 +201,20 @@ export const Canvas = (props: Props) => {
     }
     return (
         <div className="canvas-wrapper">
-            <div className="device" id='device' ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
-                {/* <SwiperMini/> */}
-                <div className="device_tabBar" ref={tabBar}>awdasds</div>
+            <div className="device" id='device'>
+                <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
+
+                </div>
+                <div className="device_tabBar" ref={tabBar}>
+                    {
+                        navigator.items.map(item => <NavBarItems
+                            key={item.id}
+                            text={item.text}
+                            color={navigator.fontColor}
+                            selectedColor={navigator.selectedColor}
+                        />)
+                    }
+                </div>
             </div>
         </div>
     )
