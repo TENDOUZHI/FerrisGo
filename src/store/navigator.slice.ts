@@ -17,13 +17,14 @@ interface NavItem {
     text: string
     path: string
     status: boolean
+    selectStatus: boolean
 }
 
 const initialState: Navigator = {
     tabBar: null,
     tabBarStatus: false,
-    fontColor: '#fff',
-    selectedColor: '#fff',
+    fontColor: '#000',
+    selectedColor: '#ccc',
     borderColor: '#fff',
     items: [
         {
@@ -32,7 +33,8 @@ const initialState: Navigator = {
             selectedIcon: null,
             text: '首页',
             path: '',
-            status: true
+            status: true,
+            selectStatus: false
         },
         {
             id: 1,
@@ -40,7 +42,8 @@ const initialState: Navigator = {
             selectedIcon: null,
             text: '首页',
             path: '',
-            status: true
+            status: true,
+            selectStatus: false
         }
     ]
 }
@@ -62,7 +65,8 @@ export const navigatorSlice = createSlice({
                 selectedIcon: null,
                 text: '首页',
                 path: '',
-                status: true
+                status: true,
+                selectStatus: false
             }
             state.items.push(item)
         },
@@ -70,6 +74,18 @@ export const navigatorSlice = createSlice({
             payload.forEach((item: string, i: number) => {
                 state.items[i].text = item
             });
+        },
+        updateColor(state, { payload }) {
+            state.fontColor = payload
+        },
+        updateSelectedColor(state, { payload }) {
+            state.selectedColor = payload
+        },
+        updateSelectedStatue(state, { payload }) {
+            state.items.forEach(item => {
+                if (item.id === payload) item.selectStatus = true
+                else item.selectStatus= false
+            })
         }
     }
 })

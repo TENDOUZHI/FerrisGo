@@ -15,12 +15,8 @@ interface Props {
 export const NavItems = (props: Props) => {
     const tabBar = useSelector(selectTabBar)
     const [value, setValue] = useState<string>('')
-    
-    
-
     const onChange = (e: { target: { value: string } }) => {
         setValue(e.target.value)
-
     }
 
     return (

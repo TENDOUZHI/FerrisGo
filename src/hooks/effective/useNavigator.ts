@@ -1,30 +1,47 @@
-import { selectTabBar } from "@/store/navigator.slice"
+import { navigatorSliceAction, selectNav, selectTabBar } from "@/store/navigator.slice"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
+type props = 'color' | 'selectedColor' | 'borderColor'
 
-export const useNavigator = (props: string): [string, (value: string) => void] => {
+export const useNavigator = (props: props): [string, (value: string) => void] => {
+    const dispatch = useDispatch()
+    const navigator = useSelector(selectNav)
     const [attr, setAttr] = useState<string>('')
     const tabBar = useSelector(selectTabBar)
     useEffect(() => {
         if (tabBar !== null) {
-            setAttr(getComputedStyle(tabBar).getPropertyValue(props))
+            switch (props) {
+                case 'color':
+                    setAttr(navigator.fontColor)
+                    break;
+                case 'borderColor':
+                    setAttr(navigator.borderColor)
+                    break;
+                case 'selectedColor':
+                    setAttr(navigator.selectedColor)
+                default:
+                    break;
+            }
         }
     }, [tabBar])
 
     const setValue = (value: string) => {
         let camel: string | any = ''
         if (tabBar !== null) {
-            if (props.includes('-')) {
-                for (let i = 0; i < props.length; i++) {
-                    if (props[i] === '-') {
-                        camel = props.substring(0, i) + props[i + 1].toUpperCase() + props.substring(i + 2, props.length)
-                    }
-                }
-            } else {
-                camel = props
-            }
             tabBar.style[camel] = value
+            switch (props) {
+                case 'color':
+                    dispatch(navigatorSliceAction.updateColor(value))
+                    break;
+                case 'selectedColor':
+                    dispatch(navigatorSliceAction.updateSelectedColor(value))
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 

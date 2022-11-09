@@ -209,8 +209,10 @@ export const Canvas = (props: Props) => {
                     {
                         navigator.items.map(item => <NavBarItems
                             key={item.id}
+                            id={item.id}
                             text={item.text}
                             color={navigator.fontColor}
+                            selectedStatus={item.selectStatus}
                             selectedColor={navigator.selectedColor}
                         />)
                     }

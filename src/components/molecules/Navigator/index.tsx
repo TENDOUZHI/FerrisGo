@@ -24,8 +24,8 @@ export const Navigator = (props: Props) => {
     const [tabBarText, setTabBarText] = useState<string>('启用')
     const [show, setShow] = useState<boolean>(false)
     const [color, setColor] = useNavigator('color')
-    const [selectColor, setSelectColor] = useState<string>('#fff')
-    const [borderColor, setBorderColor] = useNavigator('border-color')
+    const [selectColor, setSelectColor] = useNavigator('selectedColor')
+    const [borderColor, setBorderColor] = useNavigator('borderColor')
     const [paths, setPaths] = useState<Array<string>>([])
     useEffect(() => {
         paths.length = 0
