@@ -79,7 +79,7 @@ fn create_basic_file(file_path: &str, route_name: Vec<String>, navigator: Naviga
     let mut project_config = File::create(path_project_config).unwrap();
     let mut sitmap_json = File::create(path_sitmap_json).unwrap();
     // write json file
-    write_app_json(&mut app_json, route_name, navigator).expect("write in app.json");
+    write_app_json(&mut app_json, route_name, navigator,file_path).expect("write in app.json");
     write_project_config_json(&mut project_config).expect("write in project.config.json");
     write_sitmap_json(&mut sitmap_json).expect("write in sitmap.json");
 }

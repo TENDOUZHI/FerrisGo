@@ -29,6 +29,7 @@ export const TitleBar = () => {
     const vprops = useVprops()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
+    const exporting = useRef<any>()
     const closewindow = useRef<any>()
     const [secondMenu, setSecondMenu] = useState<boolean>(false)
     const [pathList, setPathList] = useState<Array<string>>([])
@@ -158,7 +159,9 @@ export const TitleBar = () => {
         )
     }
     const exportProject = async () => {
+        exporting.current.style.display = 'block'
         await invoke('vapp', { info: vapp }).then(res => {
+            exporting.current.style.display = 'none'
             dispatch(messageSliceAction.setCorrect('项目导出成功'))
         })
     }
@@ -180,6 +183,7 @@ export const TitleBar = () => {
 
     return (
         <>
+            <div className="exporting" ref={exporting}></div>
             <NewProject show={createProject} setShow={setCreateProject} />
             <div data-tauri-drag-region className="titlebar">
                 <div className="titlebar_settings">

@@ -89,13 +89,13 @@ pub struct Navigator {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct NavItem{
-    id: i32,
+    pub id: i32,
     pub icon: Option<String>,
     pub selected_icon: Option<String>,
     pub text: String,
     pub path: String,
-    status: bool,
-    selected_status: bool
+    pub status: bool,
+    pub select_status: bool
 }
 
 #[derive(Deserialize, Serialize, Debug)]
