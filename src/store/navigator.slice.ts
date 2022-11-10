@@ -12,8 +12,8 @@ interface Navigator {
 }
 interface NavItem {
     id: number
-    icon: ImageData | null
-    selectedIcon: ImageData | null
+    icon: string | null
+    selectedIcon: string | null
     text: string
     path: string
     status: boolean
@@ -23,8 +23,8 @@ interface NavItem {
 const initialState: Navigator = {
     tabBar: null,
     tabBarStatus: false,
-    fontColor: '#000',
-    selectedColor: '#ccc',
+    fontColor: '#a9b7b7',
+    selectedColor: '#11cd6e',
     borderColor: '#fff',
     items: [
         {
@@ -34,13 +34,13 @@ const initialState: Navigator = {
             text: '首页',
             path: '',
             status: true,
-            selectStatus: false
+            selectStatus: true
         },
         {
             id: 1,
             icon: null,
             selectedIcon: null,
-            text: '首页',
+            text: '购物车',
             path: '',
             status: true,
             selectStatus: false
@@ -84,7 +84,27 @@ export const navigatorSlice = createSlice({
         updateSelectedStatue(state, { payload }) {
             state.items.forEach(item => {
                 if (item.id === payload) item.selectStatus = true
-                else item.selectStatus= false
+                else item.selectStatus = false
+            })
+        },
+        onChangeText(state, { payload }) {
+            state.items.forEach(item => {
+                if (item.id === payload.id) item.text = payload.text
+            })
+        },
+        updatePath(state, { payload }) {
+            state.items.forEach(item => {
+                if (item.id === payload.id) item.path = payload.path
+            })
+        },
+        updateIcon(state,{payload}) {
+            state.items.forEach(item => {
+                if (item.id === payload.id) item.icon = payload.icon
+            })
+        },
+        updateSelectedIcon(state,{payload}) {
+            state.items.forEach(item => {
+                if (item.id === payload.id) item.selectedIcon = payload.selectedIcon
             })
         }
     }

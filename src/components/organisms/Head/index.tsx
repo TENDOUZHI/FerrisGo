@@ -139,8 +139,8 @@ export const Head = (props: Props) => {
                 </div>
                 <div className="etc">
                     <div className="etc_setting" onClick={handleSettingList}>
-                        <div className="etc_setting_img">
-                            <img src={setting} alt="" />
+                        <div className="etc_setting_img" >
+                            <img src={setting} alt="" draggable={false}/>
                         </div>
                         <ul className="etc_setting_list" ref={settingList}>
                             <li className="etc_setting_list_li" onClick={showNavigator}>导航栏</li>

@@ -30,7 +30,7 @@ export const JumpLayer = (props: Props) => {
                 </div>
                 <footer className="jumplayer_setting_foot">
                     <div className="jumplayer_setting_foot_cancel jumplayer_btn" onClick={close}>取消</div>
-                    <div className="jumplayer_setting_foot_sure jumplayer_btn">确定</div>
+                    <div className="jumplayer_setting_foot_sure jumplayer_btn"  onClick={close}>确定</div>
                 </footer>
             </div>
         </div>

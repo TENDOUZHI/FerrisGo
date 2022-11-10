@@ -67,7 +67,6 @@ export const Canvas = (props: Props) => {
     }, [cache.last_path])
     // initial root dom at the first time of render
     useLayoutEffect(() => {
-
         dispatch(sourceSliceAction.initialRoot(root.current))
         dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
         if (fitst) {
@@ -122,7 +121,7 @@ export const Canvas = (props: Props) => {
                 }))
             }
         }
-    }, [])
+    })
     const newdo = () => {
         if (onece) {
             setOnece(false);
@@ -214,6 +213,8 @@ export const Canvas = (props: Props) => {
                             color={navigator.fontColor}
                             selectedStatus={item.selectStatus}
                             selectedColor={navigator.selectedColor}
+                            icon={item.icon}
+                            selectedIcon={item.selectedIcon}
                         />)
                     }
                 </div>

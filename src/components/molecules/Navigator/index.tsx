@@ -35,7 +35,7 @@ export const Navigator = (props: Props) => {
                 setPaths([...paths])
             }
         })
-        dispatch(navigatorSliceAction.updateText(paths))
+        // dispatch(navigatorSliceAction.updateText(paths))
     }, [vapp])
     const switchTabBar = () => {
         if (show) {
@@ -87,8 +87,8 @@ export const Navigator = (props: Props) => {
                     </div>
                 </div>
                 {
-                    navigator.items.map(item => {
-                        return <NavItems key={item.id} paths={paths} />
+                    navigator.items.map((item, index) => {
+                        return <NavItems key={item.id} id={item.id} paths={paths} text={item.text} />
                     })
                 }
             </div>

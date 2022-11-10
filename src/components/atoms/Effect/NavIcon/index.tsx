@@ -5,13 +5,18 @@ import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import './index.scss'
 import defaultImgs from '@/assets/default.png'
+import { navigatorSliceAction } from '@/store/navigator.slice'
 
-export const NavIcon = () => {
+interface Props {
+    id: number
+    type: 'defaultIcon' | 'selectedIcon'
+}
+
+export const NavIcon = (props: Props) => {
 
     const dispatch = useDispatch()
     const reader = useRef<FileReader>(new FileReader())
     const [defaultImg, setDefaultImg] = useState<string>(defaultImgs)
-    const preUpdate = useUpdate()
     const onChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
         if (file.type === 'image/png' || file.type === 'image/jpeg') {
@@ -19,9 +24,10 @@ export const NavIcon = () => {
             reader.current.onload = (res) => {
                 const size = Math.round(res.total / 1024)
                 if (size <= 10000) {
-                    setDefaultImg(res.target?.result as string)
-                    // dispatch(imageSliceAction.updateSrc({ className: props.class.classList[0], src: res.target?.result }))
-                    // preUpdate()
+                    const image = res.target?.result as string
+                    setDefaultImg(image)
+                    if(props.type === 'defaultIcon') dispatch(navigatorSliceAction.updateIcon({id: props.id, icon: image}))
+                    else dispatch(navigatorSliceAction.updateSelectedIcon({id: props.id, selectedIcon: image}))
                 } else {
                     dispatch(messageSliceAction.setError('文件大小不得大于10M'))
                 }

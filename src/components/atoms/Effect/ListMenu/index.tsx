@@ -1,33 +1,34 @@
 import './index.scss'
 import arrow from '@/assets/arrow.png'
 import { useDispatch } from 'react-redux'
-import { useListMenu } from '@/hooks/effective/useListMenu'
+import { component, useListMenu } from '@/hooks/effective/useListMenu'
 import { useRef, useState } from 'react'
 import selected from '@/assets/selected.png'
 
 interface Props {
     // title: string,
-    type: string
+    type: component
     value: Array<string>,
     left: string
     top: string
     right: string
     bottom: string
+    navId?: number
     // setValue: ((value: string) => void)
 }
 
 export const ListMenu = (props: Props) => {
     const dispatch = useDispatch()
     const ul = useRef<any>()
-    const [title, setTitle] = useListMenu(dispatch, props.type,props.value[0])
+    const [title, setTitle] = useListMenu(props.type, props.value[0], props.navId)
     const [show, setShow] = useState<boolean>(false)
     const demonstrate = () => {
-        if(!show) {
+        if (!show) {
             ul.current.style.display = 'block'
-            setTimeout(()=>{
+            setTimeout(() => {
                 ul.current.style.opacity = '1'
                 ul.current.style.transform = 'scale(100%)'
-                document.addEventListener('click',autoHide)
+                document.addEventListener('click', autoHide)
             })
             setShow(true)
         }
@@ -51,7 +52,7 @@ export const ListMenu = (props: Props) => {
                                     {item === title && <img src={selected} alt="" />}
                                 </div>
                                 <div className="listmenu_option_ul_li_item"> {item}</div>
-                               
+
                             </li>
                         })
                     }

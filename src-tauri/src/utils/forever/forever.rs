@@ -122,7 +122,7 @@ pub async fn read_file_data(file_path: String) -> Result<String, String> {
 
 #[tauri::command]
 pub async fn open_doc_browser() -> Result<String, String> {
-    let path = "file:///D:/myCode/vitepress/FerrisDoc/docs/.vitepress/dist/index.html";
+    let path = "https://tendouzhi.github.io/FerrisGo/";
     match webbrowser::open(path) {
         Ok(_) => Ok("open in browser successfully".to_string()),
         Err(_) => Err("failed to open document".to_string()),
