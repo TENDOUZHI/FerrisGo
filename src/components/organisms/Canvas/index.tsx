@@ -27,7 +27,7 @@ import { NavBarItems } from '@/components/atoms/NavBarItems'
 
 interface Props {
     program_id: number,
-    // programData: string
+    programData: string
 }
 export const Canvas = (props: Props) => {
     const dispatch = useDispatch()
@@ -60,15 +60,13 @@ export const Canvas = (props: Props) => {
             const index = data.routes[0].vnode
             localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
-            console.log(data.navigator);
-            
-            dispatch(navigatorSliceAction.retriveNavigatpr(data.navigator))
+            dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops)
         })
     }, [cache.last_path])
-    useEffect(() => {
+    useLayoutEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
         dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
     }, [])
@@ -97,8 +95,6 @@ export const Canvas = (props: Props) => {
 
     useEffect(() => {
         tabBar.current.style.borderColor = navigator.border_color
-        console.log(navigator.tab_bar_status);
-        
         if (navigator.tab_bar_status) {
             root.current.style.height = '93%'
             tabBar.current.style.height = '7%'
@@ -178,6 +174,7 @@ export const Canvas = (props: Props) => {
             const element = document.createElement(tagName)
             // @ts-ignore
             useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
+            console.log(element);
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,
                 size: num + 1,
@@ -187,8 +184,6 @@ export const Canvas = (props: Props) => {
             }))
             target.appendChild(element)
             // heighlight element 
-
-
             dispatch(sourceSliceAction.clearSource())
         } catch (error) { }
 

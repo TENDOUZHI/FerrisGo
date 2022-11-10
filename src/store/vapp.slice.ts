@@ -44,34 +44,32 @@ const initialState: State = {
             }
         ],
         navigator: {
-            tab_bar: null,
-            navigater: {
-                tab_bar_status: false,
-                font_color: '#a9b7b7',
-                selected_color: '#11cd6e',
-                border_color: '#fff',
-                items: [
-                    {
-                        id: 0,
-                        icon: null,
-                        selected_icon: null,
-                        text: '首页',
-                        path: '',
-                        status: true,
-                        select_status: true
-                    },
-                    {
-                        id: 1,
-                        icon: null,
-                        selected_icon: null,
-                        text: '购物车',
-                        path: '',
-                        status: true,
-                        select_status: false
-                    }
-                ]
-            }
+            tab_bar_status: false,
+            font_color: '#a9b7b7',
+            selected_color: '#11cd6e',
+            border_color: '#fff',
+            items: [
+                {
+                    id: 0,
+                    icon: null,
+                    selected_icon: null,
+                    text: '首页',
+                    path: '',
+                    status: true,
+                    select_status: true
+                },
+                {
+                    id: 1,
+                    icon: null,
+                    selected_icon: null,
+                    text: '购物车',
+                    path: '',
+                    status: true,
+                    select_status: false
+                }
+            ]
         }
+
     },
     Wapp: {
         project_name: 'New Project',
@@ -93,33 +91,31 @@ const initialState: State = {
             }
         ],
         navigator: {
-            tab_bar: null,
-            navigater: {
-                tab_bar_status: false,
-                font_color: '#a9b7b7',
-                selected_color: '#11cd6e',
-                border_color: '#fff',
-                items: [
-                    {
-                        id: 0,
-                        icon: null,
-                        selected_icon: null,
-                        text: '首页',
-                        path: '',
-                        status: true,
-                        select_status: true
-                    },
-                    {
-                        id: 1,
-                        icon: null,
-                        selected_icon: null,
-                        text: '购物车',
-                        path: '',
-                        status: true,
-                        select_status: false
-                    }
-                ]
-            }
+            tab_bar_status: false,
+            font_color: '#a9b7b7',
+            selected_color: '#11cd6e',
+            border_color: '#fff',
+            items: [
+                {
+                    id: 0,
+                    icon: null,
+                    selected_icon: null,
+                    text: '首页',
+                    path: '',
+                    status: true,
+                    select_status: true
+                },
+                {
+                    id: 1,
+                    icon: null,
+                    selected_icon: null,
+                    text: '购物车',
+                    path: '',
+                    status: true,
+                    select_status: false
+                }
+            ]
+
         }
     },
 }
@@ -140,7 +136,7 @@ export const routesSlice = createSlice({
             }
             state.maxSize += 1
             const route: Routes = {
-                id: state.maxSize,
+                id: state.Vapp.routes.length,
                 name: payload.payload.name,
                 state: 0,
                 size: 0,
@@ -193,21 +189,23 @@ export const routesSlice = createSlice({
             useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateRouteName(state, payload) {
-            for (let i = 0; i < state.Vapp.routes.length; i++) {
-                if (state.Vapp.routes[i].id === payload.payload.id) {
-                    state.Vapp.routes[i].name = payload.payload.name
-                    state.Wapp.routes[i].name = payload.payload.name
-                }
-            }
+            console.log(payload.payload);
+            state.Vapp.routes[payload.payload.id].name = payload.payload.name
+            // for (let i = 0; i < state.Vapp.routes.length; i++) {
+            //     if (state.Vapp.routes[i].id === payload.payload.id) {
+            //         state.Vapp.routes[i].name = payload.payload.name
+            //         state.Wapp.routes[i].name = payload.payload.name
+            //     }
+            // }
             // state.Vapp.routes[payload.payload.id].name = payload.payload.name
             // state.Wapp.routes[payload.payload.id].name = payload.payload.name
             useAutoSave(state.Vapp, state.Wapp)
             useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         updateRouteSize(state, payload) {
-            state.Vapp.routes[payload.payload.id].size = payload.payload.size
-            state.Wapp.routes[payload.payload.id].size = payload.payload.size
-            useAutoSave(state.Vapp, state.Wapp)
+            // state.Vapp.routes[payload.payload.id].size = payload.payload.size
+            // state.Wapp.routes[payload.payload.id].size = payload.payload.size
+            // useAutoSave(state.Vapp, state.Wapp)
             // useSendWs(state.Wapp, payload.payload.user_id, payload.payload.program_id, payload.payload.ws)
         },
         initialProgramId(state, payload) {
@@ -215,7 +213,7 @@ export const routesSlice = createSlice({
         },
         updateNavigator(state, { payload }) {
             state.Vapp.navigator = payload
-            state.Wapp.navigator = payload
+            // state.Wapp.navigator.navigator = payload
         }
     }
 })

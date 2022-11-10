@@ -4,10 +4,10 @@ import { RootState } from ".";
 
 export interface Navigator {
     tab_bar: HTMLElement | null
-    navigater: Nav
+    navigator: Nav
 }
 
-interface Nav {
+export interface Nav {
     tab_bar_status: boolean
     font_color: string
     selected_color: string
@@ -27,7 +27,7 @@ interface NavItem {
 
 const initialState: Navigator = {
     tab_bar: null,
-    navigater: {
+    navigator: {
         tab_bar_status: false,
         font_color: '#a9b7b7',
         selected_color: '#11cd6e',
@@ -59,18 +59,18 @@ export const navigatorSlice = createSlice({
     name: 'navigatorSlice',
     initialState,
     reducers: {
-        retriveNavigatpr(state, { payload }) {
-            state.navigater = payload
+        retriveNavigator(state, { payload }) {
+            state.navigator = payload
         },
         initialTabBar(state, { payload }) {
             state.tab_bar = payload
         },
         updateTabBarStatus(state, { payload }) {
-            state.navigater.tab_bar_status = payload
+            state.navigator.tab_bar_status = payload
         },
         newItem(state) {
             const item: NavItem = {
-                id: state.navigater.items.length,
+                id: state.navigator.items.length,
                 icon: null,
                 selected_icon: null,
                 text: '首页',
@@ -78,42 +78,42 @@ export const navigatorSlice = createSlice({
                 status: true,
                 select_status: false
             }
-            state.navigater.items.push(item)
+            state.navigator.items.push(item)
         },
         updateText(state, { payload }) {
             payload.forEach((item: string, i: number) => {
-                state.navigater.items[i].text = item
+                state.navigator.items[i].text = item
             });
         },
         updateColor(state, { payload }) {
-            state.navigater.font_color = payload
+            state.navigator.font_color = payload
         },
         updateSelectedColor(state, { payload }) {
-            state.navigater.selected_color = payload
+            state.navigator.selected_color = payload
         },
         updateSelectedStatue(state, { payload }) {
-            state.navigater.items.forEach(item => {
+            state.navigator.items.forEach(item => {
                 if (item.id === payload) item.select_status = true
                 else item.select_status = false
             })
         },
         onChangeText(state, { payload }) {
-            state.navigater.items.forEach(item => {
+            state.navigator.items.forEach(item => {
                 if (item.id === payload.id) item.text = payload.text
             })
         },
         updatePath(state, { payload }) {
-            state.navigater.items.forEach(item => {
+            state.navigator.items.forEach(item => {
                 if (item.id === payload.id) item.path = payload.path
             })
         },
         updateIcon(state, { payload }) {
-            state.navigater.items.forEach(item => {
+            state.navigator.items.forEach(item => {
                 if (item.id === payload.id) item.icon = payload.icon
             })
         },
         updateSelectedIcon(state, { payload }) {
-            state.navigater.items.forEach(item => {
+            state.navigator.items.forEach(item => {
                 if (item.id === payload.id) item.selected_icon = payload.selectedIcon
             })
         }
@@ -122,5 +122,5 @@ export const navigatorSlice = createSlice({
 
 export const navigatorSliceAction = navigatorSlice.actions
 
-export const selectNav = (state: RootState) => state.navigatorElement.navigater
+export const selectNav = (state: RootState) => state.navigatorElement.navigator
 export const selectTabBar = (state: RootState) => state.navigatorElement.tab_bar

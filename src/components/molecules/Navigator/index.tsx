@@ -38,26 +38,41 @@ export const Navigator = (props: Props) => {
         // dispatch(navigatorSliceAction.updateText(paths))
     }, [vapp])
     useEffect(() => {
-        switchTabBar()
-    },[])
-    const switchTabBar = () => {
-        if (show) {
-            setTabBarText('启用')
-            setShow(false)
-            // tabBar!.style.display = 'none'
-            setting.current.style.maxHeight = 0
-            switchBtn.current.classList.add('navigator_start')
-            switchBtn.current.classList.remove('navigator_abuse')
-            dispatch(navigatorSliceAction.updateTabBarStatus(false))
-        } else {
+        if (navigator.tab_bar_status) {
             setTabBarText('禁用')
-            setShow(true)
-            // tabBar!.style.display = 'flex'
             setting.current.style.maxHeight = '500px'
             switchBtn.current.classList.add('navigator_abuse')
             switchBtn.current.classList.remove('navigator_start')
-            dispatch(navigatorSliceAction.updateTabBarStatus(true))
+        } else {
+            setTabBarText('启用')
+            setting.current.style.maxHeight = 0
+            switchBtn.current.classList.add('navigator_start')
+            switchBtn.current.classList.remove('navigator_abuse')
         }
+    }, [navigator])
+    const switchTabBar = () => {
+        if (show) {
+            stop()
+        } else {
+            start()
+        }
+    }
+
+    const stop = () => {
+        setTabBarText('启用')
+        setShow(false)
+        setting.current.style.maxHeight = 0
+        switchBtn.current.classList.add('navigator_start')
+        switchBtn.current.classList.remove('navigator_abuse')
+        dispatch(navigatorSliceAction.updateTabBarStatus(false))
+    }
+    const start = () => {
+        setTabBarText('禁用')
+        setShow(true)
+        setting.current.style.maxHeight = '500px'
+        switchBtn.current.classList.add('navigator_abuse')
+        switchBtn.current.classList.remove('navigator_start')
+        dispatch(navigatorSliceAction.updateTabBarStatus(true))
     }
 
     const newItem = () => {
@@ -90,7 +105,7 @@ export const Navigator = (props: Props) => {
                     </div>
                 </div>
                 {
-                    navigator.items.map((item, index) => {
+                    navigator.items.map(item => {
                         return <NavItems key={item.id} id={item.id} paths={paths} text={item.text} />
                     })
                 }

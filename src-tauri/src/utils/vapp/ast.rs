@@ -90,10 +90,10 @@ pub struct Navigator {
 #[derive(Deserialize, Serialize, Debug)]
 pub struct NavItem{
     id: i32,
-    icon: Option<String>,
-    selected_icon: Option<String>,
-    text: String,
-    path: String,
+    pub icon: Option<String>,
+    pub selected_icon: Option<String>,
+    pub text: String,
+    pub path: String,
     status: bool,
     selected_status: bool
 }

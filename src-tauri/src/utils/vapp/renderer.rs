@@ -8,7 +8,7 @@ use image::io::Reader as ImageReader;
 use serde_json::json;
 
 use super::{
-    ast::{VNode, Vapp},
+    ast::{VNode, Vapp, Navigator},
     json_renderer::{write_app_json, write_project_config_json, write_sitmap_json},
     parser::parser,
     parser_wxss::parser_wxss,
@@ -31,6 +31,7 @@ pub fn parse_vapp(vapp: Vapp, root_path: &str) {
     create_utils_dir(&file_path);
     // loop render pages
     let routes = vapp.routes;
+    let navigator = vapp.navigator;
     let mut route_name: Vec<String> = vec![];
     for page in routes {
         route_name.push(format!("pages/{}/{}", page.name.clone(), page.name.clone()));
@@ -40,7 +41,7 @@ pub fn parse_vapp(vapp: Vapp, root_path: &str) {
             &page.vnode.expect("traverse routes"),
         )
     }
-    create_basic_file(&file_path, route_name);
+    create_basic_file(&file_path, route_name, navigator);
 }
 
 fn create_images_dir(file_path: &str) {
@@ -62,7 +63,7 @@ fn create_utils_dir(file_path: &str) {
 }
 
 // initial the basic file of miniprogram
-fn create_basic_file(file_path: &str, route_name: Vec<String>) {
+fn create_basic_file(file_path: &str, route_name: Vec<String>, navigator: Navigator) {
     // initial file path
     let pathjs = format!("{}/app.js", file_path);
     let pathjson = format!("{}/app.json", file_path);
@@ -78,7 +79,7 @@ fn create_basic_file(file_path: &str, route_name: Vec<String>) {
     let mut project_config = File::create(path_project_config).unwrap();
     let mut sitmap_json = File::create(path_sitmap_json).unwrap();
     // write json file
-    write_app_json(&mut app_json, route_name).expect("write in app.json");
+    write_app_json(&mut app_json, route_name, navigator).expect("write in app.json");
     write_project_config_json(&mut project_config).expect("write in project.config.json");
     write_sitmap_json(&mut sitmap_json).expect("write in sitmap.json");
 }

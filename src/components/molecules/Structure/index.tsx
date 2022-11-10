@@ -32,7 +32,7 @@ export const Structure = (props: Props) => {
     const vprops = useVprops()
     useEffect(() => {
         dispatch(routesSliceAction.retriveSize())
-        // console.log(vapp);
+        console.log(vapp.routes);
 
     }, [])
     const createPage = () => {
@@ -112,7 +112,12 @@ export const Structure = (props: Props) => {
             <ul className='page-structure-wrapper'>
                 {vapp.routes.map(item =>
                     item.state === 0 &&
-                    <RoutePage key={item.id} program_id={props.program_id} value={item.name} id={item.id} changeRoute={changeRoute} />
+                    <RoutePage key={item.id}
+                        program_id={item.id}
+                        value={item.name}
+                        id={item.id}
+                        changeRoute={changeRoute}
+                    />
                 )}
 
             </ul>

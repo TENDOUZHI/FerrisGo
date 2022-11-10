@@ -19,7 +19,6 @@ export const WorkSpace = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const [programData, setProgramData] = useState<string>('')
-    const [loading, setLoading] = useState<boolean>(true)
     // const ws = useRef<WebSocket>(new WebSocket('ws://127.0.0.1:8080/program/ws'));
     // @ts-ignore
     const [programId, setProgramId] = useState<number>(0)
@@ -34,21 +33,10 @@ export const WorkSpace = () => {
         // dispatch(wsSliceAction.initialWs(ws.current))
         dispatch(routesSliceAction.initialProgramId(programId))
     })
-    const hi = async () => {
-        // const yes = await ask('Are you sure?', 'Tauri');
-        // const yes2 = await ask('This action cannot be reverted. Are you sure?', { title: 'Tauri', type: 'warning' });
-        // const appName = await getName()
-        // console.log(appName);
-        // await invoke('hello2').then(res => {
-        //     console.log(res);
-        // })
-        
-    }
     return (
         <div className='home'>
-            {/* <Loading loading={loading}/> */}
             <Head id={programId} title={name} />
-            <div className='home-content' onClick={hi}>
+            <div className='home-content'>
                 <LeftList program_id={programId} />
                 <Canvas programData={programData} program_id={programId} />
                 <RighttList />

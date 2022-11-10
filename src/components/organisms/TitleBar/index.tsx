@@ -118,9 +118,8 @@ export const TitleBar = () => {
         setCreateProject(true)
     }
     const saveFileData = async () => {
-        // const raw_data = vapp
-        // raw_data.navigator.tab_bar = null
         console.log(vapp);
+        
         const data = JSON.stringify(vapp)
         await invoke('save_file_data', { data: data }).then(res => {
             console.log(res);

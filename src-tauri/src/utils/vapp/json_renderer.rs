@@ -1,19 +1,56 @@
-use serde_json::json;
+use serde_json::{json, Value};
 use std::{fmt::Error, fs::File, io::Write};
 
+use super::ast::Navigator;
 
-pub fn write_app_json(target_file: &mut File,route_name:Vec<String>) -> Result<(), Error> {
-    let json_str = json!({
-        "pages":route_name,
-          "window":{
-            "backgroundTextStyle":"light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "Weixin",
-            "navigationBarTextStyle":"black"
-          },
-          "style": "v2",
-          "sitemapLocation": "sitemap.json"
-    });
+pub fn write_app_json(
+    target_file: &mut File,
+    route_name: Vec<String>,
+    navigator: Navigator,
+) -> Result<(), Error> {
+    let mut list: Vec<Value> = vec![];
+    for item in navigator.items {
+        let nav = json!({
+            "pagePath": item.path,
+            "text": item.text,
+            "iconPath": item.icon.unwrap(),
+            "selectedIconPath": item.selected_icon.unwrap()
+        });
+        list.push(nav);
+    }
+    let json_str;
+    if navigator.tab_bar_status {
+        json_str = json!({
+            "pages":route_name,
+              "window":{
+                "backgroundTextStyle":"light",
+                "navigationBarBackgroundColor": "#fff",
+                "navigationBarTitleText": "Weixin",
+                "navigationBarTextStyle":"black"
+              },
+              "style": "v2",
+              "sitemapLocation": "sitemap.json",
+              "tabBar":{
+                "color": navigator.font_color,
+                "selectedColor": navigator.selected_color,
+                "borderStyle": navigator.border_color,
+                "list":list
+              }
+        });
+    } else {
+        json_str = json!({
+            "pages":route_name,
+              "window":{
+                "backgroundTextStyle":"light",
+                "navigationBarBackgroundColor": "#fff",
+                "navigationBarTitleText": "Weixin",
+                "navigationBarTextStyle":"black"
+              },
+              "style": "v2",
+              "sitemapLocation": "sitemap.json"
+        });
+    }
+
     let json_body = json_str.to_string();
     target_file
         .write(json_body.as_bytes())
