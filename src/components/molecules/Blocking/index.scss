@@ -1,0 +1,30 @@
+.blocking {
+  //   display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.36);
+  z-index: 9999999999;
+  &_svg {
+    animation: blocking 3s infinite ease-in-out;
+    &_circle {
+      transition: all 1.5s ease-in-out;
+      stroke-width: 5;
+      stroke: rgb(192, 192, 192);
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 240, 200;
+    }
+  }
+  @keyframes blocking {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+  }
+}

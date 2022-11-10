@@ -18,6 +18,7 @@ import { cacheSliceAction } from '@/store/cache.slice';
 import { messageSliceAction } from '@/store/message.slice';
 import { NewProject } from '@/components/molecules/NewProject';
 import { selectUndo, undoSliceAction } from '@/store/undo.slice';
+import { Blocking } from '@/components/molecules/Blocking';
 
 export const TitleBar = () => {
     let dispatch = useDispatch()
@@ -33,6 +34,7 @@ export const TitleBar = () => {
     const closewindow = useRef<any>()
     const [secondMenu, setSecondMenu] = useState<boolean>(false)
     const [pathList, setPathList] = useState<Array<string>>([])
+    const [block, setBlock] = useState<boolean>(false)
     const [lastFilePath, setLastFilePath] = useState<string>('')
     const [path, setPath] = useState<boolean>(false)
     const [projectName, setProjectName] = useState<string>('')
@@ -119,14 +121,14 @@ export const TitleBar = () => {
         setCreateProject(true)
     }
     const saveFileData = async () => {
-        console.log(vapp);
-        
+        setBlock(true)
         const data = JSON.stringify(vapp)
         await invoke('save_file_data', { data: data }).then(res => {
-            console.log(res);
+            setBlock(false)
             dispatch(messageSliceAction.setCorrect('保存成功'))
         }, () => {
             dispatch(messageSliceAction.setError('保存失败'))
+            setBlock(false)
         })
     }
     const undoFn = () => {
@@ -159,10 +161,12 @@ export const TitleBar = () => {
         )
     }
     const exportProject = async () => {
-        exporting.current.style.display = 'block'
+        setBlock(true)
         await invoke('vapp', { info: vapp }).then(res => {
-            exporting.current.style.display = 'none'
+            setBlock(false)
             dispatch(messageSliceAction.setCorrect('项目导出成功'))
+        }, () => {
+            setBlock(false)
         })
     }
 
@@ -183,7 +187,7 @@ export const TitleBar = () => {
 
     return (
         <>
-            <div className="exporting" ref={exporting}></div>
+            <Blocking show={block}/>
             <NewProject show={createProject} setShow={setCreateProject} />
             <div data-tauri-drag-region className="titlebar">
                 <div className="titlebar_settings">

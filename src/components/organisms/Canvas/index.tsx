@@ -23,6 +23,7 @@ import { selectCache } from '@/store/cache.slice'
 import { selectUndo, undoSliceAction } from '@/store/undo.slice'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { NavBarItems } from '@/components/atoms/NavBarItems'
+import { Blocking } from '@/components/molecules/Blocking'
 
 
 interface Props {
@@ -44,12 +45,10 @@ export const Canvas = (props: Props) => {
     const vprops = useVprops()
     const root = useRef<any>(null)
     const tabBar = useRef<any>(null)
-    // const firstUpdate = useRef<boolean>(true);
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
-    // clone the HTMLElement
+    const [block, setBlock] = useState<boolean>(false)
     const newSource = source?.cloneNode(true) as HTMLElement
-    // record the number of element in canvas
     const [num, setNum] = useState<number>(0)
     const drag = (e: DragEvent) => {
         e.preventDefault()
@@ -58,12 +57,15 @@ export const Canvas = (props: Props) => {
         await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
             const data = JSON.parse(res as string)
             const index = data.routes[0].vnode
-            localStorage.setItem('vapp', res as string)
+            console.log(data);
+            
+            // localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops)
+            setBlock(false)
         })
     }, [cache.last_path])
     useLayoutEffect(() => {
@@ -77,6 +79,7 @@ export const Canvas = (props: Props) => {
             setFitst(false);
             return;
         } else {
+            setBlock(true)
             retrive()
         }
         const len = root?.current.childNodes.length as number
@@ -204,6 +207,8 @@ export const Canvas = (props: Props) => {
         })
     }
     return (
+        <>
+        <Blocking show={block}/>
         <div className="canvas-wrapper">
             <div className="device" id='device'>
                 <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
@@ -225,5 +230,6 @@ export const Canvas = (props: Props) => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
