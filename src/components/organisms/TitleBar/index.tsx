@@ -70,12 +70,9 @@ export const TitleBar = () => {
         })
         // ctrl+s to save data
         document.addEventListener('keydown', (e: KeyboardEvent) => {
-            const save = () => {
-                if (e.ctrlKey && e.key === 's') {
-                    saveFileData()
-                }
+            if (e.ctrlKey && e.key === 's') {
+                saveFileData()
             }
-            save()
         })
     })
     const showSecondMenu = () => {
@@ -121,9 +118,10 @@ export const TitleBar = () => {
         setCreateProject(true)
     }
     const saveFileData = async () => {
-        const data = JSON.stringify(vapp)
-        const project_name = vapp.project_name
+        // const raw_data = vapp
+        // raw_data.navigator.tab_bar = null
         console.log(vapp);
+        const data = JSON.stringify(vapp)
         await invoke('save_file_data', { data: data }).then(res => {
             console.log(res);
             dispatch(messageSliceAction.setCorrect('保存成功'))

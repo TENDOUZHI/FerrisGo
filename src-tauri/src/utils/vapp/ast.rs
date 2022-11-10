@@ -75,6 +75,27 @@ impl Style {
 pub struct Vapp {
     pub project_name: String,
     pub routes: Vec<Routes>,
+    pub navigator: Navigator
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Navigator {
+    pub tab_bar_status: bool,
+    pub font_color: String,
+    pub selected_color: String,
+    pub border_color: String,
+    pub items: Vec<NavItem>
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct NavItem{
+    id: i32,
+    icon: Option<String>,
+    selected_icon: Option<String>,
+    text: String,
+    path: String,
+    status: bool,
+    selected_status: bool
 }
 
 #[derive(Deserialize, Serialize, Debug)]

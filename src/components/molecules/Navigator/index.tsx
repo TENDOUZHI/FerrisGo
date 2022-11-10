@@ -22,7 +22,7 @@ export const Navigator = (props: Props) => {
     const switchBtn = useRef<any>()
     const setting = useRef<any>()
     const [tabBarText, setTabBarText] = useState<string>('启用')
-    const [show, setShow] = useState<boolean>(false)
+    const [show, setShow] = useState<boolean>(navigator.tab_bar_status)
     const [color, setColor] = useNavigator('color')
     const [selectColor, setSelectColor] = useNavigator('selectedColor')
     const [borderColor, setBorderColor] = useNavigator('borderColor')
@@ -37,11 +37,14 @@ export const Navigator = (props: Props) => {
         })
         // dispatch(navigatorSliceAction.updateText(paths))
     }, [vapp])
+    useEffect(() => {
+        switchTabBar()
+    },[])
     const switchTabBar = () => {
         if (show) {
             setTabBarText('启用')
             setShow(false)
-            tabBar!.style.display = 'none'
+            // tabBar!.style.display = 'none'
             setting.current.style.maxHeight = 0
             switchBtn.current.classList.add('navigator_start')
             switchBtn.current.classList.remove('navigator_abuse')
@@ -49,7 +52,7 @@ export const Navigator = (props: Props) => {
         } else {
             setTabBarText('禁用')
             setShow(true)
-            tabBar!.style.display = 'flex'
+            // tabBar!.style.display = 'flex'
             setting.current.style.maxHeight = '500px'
             switchBtn.current.classList.add('navigator_abuse')
             switchBtn.current.classList.remove('navigator_start')

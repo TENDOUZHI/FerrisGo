@@ -2,109 +2,119 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
 
 
-interface Navigator {
-    tabBar: HTMLElement | null
-    tabBarStatus: boolean
-    fontColor: string
-    selectedColor: string
-    borderColor: string
+export interface Navigator {
+    tab_bar: HTMLElement | null
+    navigater: Nav
+}
+
+interface Nav {
+    tab_bar_status: boolean
+    font_color: string
+    selected_color: string
+    border_color: string
     items: Array<NavItem>
 }
+
 interface NavItem {
     id: number
     icon: string | null
-    selectedIcon: string | null
+    selected_icon: string | null
     text: string
     path: string
     status: boolean
-    selectStatus: boolean
+    select_status: boolean
 }
 
 const initialState: Navigator = {
-    tabBar: null,
-    tabBarStatus: false,
-    fontColor: '#a9b7b7',
-    selectedColor: '#11cd6e',
-    borderColor: '#fff',
-    items: [
-        {
-            id: 0,
-            icon: null,
-            selectedIcon: null,
-            text: '首页',
-            path: '',
-            status: true,
-            selectStatus: true
-        },
-        {
-            id: 1,
-            icon: null,
-            selectedIcon: null,
-            text: '购物车',
-            path: '',
-            status: true,
-            selectStatus: false
-        }
-    ]
+    tab_bar: null,
+    navigater: {
+        tab_bar_status: false,
+        font_color: '#a9b7b7',
+        selected_color: '#11cd6e',
+        border_color: '#fff',
+        items: [
+            {
+                id: 0,
+                icon: null,
+                selected_icon: null,
+                text: '首页',
+                path: '',
+                status: true,
+                select_status: true
+            },
+            {
+                id: 1,
+                icon: null,
+                selected_icon: null,
+                text: '购物车',
+                path: '',
+                status: true,
+                select_status: false
+            }
+        ]
+    }
 }
 
 export const navigatorSlice = createSlice({
     name: 'navigatorSlice',
     initialState,
     reducers: {
+        retriveNavigatpr(state, { payload }) {
+            state.navigater = payload
+        },
         initialTabBar(state, { payload }) {
-            state.tabBar = payload
+            state.tab_bar = payload
         },
         updateTabBarStatus(state, { payload }) {
-            state.tabBarStatus = payload
+            state.navigater.tab_bar_status = payload
         },
         newItem(state) {
             const item: NavItem = {
-                id: state.items.length,
+                id: state.navigater.items.length,
                 icon: null,
-                selectedIcon: null,
+                selected_icon: null,
                 text: '首页',
                 path: '',
                 status: true,
-                selectStatus: false
+                select_status: false
             }
-            state.items.push(item)
+            state.navigater.items.push(item)
         },
         updateText(state, { payload }) {
             payload.forEach((item: string, i: number) => {
-                state.items[i].text = item
+                state.navigater.items[i].text = item
             });
         },
         updateColor(state, { payload }) {
-            state.fontColor = payload
+            state.navigater.font_color = payload
         },
         updateSelectedColor(state, { payload }) {
-            state.selectedColor = payload
+            state.navigater.selected_color = payload
         },
         updateSelectedStatue(state, { payload }) {
-            state.items.forEach(item => {
-                if (item.id === payload) item.selectStatus = true
-                else item.selectStatus = false
+            state.navigater.items.forEach(item => {
+                if (item.id === payload) item.select_status = true
+                else item.select_status = false
             })
         },
         onChangeText(state, { payload }) {
-            state.items.forEach(item => {
+            state.navigater.items.forEach(item => {
                 if (item.id === payload.id) item.text = payload.text
             })
         },
         updatePath(state, { payload }) {
-            state.items.forEach(item => {
+            state.navigater.items.forEach(item => {
                 if (item.id === payload.id) item.path = payload.path
             })
         },
-        updateIcon(state,{payload}) {
-            state.items.forEach(item => {
+        updateIcon(state, { payload }) {
+            state.navigater.items.forEach(item => {
                 if (item.id === payload.id) item.icon = payload.icon
             })
         },
-        updateSelectedIcon(state,{payload}) {
-            state.items.forEach(item => {
-                if (item.id === payload.id) item.selectedIcon = payload.selectedIcon
+        updateSelectedIcon(state, { payload }) {
+            state.navigater.items.forEach(item => {
+                if (item.id === payload.id) item.selected_icon = payload.selectedIcon
             })
         }
     }
@@ -112,5 +122,5 @@ export const navigatorSlice = createSlice({
 
 export const navigatorSliceAction = navigatorSlice.actions
 
-export const selectNav = (state: RootState) => state.navigatorElement
-export const selectTabBar = (state: RootState) => state.navigatorElement.tabBar
+export const selectNav = (state: RootState) => state.navigatorElement.navigater
+export const selectTabBar = (state: RootState) => state.navigatorElement.tab_bar

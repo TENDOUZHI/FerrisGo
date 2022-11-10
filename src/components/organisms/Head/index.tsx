@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router'
 import { Navigator } from '@/components/molecules/Navigator'
 import setting from '@/assets/setting.png'
 import { JumpLayer } from '@/components/molecules/JumpLayer'
+import { selectNav } from '@/store/navigator.slice'
 interface Props {
     id: number,
     title: string
@@ -21,6 +22,7 @@ export const Head = (props: Props) => {
     const wapp = useSelector(selectWapp)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
+    const nav = useSelector(selectNav)
     const navigate = useNavigate()
     const [progress, setProgress] = useState<number>(0)
     const [navigator, setNavigator] = useState<boolean>(false)
@@ -119,10 +121,16 @@ export const Head = (props: Props) => {
         navigate('/login')
     }
 
+    const certainNavigator = () => {
+        console.log(nav);
+        dispatch(routesSliceAction.updateNavigator(nav))
+        setNavigator(false)
+    }
+
 
     return (
         <>
-            <JumpLayer title='设置导航栏' show={navigator} setShow={setNavigator}>
+            <JumpLayer title='设置导航栏' show={navigator} setShow={setNavigator} certionFn={certainNavigator}>
                 <Navigator/>
             </JumpLayer>
             <div className="head">

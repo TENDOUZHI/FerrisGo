@@ -18,7 +18,6 @@ interface Props {
 export const NavItems = (props: Props) => {
     const dispatch = useDispatch()
     const [value, setValue] = useState<string>(props.text)
-
     const onChange = (e: { target: { value: string } }) => {
         setValue(e.target.value)
     }

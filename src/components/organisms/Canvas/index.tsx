@@ -27,7 +27,7 @@ import { NavBarItems } from '@/components/atoms/NavBarItems'
 
 interface Props {
     program_id: number,
-    programData: string
+    // programData: string
 }
 export const Canvas = (props: Props) => {
     const dispatch = useDispatch()
@@ -57,18 +57,24 @@ export const Canvas = (props: Props) => {
     const retrive = useCallback(async () => {
         await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
             const data = JSON.parse(res as string)
+            const index = data.routes[0].vnode
             localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom())
-            const index = data.routes[0].vnode
+            console.log(data.navigator);
+            
+            dispatch(navigatorSliceAction.retriveNavigatpr(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops)
         })
     }, [cache.last_path])
-    // initial root dom at the first time of render
-    useLayoutEffect(() => {
+    useEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
         dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
+    }, [])
+    // initial root dom at the first time of render
+    useLayoutEffect(() => {
+
         if (fitst) {
             setFitst(false);
             return;
@@ -90,15 +96,19 @@ export const Canvas = (props: Props) => {
     }, [props, cache.last_path])
 
     useEffect(() => {
-        tabBar.current.style.borderColor = navigator.borderColor
-        if (getComputedStyle(tabBar.current).display !== 'none') {
+        tabBar.current.style.borderColor = navigator.border_color
+        console.log(navigator.tab_bar_status);
+        
+        if (navigator.tab_bar_status) {
             root.current.style.height = '93%'
             tabBar.current.style.height = '7%'
+            tabBar.current.style.display = 'flex'
         } else {
             root.current.style.height = '100%'
             tabBar.current.style.height = '0'
+            tabBar.current.style.display = 'none'
         }
-    }, [navigator.tabBarStatus])
+    }, [navigator.tab_bar_status])
 
     useEffect(() => {
         // delete element
@@ -210,11 +220,11 @@ export const Canvas = (props: Props) => {
                             key={item.id}
                             id={item.id}
                             text={item.text}
-                            color={navigator.fontColor}
-                            selectedStatus={item.selectStatus}
-                            selectedColor={navigator.selectedColor}
+                            color={navigator.font_color}
+                            selectedStatus={item.select_status}
+                            selectedColor={navigator.selected_color}
                             icon={item.icon}
-                            selectedIcon={item.selectedIcon}
+                            selectedIcon={item.selected_icon}
                         />)
                     }
                 </div>

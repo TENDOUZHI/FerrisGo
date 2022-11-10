@@ -27,12 +27,15 @@ export const StyleInput = (props: Props) => {
         if (props.hoc) {
             setValue(props.value)
         } else {
-            const capName = props.value.substring(0, 3)
-            if (props.type === 'color' || capName === 'rgb') {
-                setValue(useHexColor(props.value))
-            } else {
-                setValue(props.value)
-            }
+            // if (props.value) {
+                const capName = props.value.substring(0, 3)
+                if (props.type === 'color' || capName === 'rgb') {
+                    setValue(useHexColor(props.value))
+                } else {
+                    setValue(props.value)
+                }
+            // }
+
         }
 
     }, [props.value, target])

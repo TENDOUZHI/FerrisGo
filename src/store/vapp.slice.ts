@@ -42,7 +42,36 @@ const initialState: State = {
                     children: []
                 }
             }
-        ]
+        ],
+        navigator: {
+            tab_bar: null,
+            navigater: {
+                tab_bar_status: false,
+                font_color: '#a9b7b7',
+                selected_color: '#11cd6e',
+                border_color: '#fff',
+                items: [
+                    {
+                        id: 0,
+                        icon: null,
+                        selected_icon: null,
+                        text: '首页',
+                        path: '',
+                        status: true,
+                        select_status: true
+                    },
+                    {
+                        id: 1,
+                        icon: null,
+                        selected_icon: null,
+                        text: '购物车',
+                        path: '',
+                        status: true,
+                        select_status: false
+                    }
+                ]
+            }
+        }
     },
     Wapp: {
         project_name: 'New Project',
@@ -62,7 +91,36 @@ const initialState: State = {
                     children: []
                 }
             }
-        ]
+        ],
+        navigator: {
+            tab_bar: null,
+            navigater: {
+                tab_bar_status: false,
+                font_color: '#a9b7b7',
+                selected_color: '#11cd6e',
+                border_color: '#fff',
+                items: [
+                    {
+                        id: 0,
+                        icon: null,
+                        selected_icon: null,
+                        text: '首页',
+                        path: '',
+                        status: true,
+                        select_status: true
+                    },
+                    {
+                        id: 1,
+                        icon: null,
+                        selected_icon: null,
+                        text: '购物车',
+                        path: '',
+                        status: true,
+                        select_status: false
+                    }
+                ]
+            }
+        }
     },
 }
 
@@ -154,6 +212,10 @@ export const routesSlice = createSlice({
         },
         initialProgramId(state, payload) {
             state.program_id = payload.payload
+        },
+        updateNavigator(state, { payload }) {
+            state.Vapp.navigator = payload
+            state.Wapp.navigator = payload
         }
     }
 })

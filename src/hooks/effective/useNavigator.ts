@@ -14,13 +14,13 @@ export const useNavigator = (props: props): [string, (value: string) => void] =>
         if (tabBar !== null) {
             switch (props) {
                 case 'color':
-                    setAttr(navigator.fontColor)
+                    setAttr(navigator.font_color)
                     break;
                 case 'borderColor':
-                    setAttr(navigator.borderColor)
+                    setAttr(navigator.border_color)
                     break;
                 case 'selectedColor':
-                    setAttr(navigator.selectedColor)
+                    setAttr(navigator.selected_color)
                 default:
                     break;
             }

@@ -1,10 +1,12 @@
 import { IconState } from "./icon.slice"
 import { ImageState } from "./image.slice"
+import { Navigator } from "./navigator.slice"
 import { SwiperItem } from "./swiper.slice"
 
 export interface Vapp {
     project_name: string,
-    routes: Array<Routes>
+    routes: Array<Routes>,
+    navigator: Navigator
 }
 
 export interface Routes {
