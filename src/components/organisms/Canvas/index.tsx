@@ -55,17 +55,14 @@ export const Canvas = (props: Props) => {
     }
     const retrive = useCallback(async () => {
         await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
-            // console.log('res', res)
             const data = JSON.parse(res as string)
             const index = data.routes[0].vnode
             console.log(data);
-
-            // localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom(data))
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
-            useRenderer(root.current, index as VNode, dispatch, vprops)
+            useRenderer(root.current, index as VNode, dispatch, vprops,true)
             dispatch(blockSliceAction.stopBlock())
         })
     }, [cache.last_path])

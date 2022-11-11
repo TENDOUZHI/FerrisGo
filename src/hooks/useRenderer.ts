@@ -15,22 +15,22 @@ import { IconState } from "@/store/icon.slice";
 import { ImageState } from "@/store/image.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState) => {
-    dfs(root, vNode, dispatch, ctx)
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean) => {
+    dfs(root, vNode, dispatch, ctx, retrive)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean) => {
     vNode.children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
-            rootNode.appendChild(createNode(item, dispatch, ctx))
+            rootNode.appendChild(createNode(item, dispatch, ctx, retrive))
         }
-        dfs(rootNode.childNodes[index], item, dispatch, ctx)
+        dfs(rootNode.childNodes[index], item, dispatch, ctx, retrive)
     })
 
 }
 
-export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState): HTMLElement => {
-    const curNode = seprate(vNode, ctx)
+export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean): HTMLElement => {
+    const curNode = seprate(vNode, ctx, retrive)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
         if (curNode.id === 'swiper') {
@@ -42,7 +42,7 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState): 
     return curNode
 }
 
-const seprate = (node: VNode, ctx: VpropsState) => {
+const seprate = (node: VNode, ctx: VpropsState, retrive?: boolean) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
@@ -51,7 +51,7 @@ const seprate = (node: VNode, ctx: VpropsState) => {
         case 'button':
             return createButton(node)
         case 'image':
-            return createImage(node, ctx.img as ImageState)
+            return createImage(node, ctx.img as ImageState, retrive)
         case 'icon':
             return createIcon(node, ctx.icon as IconState)
         default:
@@ -125,7 +125,7 @@ const createButton = (node: VNode): HTMLElement => {
     return el
 }
 
-const createImage = (node: VNode, image: ImageState): HTMLElement => {
+const createImage = (node: VNode, image: ImageState, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
@@ -137,8 +137,14 @@ const createImage = (node: VNode, image: ImageState): HTMLElement => {
     el.style.borderRadius = node.style?.border_radius as string
     el.style.cursor = 'pointer'
     el.style.borderRadius = '3px'
-    if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
-    else el.setAttribute('src', image.src.get(node.class as string) as string)
+    if (retrive) {
+        el.setAttribute('src', node.props?.img?.src as string)
+
+    } else {
+        if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
+        else el.setAttribute('src', image.src.get(node.class as string) as string)
+    }
+
     return el
 }
 
