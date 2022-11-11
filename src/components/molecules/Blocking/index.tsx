@@ -5,14 +5,17 @@ import './index.scss'
 
 
 export const Blocking = () => {
-    const block = useSelector(selectBlock)
+    const block = useSelector(selectBlock).block
     const circle = useRef<any>()
     const blocking = useRef<any>()
     const [close, setClose] = useState<boolean>(false)
 
-    useLayoutEffect(() => {
-        if(block) blocking.current.style.display = 'flex'
+    useEffect(() => {
+        if (block) blocking.current.style.display = 'flex'
         else blocking.current.style.display = 'none'
+    }, [block])
+
+    useLayoutEffect(() => {
         const timer = setInterval(() => {
             if (close) {
                 circle.current.style.strokeDasharray = '250, 300'

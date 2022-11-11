@@ -172,15 +172,16 @@ export const routesSlice = createSlice({
         changeRoutes(state, payload) {
             state.current = payload.payload
         },
-        retriveDom(state) {
-            const Vjson = localStorage.getItem('vapp')
-            const Wjson = localStorage.getItem('wapp')
-            state.Vapp = JSON.parse(Vjson as string)
-            state.Wapp = JSON.parse(Wjson as string)
+        retriveDom(state,{payload}) {
+            // const Vjson = localStorage.getItem('vapp')
+            // const Wjson = localStorage.getItem('wapp')
+            // state.Vapp = JSON.parse(Vjson as string)
+            // state.Wapp = JSON.parse(Wjson as string)
+            state.Vapp = payload
         },
         retriveSize(state) {
-            const size = localStorage.getItem('size')
-            state.maxSize = JSON.parse(size as string)
+            // const size = localStorage.getItem('size')
+            // state.maxSize = JSON.parse(size as string)
         },
         updateProjectName(state, payload) {
             state.Vapp.project_name = payload.payload.title
