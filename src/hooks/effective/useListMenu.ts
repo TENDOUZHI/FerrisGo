@@ -16,7 +16,6 @@ export const useListMenu = (component: component, title: string, navId?: number)
     const navigator = useSelector(selectTabBar)
     const vprops = useVprops()
     const preUpdate = useUpdate()
-
     useEffect(() => {
         if (target !== null) {
             switch (component) {
@@ -38,7 +37,7 @@ export const useListMenu = (component: component, title: string, navId?: number)
             setValue(title)
         }
 
-    }, [target, navigator])
+    }, [target, navigator, title])
 
     const setValues = (value: string, id?: number) => {
         switch (component) {

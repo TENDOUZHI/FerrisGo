@@ -2,13 +2,14 @@ import './index.scss'
 import arrow from '@/assets/arrow.png'
 import { useDispatch } from 'react-redux'
 import { component, useListMenu } from '@/hooks/effective/useListMenu'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import selected from '@/assets/selected.png'
 
 interface Props {
     // title: string,
     type: component
     value: Array<string>,
+    currentPath: string
     left: string
     top: string
     right: string
@@ -20,9 +21,13 @@ interface Props {
 
 export const ListMenu = (props: Props) => {
     const dispatch = useDispatch()
+    const [curPath, setCurPath] = useState<string>(props.value[0])
     const ul = useRef<any>()
-    const [title, setTitle] = useListMenu(props.type, props.value[0], props.navId)
+    const [title, setTitle] = useListMenu(props.type, curPath, props.navId)
     const [show, setShow] = useState<boolean>(false)
+    useEffect(() => {
+        setCurPath(props.currentPath)
+    }, [props.currentPath])
     const demonstrate = () => {
         if (!show) {
             ul.current.style.display = 'block'

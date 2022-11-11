@@ -1,7 +1,7 @@
 import { useUpdate } from '@/hooks/useUpdate'
 import { imageSliceAction } from '@/store/image.slice'
 import { messageSliceAction } from '@/store/message.slice'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import './index.scss'
 import defaultImgs from '@/assets/default.png'
@@ -10,13 +10,17 @@ import { navigatorSliceAction } from '@/store/navigator.slice'
 interface Props {
     id: number
     type: 'defaultIcon' | 'selectedIcon'
+    src: string
 }
 
 export const NavIcon = (props: Props) => {
-
     const dispatch = useDispatch()
     const reader = useRef<FileReader>(new FileReader())
     const [defaultImg, setDefaultImg] = useState<string>(defaultImgs)
+    useEffect(() => {
+        if(props.src) setDefaultImg(props.src)
+        else setDefaultImg(defaultImgs)
+    }, [props])
     const onChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
         if (file.type === 'image/png' || file.type === 'image/jpeg') {

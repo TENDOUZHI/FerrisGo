@@ -110,7 +110,16 @@ export const Navigator = (props: Props) => {
                 </div>
                 {
                     navigator.items.map(item => {
-                        return <NavItems key={item.id} id={item.id} paths={paths} pathId={pathId} text={item.text} />
+                        return <NavItems
+                            key={item.id}
+                            id={item.id}
+                            paths={paths}
+                            currentPath={item.path}
+                            pathId={pathId}
+                            text={item.text}
+                            icon={item.icon as string}
+                            selectedIcon = {item.selected_icon as string}
+                        />
                     })
                 }
             </div>

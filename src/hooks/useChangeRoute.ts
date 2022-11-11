@@ -40,7 +40,6 @@ export const useChangeRoute = (): ((id: number, name: string) => void) => {
     const switchRoute = (id: number, name: string) => {
         const len = root?.childNodes.length as number
         const childs = root?.childNodes
-        console.log(route);
         // judge whether user click cur route
         // if is nothing changed
         if (id !== current.id) {

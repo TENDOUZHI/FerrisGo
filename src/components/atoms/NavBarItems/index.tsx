@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { useSelector } from 'react-redux'
 import { useChangeRoute } from '@/hooks/useChangeRoute'
+import { selectCurRoutes } from '@/store/vapp.slice'
 
 interface Props {
     id: number
@@ -22,6 +23,7 @@ interface Props {
 export const NavBarItems = (props: Props) => {
     const dispatch = useDispatch()
     const changeRoute = useChangeRoute()
+    const current = useSelector(selectCurRoutes)
     const nav = useRef<any>()
     const text = useRef<any>()
     const [icon, setIcon] = useState<string>(avatar)
@@ -35,15 +37,23 @@ export const NavBarItems = (props: Props) => {
         }
     }, [props])
 
+    useEffect(() => {
+        if(current.id === props.connectId) select()
+    },[current])
+
     const select = () => {
         text.current.style.color = props.selectedColor
         if (props.selectedIcon !== null) setIcon(props.selectedIcon)
         dispatch(navigatorSliceAction.updateSelectedStatue(props.id))
+    }
+    const switchNavigator = () => {
+        select()
         changeRoute(props.connectId, props.path)
+
     }
 
     return (
-        <div className="navbaritems" ref={nav} onClick={select}>
+        <div className="navbaritems" ref={nav} onClick={switchNavigator}>
             <div className="navbaritems_icon">
                 <img src={icon} alt="icon" />
             </div>
