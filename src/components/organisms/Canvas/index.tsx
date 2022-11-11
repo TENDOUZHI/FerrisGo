@@ -24,6 +24,7 @@ import { selectUndo, undoSliceAction } from '@/store/undo.slice'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { NavBarItems } from '@/components/atoms/NavBarItems'
 import { Blocking } from '@/components/molecules/Blocking'
+import { blockSliceAction } from '@/store/block.slice'
 
 
 interface Props {
@@ -47,7 +48,6 @@ export const Canvas = (props: Props) => {
     const tabBar = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
-    const [block, setBlock] = useState<boolean>(false)
     const newSource = source?.cloneNode(true) as HTMLElement
     const [num, setNum] = useState<number>(0)
     const drag = (e: DragEvent) => {
@@ -65,7 +65,7 @@ export const Canvas = (props: Props) => {
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops)
-            setBlock(false)
+            dispatch(blockSliceAction.stopBlock())
         })
     }, [cache.last_path])
     useLayoutEffect(() => {
@@ -79,7 +79,7 @@ export const Canvas = (props: Props) => {
             setFitst(false);
             return;
         } else {
-            setBlock(true)
+            dispatch(blockSliceAction.setBlock())
             retrive()
         }
         const len = root?.current.childNodes.length as number
@@ -208,7 +208,6 @@ export const Canvas = (props: Props) => {
     }
     return (
         <>
-        <Blocking show={block}/>
         <div className="canvas-wrapper">
             <div className="device" id='device'>
                 <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>

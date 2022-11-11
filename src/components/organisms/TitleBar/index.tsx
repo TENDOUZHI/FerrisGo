@@ -19,6 +19,7 @@ import { messageSliceAction } from '@/store/message.slice';
 import { NewProject } from '@/components/molecules/NewProject';
 import { selectUndo, undoSliceAction } from '@/store/undo.slice';
 import { Blocking } from '@/components/molecules/Blocking';
+import { blockSliceAction } from '@/store/block.slice';
 
 export const TitleBar = () => {
     let dispatch = useDispatch()
@@ -121,14 +122,14 @@ export const TitleBar = () => {
         setCreateProject(true)
     }
     const saveFileData = async () => {
-        setBlock(true)
+        dispatch(blockSliceAction.setBlock())
         const data = JSON.stringify(vapp)
         await invoke('save_file_data', { data: data }).then(res => {
-            setBlock(false)
+            dispatch(blockSliceAction.stopBlock())
             dispatch(messageSliceAction.setCorrect('保存成功'))
         }, () => {
             dispatch(messageSliceAction.setError('保存失败'))
-            setBlock(false)
+            dispatch(blockSliceAction.stopBlock())
         })
     }
     const undoFn = () => {
@@ -161,12 +162,12 @@ export const TitleBar = () => {
         )
     }
     const exportProject = async () => {
-        setBlock(true)
+        dispatch(blockSliceAction.setBlock())
         await invoke('vapp', { info: vapp }).then(res => {
-            setBlock(false)
+            dispatch(blockSliceAction.stopBlock())
             dispatch(messageSliceAction.setCorrect('项目导出成功'))
         }, () => {
-            setBlock(false)
+            dispatch(blockSliceAction.stopBlock())
         })
     }
 
@@ -187,7 +188,7 @@ export const TitleBar = () => {
 
     return (
         <>
-            <Blocking show={block}/>
+            <Blocking />
             <NewProject show={createProject} setShow={setCreateProject} />
             <div data-tauri-drag-region className="titlebar">
                 <div className="titlebar_settings">

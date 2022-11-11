@@ -1,17 +1,17 @@
+import { selectBlock } from '@/store/block.slice'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import './index.scss'
 
-interface Props {
-    show: boolean
-}
 
-export const Blocking = (props: Props) => {
+export const Blocking = () => {
+    const block = useSelector(selectBlock)
     const circle = useRef<any>()
     const blocking = useRef<any>()
     const [close, setClose] = useState<boolean>(false)
 
     useLayoutEffect(() => {
-        if(props.show) blocking.current.style.display = 'flex'
+        if(block) blocking.current.style.display = 'flex'
         else blocking.current.style.display = 'none'
         const timer = setInterval(() => {
             if (close) {
