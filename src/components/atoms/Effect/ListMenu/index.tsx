@@ -14,6 +14,7 @@ interface Props {
     right: string
     bottom: string
     navId?: number
+    pathId?: Array<number>
     // setValue: ((value: string) => void)
 }
 
@@ -47,7 +48,7 @@ export const ListMenu = (props: Props) => {
                 <ul className="listmenu_option_ul" ref={ul} style={{ left: props.left, top: props.top, right: props.right, bottom: props.bottom }}>
                     {
                         props.value.map((item, index) => {
-                            return <li key={index} onClick={() => setTitle(item)} className="listmenu_option_ul_li">
+                            return <li key={index} onClick={() => setTitle(item, props.pathId![index])} className="listmenu_option_ul_li">
                                 <div className="listmenu_option_ul_li_selected">
                                     {item === title && <img src={selected} alt="" />}
                                 </div>

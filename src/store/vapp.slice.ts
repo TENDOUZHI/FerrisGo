@@ -55,6 +55,7 @@ const initialState: State = {
                     selected_icon: null,
                     text: '首页',
                     path: '',
+                    path_id: 0,
                     status: true,
                     select_status: true
                 },
@@ -64,6 +65,7 @@ const initialState: State = {
                     selected_icon: null,
                     text: '购物车',
                     path: '',
+                    path_id: 0,
                     status: true,
                     select_status: false
                 }
@@ -102,6 +104,7 @@ const initialState: State = {
                     selected_icon: null,
                     text: '首页',
                     path: '',
+                    path_id: 0,
                     status: true,
                     select_status: true
                 },
@@ -111,6 +114,7 @@ const initialState: State = {
                     selected_icon: null,
                     text: '购物车',
                     path: '',
+                    path_id: 0,
                     status: true,
                     select_status: false
                 }
@@ -172,7 +176,7 @@ export const routesSlice = createSlice({
         changeRoutes(state, payload) {
             state.current = payload.payload
         },
-        retriveDom(state,{payload}) {
+        retriveDom(state, { payload }) {
             // const Vjson = localStorage.getItem('vapp')
             // const Wjson = localStorage.getItem('wapp')
             // state.Vapp = JSON.parse(Vjson as string)

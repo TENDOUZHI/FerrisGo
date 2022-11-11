@@ -21,6 +21,7 @@ interface NavItem {
     selected_icon: string | null
     text: string
     path: string
+    path_id: number
     status: boolean
     select_status: boolean
 }
@@ -39,6 +40,7 @@ const initialState: Navigator = {
                 selected_icon: null,
                 text: '首页',
                 path: '',
+                path_id: 0,
                 status: true,
                 select_status: true
             },
@@ -48,6 +50,7 @@ const initialState: Navigator = {
                 selected_icon: null,
                 text: '购物车',
                 path: '',
+                path_id: 0,
                 status: true,
                 select_status: false
             }
@@ -75,6 +78,7 @@ export const navigatorSlice = createSlice({
                 selected_icon: null,
                 text: '首页',
                 path: '',
+                path_id: 0,
                 status: true,
                 select_status: false
             }
@@ -105,6 +109,11 @@ export const navigatorSlice = createSlice({
         updatePath(state, { payload }) {
             state.navigator.items.forEach(item => {
                 if (item.id === payload.id) item.path = payload.path
+            })
+        },
+        updatePathId(state, { payload }) {
+            state.navigator.items.forEach(item => {
+                if (item.id === payload.id) item.path_id = payload.path_id
             })
         },
         updateIcon(state, { payload }) {

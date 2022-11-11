@@ -94,6 +94,7 @@ pub struct NavItem{
     pub selected_icon: Option<String>,
     pub text: String,
     pub path: String,
+    pub path_id: i32,
     pub status: bool,
     pub select_status: bool
 }

@@ -11,8 +11,15 @@ import { useDispatch } from 'react-redux'
 
 interface Props {
     id: number
-    paths: Array<string>
+    paths: Array<string>,
+    pathId: Array<number>
     text: string
+
+}
+
+export interface PathItem {
+    id: number
+    name: string
 }
 
 export const NavItems = (props: Props) => {
@@ -35,7 +42,7 @@ export const NavItems = (props: Props) => {
                 </div>
                 <div className="navitems_setting_items_attr_path">
                     <span>页面路径:</span>
-                    <ListMenu value={props.paths} type='path' left='95px' right='0px' top='45px' bottom='0' navId={props.id} />
+                    <ListMenu value={props.paths} type='path' left='95px' right='0px' top='45px' bottom='0' navId={props.id} pathId={props.pathId} />
                 </div>
             </div>
             <div className="navitems_setting_items_attr">

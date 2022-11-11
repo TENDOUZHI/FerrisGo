@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { useSelector } from 'react-redux'
+import { useChangeRoute } from '@/hooks/useChangeRoute'
 
 interface Props {
     id: number
@@ -14,27 +15,31 @@ interface Props {
     text: string
     icon: string | null
     selectedIcon: string | null
+    connectId: number
+    path: string
 }
 
 export const NavBarItems = (props: Props) => {
     const dispatch = useDispatch()
+    const changeRoute = useChangeRoute()
     const nav = useRef<any>()
     const text = useRef<any>()
     const [icon, setIcon] = useState<string>(avatar)
     useEffect(() => {
         if (!props.selectedStatus) {
             text.current.style.color = props.color
-            if( props.icon !== null) setIcon(props.icon)
+            if (props.icon !== null) setIcon(props.icon)
         } else {
             text.current.style.color = props.selectedColor
-            if( props.selectedIcon !== null) setIcon(props.selectedIcon)
+            if (props.selectedIcon !== null) setIcon(props.selectedIcon)
         }
     }, [props])
 
     const select = () => {
         text.current.style.color = props.selectedColor
-        if( props.selectedIcon !== null) setIcon(props.selectedIcon)
+        if (props.selectedIcon !== null) setIcon(props.selectedIcon)
         dispatch(navigatorSliceAction.updateSelectedStatue(props.id))
+        changeRoute(props.connectId, props.path)
     }
 
     return (

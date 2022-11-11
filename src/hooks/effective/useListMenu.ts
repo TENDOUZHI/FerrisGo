@@ -9,7 +9,7 @@ import { useVprops } from "../useVprops"
 
 export type component = 'icon' | 'path'
 
-export const useListMenu = (component: component, title: string, navId?: number): [string, (value: string) => void] => {
+export const useListMenu = (component: component, title: string, navId?: number): [string, (value: string, id?: number) => void] => {
     const dispatch = useDispatch()
     const [value, setValue] = useState<string>('')
     let target = useSelector(selectTarget) as HTMLElement
@@ -40,7 +40,7 @@ export const useListMenu = (component: component, title: string, navId?: number)
 
     }, [target, navigator])
 
-    const setValues = (value: string) => {
+    const setValues = (value: string, id?: number) => {
         switch (component) {
             case 'icon':
                 dispatch(iconSliceAction.updateIconType({
@@ -50,6 +50,7 @@ export const useListMenu = (component: component, title: string, navId?: number)
                 break;
             case 'path':
                 dispatch(navigatorSliceAction.updatePath({ id: navId, path: value }))
+                dispatch(navigatorSliceAction.updatePathId({ id: navId, path_id: id }))
                 setValue(value)
                 break;
             default:

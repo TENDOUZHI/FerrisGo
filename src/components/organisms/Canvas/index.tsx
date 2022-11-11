@@ -55,11 +55,11 @@ export const Canvas = (props: Props) => {
     }
     const retrive = useCallback(async () => {
         await invoke('read_file_data', { filePath: cache.last_path }).then(res => {
-            console.log('res', res)
+            // console.log('res', res)
             const data = JSON.parse(res as string)
             const index = data.routes[0].vnode
             console.log(data);
-            
+
             // localStorage.setItem('vapp', res as string)
             dispatch(routesSliceAction.retriveDom(data))
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
@@ -177,7 +177,6 @@ export const Canvas = (props: Props) => {
             const element = document.createElement(tagName)
             // @ts-ignore
             useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
-            console.log(element);
             dispatch(routesSliceAction.updateRouteSize({
                 id: current.id,
                 size: num + 1,
@@ -208,27 +207,29 @@ export const Canvas = (props: Props) => {
     }
     return (
         <>
-        <div className="canvas-wrapper">
-            <div className="device" id='device'>
-                <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
+            <div className="canvas-wrapper">
+                <div className="device" id='device'>
+                    <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
 
-                </div>
-                <div className="device_tabBar" ref={tabBar}>
-                    {
-                        navigator.items.map(item => <NavBarItems
-                            key={item.id}
-                            id={item.id}
-                            text={item.text}
-                            color={navigator.font_color}
-                            selectedStatus={item.select_status}
-                            selectedColor={navigator.selected_color}
-                            icon={item.icon}
-                            selectedIcon={item.selected_icon}
-                        />)
-                    }
+                    </div>
+                    <div className="device_tabBar" ref={tabBar}>
+                        {
+                            navigator.items.map(item => <NavBarItems
+                                key={item.id}
+                                id={item.id}
+                                text={item.text}
+                                color={navigator.font_color}
+                                selectedStatus={item.select_status}
+                                selectedColor={navigator.selected_color}
+                                icon={item.icon}
+                                selectedIcon={item.selected_icon}
+                                connectId={item.path_id}
+                                path={item.path}
+                            />)
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }

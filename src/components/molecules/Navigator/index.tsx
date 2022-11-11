@@ -27,12 +27,16 @@ export const Navigator = (props: Props) => {
     const [selectColor, setSelectColor] = useNavigator('selectedColor')
     const [borderColor, setBorderColor] = useNavigator('borderColor')
     const [paths, setPaths] = useState<Array<string>>([])
+    const [pathId, setPathId] = useState<Array<number>>([])
     useEffect(() => {
         paths.length = 0
+        pathId.length = 0
         vapp.routes.forEach((route) => {
             if (route.state === 0) {
+                pathId.push(route.id)
                 paths.push(route.name)
                 setPaths([...paths])
+                setPathId([...pathId])
             }
         })
         // dispatch(navigatorSliceAction.updateText(paths))
@@ -106,7 +110,7 @@ export const Navigator = (props: Props) => {
                 </div>
                 {
                     navigator.items.map(item => {
-                        return <NavItems key={item.id} id={item.id} paths={paths} text={item.text} />
+                        return <NavItems key={item.id} id={item.id} paths={paths} pathId={pathId} text={item.text} />
                     })
                 }
             </div>
