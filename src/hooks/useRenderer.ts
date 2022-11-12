@@ -6,7 +6,7 @@ import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
 import { SwiperMini } from "@/components/atoms/SwiperMini";
 import { decoration } from "./useCreateCom";
-import { selectSwiper, SwiperRedux } from "@/store/swiper.slice";
+import { selectSwiper, SwiperItem, SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
 import success from '@/assets/icon/success.png'
 import tip from '@/assets/icon/tip.png'
@@ -47,7 +47,7 @@ const seprate = (node: VNode, ctx: VpropsState, retrive?: boolean) => {
         case 'view' || 'text':
             return createViewText(node);
         case 'swiper':
-            return createSwiper(node, ctx.swiper as Swiper)
+            return createSwiper(node, ctx.swiper as Swiper, retrive)
         case 'button':
             return createButton(node)
         case 'image':
@@ -94,20 +94,31 @@ const createViewText = (node: VNode): HTMLElement => {
     return el
 }
 
-const createSwiper = (node: VNode, swiper: SwiperRedux): HTMLElement => {
+const createSwiper = (node: VNode, swiper: SwiperRedux, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
     el.style.cursor = 'pointer'
     const swiperNode = createRoot(el)
-    swiperNode.render(SwiperMini({
+    const props: SwiperMini = {
         autoplay: swiper.auto_play,
         autoplayDelay: swiper.auto_play_delay,
         pagination: swiper.pagination,
         scrollbar: swiper.scrollbar,
         items: swiper.items,
         garbage: swiper.garbage
-    }))
+    }
+    if (retrive) {
+        const swiperAttr = node.props?.swiper
+        props.autoplay = swiperAttr?.auto_play as boolean
+        props.autoplayDelay = swiperAttr?.auto_play_delay as string
+        props.pagination = swiperAttr?.pagination as boolean
+        props.scrollbar = swiperAttr?.scrollbar as boolean
+        props.items = swiperAttr?.items as SwiperItem[]
+        props.garbage = swiperAttr?.garbage as number
+    }
+
+    swiperNode.render(SwiperMini(props))
     // console.log(swiper.items);
     parseCss(el, node)
     return el
@@ -156,7 +167,7 @@ export const createIcon = (node: VNode, icon: IconState, retrive?: boolean): HTM
     }
     let size = icon.content.get(classStr)?.icon_size as string
     let type = icon.content.get(classStr)?.icon_type as string
-    if(retrive) {
+    if (retrive) {
         size = node.props?.icon?.content.icon_size as string
         type = node.props?.icon?.content.icon_type as string
     }

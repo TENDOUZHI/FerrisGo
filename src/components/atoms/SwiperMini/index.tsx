@@ -7,7 +7,7 @@ import 'swiper/css/scrollbar';
 import { Autoplay, Navigation, Pagination, Scrollbar, Thumbs } from 'swiper'
 import { SwiperItem } from '@/store/swiper.slice';
 
-interface Props {
+export interface SwiperMini {
     autoplay: boolean,
     autoplayDelay: string,
     pagination: boolean,
@@ -16,7 +16,9 @@ interface Props {
     garbage: number
 }
 
-export const SwiperMini = (props: Props) => {
+export const SwiperMini = (props: SwiperMini) => {
+    console.log(props);
+    
     return (
         <Swiper
             modules={[
