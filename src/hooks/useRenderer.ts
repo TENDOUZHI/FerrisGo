@@ -53,7 +53,7 @@ const seprate = (node: VNode, ctx: VpropsState, retrive?: boolean) => {
         case 'image':
             return createImage(node, ctx.img as ImageState, retrive)
         case 'icon':
-            return createIcon(node, ctx.icon as IconState)
+            return createIcon(node, ctx.icon as IconState, retrive)
         default:
             return createViewText(node);
     }
@@ -148,14 +148,18 @@ const createImage = (node: VNode, image: ImageState, retrive?: boolean): HTMLEle
     return el
 }
 
-export const createIcon = (node: VNode, icon: IconState): HTMLElement => {
+export const createIcon = (node: VNode, icon: IconState, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     let classStr = node.class as string
     if (icon.content.get(classStr) === undefined) {
         classStr = 'default'
     }
-    const size = icon.content.get(classStr)?.icon_size as string
-    const type = icon.content.get(classStr)?.icon_type as string
+    let size = icon.content.get(classStr)?.icon_size as string
+    let type = icon.content.get(classStr)?.icon_type as string
+    if(retrive) {
+        size = node.props?.icon?.content.icon_size as string
+        type = node.props?.icon?.content.icon_type as string
+    }
     el.id = node.name
     el.classList.add(node.class as string)
     el.setAttribute('data-type', type)

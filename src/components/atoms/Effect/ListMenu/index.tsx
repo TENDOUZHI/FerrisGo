@@ -28,6 +28,10 @@ export const ListMenu = (props: Props) => {
     useEffect(() => {
         setCurPath(props.currentPath)
     }, [props.currentPath])
+    const pathId = (index: number) => {
+        if(props.pathId) return props.pathId[index]
+        else return undefined
+    }
     const demonstrate = () => {
         if (!show) {
             ul.current.style.display = 'block'
@@ -51,9 +55,10 @@ export const ListMenu = (props: Props) => {
             <div className="listmenu_option">
                 <span>{title}</span>
                 <ul className="listmenu_option_ul" ref={ul} style={{ left: props.left, top: props.top, right: props.right, bottom: props.bottom }}>
-                    {
+                    {   
+                        
                         props.value.map((item, index) => {
-                            return <li key={index} onClick={() => setTitle(item, props.pathId![index])} className="listmenu_option_ul_li">
+                            return <li key={index} onClick={() => setTitle(item, pathId(index))} className="listmenu_option_ul_li">
                                 <div className="listmenu_option_ul_li_selected">
                                     {item === title && <img src={selected} alt="" />}
                                 </div>
