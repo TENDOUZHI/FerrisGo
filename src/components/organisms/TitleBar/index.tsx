@@ -20,6 +20,7 @@ import { NewProject } from '@/components/molecules/NewProject';
 import { selectUndo, undoSliceAction } from '@/store/undo.slice';
 import { Blocking } from '@/components/molecules/Blocking';
 import { blockSliceAction } from '@/store/block.slice';
+import { useUpdate } from '@/hooks/useUpdate';
 
 export const TitleBar = () => {
     let dispatch = useDispatch()
@@ -27,7 +28,7 @@ export const TitleBar = () => {
     const wapp = useSelector(selectWapp)
     const root = useSelector(selectRoot)
     const undo = useSelector(selectUndo)
-
+    const preUpdate = useUpdate()
     const vprops = useVprops()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
@@ -135,7 +136,6 @@ export const TitleBar = () => {
     const undoFn = () => {
         // dispatch(undoSliceAction.undo())
         invoke('undo_operate').then((res) => {
-            console.log(res);
             const len = root?.childNodes.length as number
             const childs = root?.childNodes
             for (let i = len - 1; i >= 0; i--) {

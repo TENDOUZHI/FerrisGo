@@ -40,23 +40,15 @@ export const useUpdate = (): (() => void) => {
         }
     }
     const preUpdate = () => {
-        const curVnode = {
-            id: current.id,
-            vNode: useCompile(root, device.width, false, vprops)
-        }
-        const curWnode = {
-            id: current.id,
-            vNode: useCompile(root, device.width, true, vprops)
-        }
-        dispatch(routesSliceAction.updateVnode({
-            curVnode, curWnode,
-            user_id: user.id,
-            program_id: program_id,
-            ws: ws
-        }))
-        console.log(curVnode.vNode);
-        invoke('save_operate', { newOperate: curVnode.vNode })
-        setCurNode(curVnode.vNode)
+        setTimeout(() => {
+            const curVnode = {
+                id: current.id,
+                vNode: useCompile(root, device.width, false, vprops)
+            }
+            invoke('save_operate', { newOperate: curVnode.vNode })
+            setCurNode(curVnode.vNode)
+        })
+
     }
     return preUpdate
 }

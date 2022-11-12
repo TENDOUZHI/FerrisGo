@@ -62,7 +62,7 @@ export const Canvas = (props: Props) => {
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
-            useRenderer(root.current, index as VNode, dispatch, vprops,true)
+            useRenderer(root.current, index as VNode, dispatch, vprops, true)
             dispatch(blockSliceAction.stopBlock())
         })
     }, [cache.last_path])
