@@ -1,10 +1,11 @@
 import './index.scss'
 import { useDispatch } from 'react-redux'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { selectSwiper, swiperSliceAction } from '@/store/swiper.slice'
 import { messageSliceAction } from '@/store/message.slice'
 import { useUpdate } from '@/hooks/useUpdate'
 import { useSelector } from 'react-redux'
+import { useVprops } from '@/hooks/useVprops'
 
 interface Props {
     id: number,
@@ -16,6 +17,9 @@ export const SwiperItem = (props: Props) => {
     const [defaultImg, setDefaultImg] = useState<string>(props.content)
     const reader = useRef<FileReader>(new FileReader())
     const preUpdate = useUpdate()
+    useEffect(() => {
+        setDefaultImg(props.content)
+    },[props])
     const onChange = (e: { target: { value: any, files: any } }) => {
         const file = e.target.files[0]
         if (file.type === 'image/png' || file.type === 'image/jpeg') {

@@ -144,7 +144,7 @@ export const TitleBar = () => {
                     root?.removeChild(childs[i])
                 } catch (error) { }
             }
-            useRenderer(root as HTMLElement, res as VNode, dispatch, vprops)
+            useRenderer(root as HTMLElement, res as VNode, dispatch, vprops, true)
         }, () => {
             dispatch(messageSliceAction.setWarn('无可撤回操作执行'))
         })

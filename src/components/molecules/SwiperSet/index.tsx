@@ -11,12 +11,14 @@ import { StyleInput } from '@/components/atoms/Effect/StyleInput'
 import { SwiperItem } from '@/components/atoms/SwiperItem'
 import { useUpdate } from '@/hooks/useUpdate'
 import { useDispatch } from 'react-redux'
+import { useVprops } from '@/hooks/useVprops'
 interface Props {
     target: HTMLElement,
     dispatch: Dispatch
 }
 export const SwiperSet = (props: Props) => {
     const dispatch = useDispatch()
+    const vprops = useVprops()
     const container = useRef<any>()
     const arrowRef = useRef<any>()
     const whole = useRef<any>()
@@ -73,7 +75,7 @@ export const SwiperSet = (props: Props) => {
                         添加图片
                     </div>
                 </div>
-                {swiper.items.map(item =>
+                {vprops.swiper.items.map(item =>
                     item.status &&
                     <SwiperItem
                         key={item.id}

@@ -6,13 +6,13 @@ import { emitKeypressEvents } from "readline";
 import { createRoot } from "react-dom/client";
 import { SwiperMini } from "@/components/atoms/SwiperMini";
 import { decoration } from "./useCreateCom";
-import { selectSwiper, SwiperItem, SwiperRedux } from "@/store/swiper.slice";
+import { selectSwiper, SwiperItem, SwiperRedux, swiperSliceAction } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
 import success from '@/assets/icon/success.png'
 import tip from '@/assets/icon/tip.png'
 import warn from '@/assets/icon/normal-warn.png'
-import { IconState } from "@/store/icon.slice";
-import { ImageState } from "@/store/image.slice";
+import { iconSliceAction, IconState } from "@/store/icon.slice";
+import { imageSliceAction, ImageState } from "@/store/image.slice";
 
 
 export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean) => {
@@ -30,7 +30,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 }
 
 export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean): HTMLElement => {
-    const curNode = seprate(vNode, ctx, retrive)
+    const curNode = seprate(vNode, ctx, dispatch, retrive)
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
         if (curNode.id === 'swiper') {
@@ -42,18 +42,18 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, r
     return curNode
 }
 
-const seprate = (node: VNode, ctx: VpropsState, retrive?: boolean) => {
+const seprate = (node: VNode, ctx: VpropsState, dispatch: Dispatch, retrive?: boolean) => {
     switch (node.name) {
         case 'view' || 'text':
             return createViewText(node);
         case 'swiper':
-            return createSwiper(node, ctx.swiper as Swiper, retrive)
+            return createSwiper(node, ctx.swiper as Swiper, dispatch, retrive)
         case 'button':
             return createButton(node)
         case 'image':
-            return createImage(node, ctx.img as ImageState, retrive)
+            return createImage(node, ctx.img as ImageState, dispatch, retrive)
         case 'icon':
-            return createIcon(node, ctx.icon as IconState, retrive)
+            return createIcon(node, ctx.icon as IconState, dispatch, retrive)
         default:
             return createViewText(node);
     }
@@ -94,7 +94,7 @@ const createViewText = (node: VNode): HTMLElement => {
     return el
 }
 
-const createSwiper = (node: VNode, swiper: SwiperRedux, retrive?: boolean): HTMLElement => {
+const createSwiper = (node: VNode, swiper: SwiperRedux, dispatch: Dispatch, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
@@ -116,6 +116,7 @@ const createSwiper = (node: VNode, swiper: SwiperRedux, retrive?: boolean): HTML
         props.scrollbar = swiperAttr?.scrollbar as boolean
         props.items = swiperAttr?.items as SwiperItem[]
         props.garbage = swiperAttr?.garbage as number
+        dispatch(swiperSliceAction.retriveSwiper(props))
     }
 
     swiperNode.render(SwiperMini(props))
@@ -136,7 +137,7 @@ const createButton = (node: VNode): HTMLElement => {
     return el
 }
 
-const createImage = (node: VNode, image: ImageState, retrive?: boolean): HTMLElement => {
+const createImage = (node: VNode, image: ImageState, dispatch: Dispatch, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     el.id = node.name
     el.classList.add(node.class as string)
@@ -150,6 +151,7 @@ const createImage = (node: VNode, image: ImageState, retrive?: boolean): HTMLEle
     el.style.borderRadius = '3px'
     if (retrive) {
         el.setAttribute('src', node.props?.img?.src as string)
+        dispatch(imageSliceAction.updateSrc({ className: node.class, src: node.props?.img?.src }))
 
     } else {
         if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
@@ -159,7 +161,7 @@ const createImage = (node: VNode, image: ImageState, retrive?: boolean): HTMLEle
     return el
 }
 
-export const createIcon = (node: VNode, icon: IconState, retrive?: boolean): HTMLElement => {
+export const createIcon = (node: VNode, icon: IconState, dispatch: Dispatch, retrive?: boolean): HTMLElement => {
     const el = document.createElement(node.tag_name)
     let classStr = node.class as string
     if (icon.content.get(classStr) === undefined) {
@@ -170,6 +172,14 @@ export const createIcon = (node: VNode, icon: IconState, retrive?: boolean): HTM
     if (retrive) {
         size = node.props?.icon?.content.icon_size as string
         type = node.props?.icon?.content.icon_type as string
+        dispatch(iconSliceAction.updateIconSize({
+            className: node.class,
+            size
+        }))
+        dispatch(iconSliceAction.updateIconType({
+            className: node.class,
+            type
+        }))
     }
     el.id = node.name
     el.classList.add(node.class as string)

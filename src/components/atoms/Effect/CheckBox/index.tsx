@@ -1,5 +1,5 @@
 import { swiperSliceAction } from '@/store/swiper.slice'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import './index.scss'
 
@@ -13,6 +13,9 @@ interface Props {
 export const CheckBox = (props: Props) => {
     const dispatch = useDispatch()
     const [value, setValue] = useState<boolean>(props.value)
+    useLayoutEffect(() => {
+        setValue(props.value)
+    },[props])
     const onChange = () => {
         setValue(!value)
         // dispatch(swiperSliceAction.setAutoPlay(true))

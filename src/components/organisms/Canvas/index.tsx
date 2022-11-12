@@ -40,6 +40,7 @@ export const Canvas = (props: Props) => {
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
     const navigator = useSelector(selectNav)
+    const swiper = useSelector(selectSwiper)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
@@ -64,6 +65,8 @@ export const Canvas = (props: Props) => {
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops, true)
             dispatch(blockSliceAction.stopBlock())
+            console.log(swiper);
+            
         })
     }, [cache.last_path])
     useLayoutEffect(() => {

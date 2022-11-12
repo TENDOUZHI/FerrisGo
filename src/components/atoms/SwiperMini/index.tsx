@@ -5,7 +5,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Autoplay, Navigation, Pagination, Scrollbar, Thumbs } from 'swiper'
-import { SwiperItem } from '@/store/swiper.slice';
+import { selectSwiper, SwiperItem } from '@/store/swiper.slice';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export interface SwiperMini {
     autoplay: boolean,
@@ -17,7 +19,6 @@ export interface SwiperMini {
 }
 
 export const SwiperMini = (props: SwiperMini) => {
-    console.log(props);
     
     return (
         <Swiper

@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react'
 import selected from '@/assets/selected.png'
 
 interface Props {
-    // title: string,
     type: component
     value: Array<string>,
     currentPath: string

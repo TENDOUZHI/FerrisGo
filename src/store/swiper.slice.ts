@@ -63,6 +63,14 @@ export const swiperSlice = createSlice({
         deleteItem(state, { payload }) {
             state.items[payload.id].status = false
             state.garbage += 1
+        },
+        retriveSwiper(state, { payload }) {
+            state.auto_play = payload.autoplay
+            state.auto_play_delay = payload.autoplayDelay
+            state.pagination = payload.pagination
+            state.scrollbar = payload.scrollbar
+            state.items = payload.items
+            state.garbage = payload.garbage
         }
     }
 })
