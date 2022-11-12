@@ -65,8 +65,6 @@ export const Canvas = (props: Props) => {
             invoke('save_operate', { newOperate: index })
             useRenderer(root.current, index as VNode, dispatch, vprops, true)
             dispatch(blockSliceAction.stopBlock())
-            console.log(swiper);
-            
         })
     }, [cache.last_path])
     useLayoutEffect(() => {
@@ -113,6 +111,7 @@ export const Canvas = (props: Props) => {
         // delete element
         document.onkeydown = (e: KeyboardEvent) => {
             if (e.key === 'Backspace' && state) {
+                newdo()
                 target?.remove()
                 const curVnode = {
                     id: current.id,

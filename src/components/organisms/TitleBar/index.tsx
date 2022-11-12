@@ -21,13 +21,17 @@ import { selectUndo, undoSliceAction } from '@/store/undo.slice';
 import { Blocking } from '@/components/molecules/Blocking';
 import { blockSliceAction } from '@/store/block.slice';
 import { useUpdate } from '@/hooks/useUpdate';
+import { useBetterDiff } from '@/hooks/useBetterDiff';
+import { selectTarget } from '@/store/target.slice';
 
 export const TitleBar = () => {
-    let dispatch = useDispatch()
+    const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
     const wapp = useSelector(selectWapp)
     const root = useSelector(selectRoot)
     const undo = useSelector(selectUndo)
+    const target = useSelector(selectTarget)
+    const diff = useBetterDiff()
     const preUpdate = useUpdate()
     const vprops = useVprops()
     const minimize = useRef<any>()
@@ -138,13 +142,14 @@ export const TitleBar = () => {
         invoke('undo_operate').then((res) => {
             const len = root?.childNodes.length as number
             const childs = root?.childNodes
-            for (let i = len - 1; i >= 0; i--) {
-                try {
-                    // @ts-ignore
-                    root?.removeChild(childs[i])
-                } catch (error) { }
-            }
-            useRenderer(root as HTMLElement, res as VNode, dispatch, vprops, true)
+            // for (let i = len - 1; i >= 0; i--) {
+            //     try {
+            //         // @ts-ignore
+            //         root?.removeChild(childs[i])
+            //     } catch (error) { }
+            // }
+            diff(res as VNode, vapp.routes[0].vnode)
+            // useRenderer(root as HTMLElement, res as VNode, dispatch, vprops, true)
         }, () => {
             dispatch(messageSliceAction.setWarn('无可撤回操作执行'))
         })
