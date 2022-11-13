@@ -16,6 +16,7 @@ pub struct Style {
     pub padding_left: String,
     pub padding_right: String,
     pub border_radius: String,
+    pub border: String,
     pub border_width: String,
     pub border_color: String,
     pub background_color: String,
@@ -57,6 +58,7 @@ impl Style {
         style_vec.push(("padding-left", &self.padding_left));
         style_vec.push(("padding-right", &self.padding_right));
         style_vec.push(("border-radius", &self.border_radius));
+        style_vec.push(("border",&self.border));
         style_vec.push(("border-width", &self.border_width));
         style_vec.push(("border-color", &self.border_color));
         style_vec.push(("background-color", &self.background_color));

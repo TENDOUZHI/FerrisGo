@@ -81,7 +81,7 @@ fn write_swiper_item(props: SwiperItem, class: &str, image_path: &str) -> String
 
 fn write_image(name: &str, class: String, props: Image, image_path: &str) -> String {
     let relative_path = image_operate(props.src, &class, image_path, None);
-    format!("<{name} src='{}' alt=''></{name}>", relative_path)
+    format!("<{name} src='{}' class='{}' alt=''></{name}>", relative_path,class)
 }
 
 fn write_icon(name: &str, props: Icon) -> String {

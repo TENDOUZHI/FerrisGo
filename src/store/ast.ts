@@ -73,6 +73,7 @@ export interface Style {
     padding_left: string
     padding_right: string
     border_radius: string
+    border: string
     border_width: string
     border_color: string
     background_color: string

@@ -16,6 +16,7 @@ export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolea
         padding_left: window.getComputedStyle(el).paddingLeft,
         padding_right: window.getComputedStyle(el).paddingRight,
         border_radius: window.getComputedStyle(el).borderRadius,
+        border: getComputedStyle(el).border,
         border_width: window.getComputedStyle(el).borderWidth,
         border_color: window.getComputedStyle(el).borderColor,
         background_color: window.getComputedStyle(el).backgroundColor,
@@ -25,7 +26,7 @@ export const useParseCss = (el: HTMLElement, width: number | null, isRpx: boolea
         justify_content: window.getComputedStyle(el).justifyContent,
         justify_items: window.getComputedStyle(el).justifyItems,
         align_content: window.getComputedStyle(el).alignContent,
-        align_items: window.getComputedStyle(el).alignItems
+        align_items: window.getComputedStyle(el).alignItems,
     }
     if (isRpx) {
         for (let key in style) {

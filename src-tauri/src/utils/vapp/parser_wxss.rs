@@ -7,7 +7,8 @@ fn parse_style(vnode: &VNode) -> String {
     let mut st = String::from("");
     for node in &vnode.children {
         let deep_style = parse_style(node);
-        let class_str = write_class(node.class.clone().unwrap(), node.style.as_ref().unwrap().to_style_sheet());
+        let style = node.style.as_ref().unwrap().to_style_sheet();
+        let class_str = write_class(node.class.clone().unwrap(), style);
         st = format!("{}{}{}", st, class_str, deep_style);
     }
     st

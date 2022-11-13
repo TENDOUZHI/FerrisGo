@@ -27,6 +27,7 @@ export const NavBarItems = (props: Props) => {
     const nav = useRef<any>()
     const text = useRef<any>()
     const [icon, setIcon] = useState<string>(avatar)
+
     useEffect(() => {
         if (!props.selectedStatus) {
             text.current.style.color = props.color
@@ -38,8 +39,8 @@ export const NavBarItems = (props: Props) => {
     }, [props])
 
     useEffect(() => {
-        if(current.id === props.connectId) select()
-    },[current])
+        if (current.id === props.connectId) select()
+    }, [current])
 
     const select = () => {
         text.current.style.color = props.selectedColor
