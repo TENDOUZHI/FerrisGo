@@ -111,7 +111,7 @@ export const Canvas = (props: Props) => {
         // delete element
         document.onkeydown = (e: KeyboardEvent) => {
             if (e.key === 'Backspace' && state) {
-                newdo()
+                invoke('save_operate', { newOperate: Vapp.routes[current.id].vnode })
                 target?.remove()
                 const curVnode = {
                     id: current.id,

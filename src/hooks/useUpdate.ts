@@ -33,22 +33,19 @@ export const useUpdate = (): (() => void) => {
     }, [curNode])
 
     const update = () => {
-        if (root !== null) {
+        if (root !== null && curNode !== null) {
             setTimeout(() => {
                 patch(curNode)
             })
         }
     }
     const preUpdate = () => {
-        setTimeout(() => {
             const curVnode = {
                 id: current.id,
                 vNode: useCompile(root, device.width, false, vprops)
             }
-            invoke('save_operate', { newOperate: curVnode.vNode })
             setCurNode(curVnode.vNode)
-        })
-
+            invoke('save_operate', { newOperate: curVnode.vNode })
     }
     return preUpdate
 }

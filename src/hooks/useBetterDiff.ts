@@ -25,9 +25,12 @@ export const useBetterDiff = () => {
         }
     }
     const traverseNode = (n1: VNode, n2: VNode) => {
-        if (n1 === undefined || n2 === undefined) {
+        if (n1 === undefined) {
             const node2 = document.querySelector('.' + n2.class)
             node2?.remove()
+        }
+        if(n2 === undefined) {
+            
         }
         try {
             const newChildren = n1.children
@@ -42,10 +45,6 @@ export const useBetterDiff = () => {
 
     }
     const diff = (n1: VNode, n2: VNode) => {
-        // console.log('newD', n1)
-        // console.log('oldD', n2)
-        // undo when components' new append
-        traverseNode(n1, n2)
         // undo when components' attribute changed
         if (tar !== null) {
             const key = tar?.classList[0]
@@ -57,6 +56,8 @@ export const useBetterDiff = () => {
 
             }
         }
+        // undo when components' new append
+        traverseNode(n1, n2)
 
 
 

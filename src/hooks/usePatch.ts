@@ -16,13 +16,16 @@ export const useDiff = () => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const dispatch = useDispatch()
-    const dfs = (vNode: VNode, classStr: string) => {
-        for (let i = 0; i < vNode.children.length; i++) {
-            if (vNode.children[i].class === classStr) {
-                const node = vNode.children[i]
+    const dfs = (vNode: VNode, classStr: string): VNode | undefined => {
+        const children = vNode.children
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].class === classStr) {
+                const node = children[i]
                 return node;
             } else {
-                dfs(vNode.children[i], classStr)
+                let n = dfs(children[i], classStr)
+                if (n !== undefined) return n
+
             }
         }
     }
@@ -36,6 +39,7 @@ export const useDiff = () => {
             id: current.id,
             vNode: useCompile(root, device.width, true, vprops)
         }
+
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
             user_id: '',
@@ -45,7 +49,7 @@ export const useDiff = () => {
     }
     const diffOperate = (vNode: VNode) => {
         const classStr = target?.classList[0] as string
-        let node = dfs(vNode, classStr)
+        const node = dfs(vNode, classStr)
         const el = createNode(node as VNode, dispatch, vprops)
         target?.replaceWith(el)
         dispatch(targetSliceAction.captureTarget(el))
