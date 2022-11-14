@@ -1,5 +1,6 @@
 import { useDeleteEl } from '@/hooks/useDeleteEl'
 import { useForever } from '@/hooks/useForever'
+import { usePaste } from '@/hooks/usePaste'
 import { useEffect, useRef } from 'react'
 import './index.scss'
 
@@ -7,6 +8,7 @@ export const ContextMenu = () => {
     const menu = useRef<any>()
     const [saveFileData, undoFn] = useForever()
     const deleteEl = useDeleteEl()
+    const [copy, cut, paste] = usePaste()
     useEffect(() => {
 
     }, [])
@@ -15,7 +17,7 @@ export const ContextMenu = () => {
         const scWidth = window.screen.width
         const scHeight = window.screen.height
         const width = getComputedStyle(menu.current).width
-        const height = getComputedStyle(menu.current).maxHeight
+        const height = getComputedStyle(menu.current).minHeight
         const numWidth = parseInt(width.substring(0, width.length - 2))
         const numHeight = parseInt(height.substring(0, height.length - 2))
         const xAxis = e.clientX
@@ -41,7 +43,28 @@ export const ContextMenu = () => {
     return (
         <div id="contextmenu" className="contextmenu" ref={menu}>
             <ul className="contextmenu_list">
-            <li className="contextmenu_list_li" onClick={deleteEl}>
+                <li className="contextmenu_list_li" onClick={copy}>
+                    <div className="contextmenu_list_li_envelop">
+                        <span className="contextmenu_list_li_envelop_left">复制</span>
+                        <span className="contextmenu_list_li_envelop_right">Ctrl+C</span>
+                    </div>
+
+                </li>
+                <li className="contextmenu_list_li" onClick={cut}>
+                    <div className="contextmenu_list_li_envelop">
+                        <span className="contextmenu_list_li_envelop_left">剪切</span>
+                        <span className="contextmenu_list_li_envelop_right">Ctrl+X</span>
+                    </div>
+
+                </li>
+                <li className="contextmenu_list_li" onClick={paste}>
+                    <div className="contextmenu_list_li_envelop">
+                        <span className="contextmenu_list_li_envelop_left">粘贴</span>
+                        <span className="contextmenu_list_li_envelop_right">Ctrl+V</span>
+                    </div>
+
+                </li>
+                <li className="contextmenu_list_li" onClick={deleteEl}>
                     <div className="contextmenu_list_li_envelop">
                         <span className="contextmenu_list_li_envelop_left">删除元素</span>
                         <span className="contextmenu_list_li_envelop_right">BackSpace</span>

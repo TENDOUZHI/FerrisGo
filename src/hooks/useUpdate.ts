@@ -36,7 +36,6 @@ export const useUpdate = (): (() => void) => {
                 id: current.id,
                 vNode: useCompile(root, device.width, false, vprops)
             }
-            
             setCurNode(curVnode.vNode)
             invoke('save_operate', { newOperate: curVnode.vNode })
     }

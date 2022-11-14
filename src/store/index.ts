@@ -14,6 +14,7 @@ import { cacheSlice } from "./cache.slice";
 import { undoSlice } from "./undo.slice";
 import { navigatorSlice } from "./navigator.slice";
 import { blockSlice } from "./block.slice";
+import { pasteSlice } from "./paste.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -30,7 +31,8 @@ export const rootReducer = {
         cahceElement: cacheSlice.reducer,
         undoElement: undoSlice.reducer,
         navigatorElement: navigatorSlice.reducer,
-        blockElement: blockSlice.reducer
+        blockElement: blockSlice.reducer,
+        pasteElement: pasteSlice.reducer
 }
 
 export const store = configureStore({

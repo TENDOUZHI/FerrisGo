@@ -21,6 +21,7 @@ import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { NavBarItems } from '@/components/atoms/NavBarItems'
 import { blockSliceAction } from '@/store/block.slice'
 import { useDeleteEl } from '@/hooks/useDeleteEl'
+import { usePaste } from '@/hooks/usePaste'
 
 interface Props {
     program_id: number,
@@ -40,6 +41,7 @@ export const Canvas = (props: Props) => {
     const cache = useSelector(selectCache)
     const vprops = useVprops()
     const deleteEl = useDeleteEl()
+    const [copy, cut, paste] = usePaste()
     const root = useRef<any>(null)
     const tabBar = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
@@ -103,10 +105,23 @@ export const Canvas = (props: Props) => {
     }, [navigator.tab_bar_status])
 
     useEffect(() => {
-        // delete element
+
         document.onkeydown = (e: KeyboardEvent) => {
+            // delete element
             if (e.key === 'Backspace' && state) {
                 deleteEl()
+            }
+            // copy element
+            if (e.key === 'c' && state) {
+                copy()
+            }
+            // cut element
+            if (e.key === 'x' && state) {
+                cut()
+            }
+            // paste element
+            if (e.key === 'v' && state) {
+                paste()
             }
         }
     })
