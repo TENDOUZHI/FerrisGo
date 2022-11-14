@@ -1,13 +1,8 @@
-const argv = require('minimist')(process.argv.slice(2))
-const build = argv._ || false
-const baseBuild = build ? '/FerrisGo/' : '/'
-console.log(baseBuild);
-
 module.exports = {
   title: 'FerrisGo',
   description: 'Just playing around.',
   lang: 'zh-CN',
-  base: baseBuild,
+  base: '/FerrisGo/',
   plugins: [
     '@vuepress/active-header-links',   // 页面滚动时自动激活侧边栏链接的插件
     '@vuepress/back-to-top',          // 返回顶部插件
@@ -16,7 +11,7 @@ module.exports = {
     "@vuepress/plugin-medium-zoom"
 
   ],
-  head:[
+  head: [
     ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js' }],
     ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js' }],
   ],
@@ -39,8 +34,9 @@ module.exports = {
         text: '介绍',
         items: [
           { text: '什么是FerrisGo', link: '/' },
+          { text: '入门', link: '/Introduction/greenhorn.md' },
           { text: '基础', link: '/Introduction/' },
-          {text: '其他',link:'/etc.md'}
+          { text: '其他', link: '/Introduction/etc.md' }
         ]
       },
       {

@@ -46,4 +46,4 @@ FerrisGo暴露给用户四大响应式接口：**Input，File，CheckBox，ListM
 
 FerrisGo  在更新的过程中要销毁组件并且重新弄渲染，初期我们的更新策略是将页面上所有组件清除并重新渲染
 后期发现这种清除然后渲染  HTMLElement  的更新策略其实有很多不必要的操作，  FerrisGo  完全可以只更新我们修改的组件，所以我们引入了  Diff  算法
-来靶向更新页面，大大提高了  FerrisGo  的性能。
+来靶向更新页面，大大提高了  FerrisGo  的性能🚀。
