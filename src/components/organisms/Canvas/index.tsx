@@ -56,6 +56,7 @@ export const Canvas = (props: Props) => {
             const data = JSON.parse(res as string)
             const index = data.routes[0].vnode
             console.log(data);
+            invoke('flush_operate')
             dispatch(routesSliceAction.retriveDom(data))
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)

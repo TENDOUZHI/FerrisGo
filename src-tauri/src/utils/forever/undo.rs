@@ -12,6 +12,7 @@ use crate::utils::vapp::ast::VNode;
 pub struct Undo {
     history: Vec<VNode>,
     buffer: Option<VNode>,
+    backup: VNode
 }
 
 impl Undo {
@@ -25,6 +26,7 @@ impl Undo {
 
     fn flush(&mut self) {
         self.history = vec![];
+        self.history.push(self.backup.clone())
     }
 
     fn write(self) -> Result<(), ()> {
