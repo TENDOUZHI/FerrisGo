@@ -24,6 +24,7 @@ import { useUpdate } from '@/hooks/useUpdate';
 import { useBetterDiff } from '@/hooks/useBetterDiff';
 import { selectTarget } from '@/store/target.slice';
 import { useForever } from '@/hooks/useForever';
+import { ContextMenu } from '../ContextMenu';
 
 export const TitleBar = () => {
     const dispatch = useDispatch()
@@ -40,9 +41,6 @@ export const TitleBar = () => {
     const [edit, setEdit] = useState<boolean>(false)
     const [help, setHelp] = useState<boolean>(false)
     const [createProject, setCreateProject] = useState<boolean>(false)
-    // window.oncontextmenu = () => {
-    //     console.log(1);
-    // }
     useEffect(() => {
         invoke('read_path_fn').then(res => {
             setPathList(res as Array<string>)
@@ -159,6 +157,7 @@ export const TitleBar = () => {
 
     return (
         <>
+            <ContextMenu />
             <Blocking />
             <NewProject show={createProject} setShow={setCreateProject} />
             <div data-tauri-drag-region className="titlebar">

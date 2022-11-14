@@ -20,6 +20,7 @@ import { selectCache } from '@/store/cache.slice'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { NavBarItems } from '@/components/atoms/NavBarItems'
 import { blockSliceAction } from '@/store/block.slice'
+import { useDeleteEl } from '@/hooks/useDeleteEl'
 
 interface Props {
     program_id: number,
@@ -38,6 +39,7 @@ export const Canvas = (props: Props) => {
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
     const vprops = useVprops()
+    const deleteEl = useDeleteEl()
     const root = useRef<any>(null)
     const tabBar = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
@@ -104,22 +106,7 @@ export const Canvas = (props: Props) => {
         // delete element
         document.onkeydown = (e: KeyboardEvent) => {
             if (e.key === 'Backspace' && state) {
-                invoke('save_operate', { newOperate: Vapp.routes[current.id].vnode })
-                target?.remove()
-                const curVnode = {
-                    id: current.id,
-                    vNode: useCompile(root.current, device.width, false, vprops)
-                }
-                const curWnode = {
-                    id: current.id,
-                    vNode: useCompile(root.current, device.width, true, vprops)
-                }
-                dispatch(routesSliceAction.updateVnode({
-                    curVnode, curWnode,
-                    user_id: user.id,
-                    program_id: props.program_id,
-                    ws: ws
-                }))
+                deleteEl()
             }
         }
     })
@@ -202,7 +189,7 @@ export const Canvas = (props: Props) => {
             <div className="canvas-wrapper">
                 <div className="device" id='device'>
                     <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
-                       
+
                     </div>
                     <div className="device_tabBar" ref={tabBar}>
                         {

@@ -12,7 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  /* overflow-x: scroll; */
+  overflow-x: hidden;
 }
 :root::-webkit-scrollbar {
   width: 0px;
@@ -21,11 +21,11 @@
   border-radius: 5px;
 }
 
-:root::-webkit-scrollbar-corner{
+:root::-webkit-scrollbar-corner {
   background-color: transparent;
 }
 
-:root::-webkit-scrollbar-thumb{
+:root::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: #fff;
 }
