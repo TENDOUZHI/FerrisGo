@@ -40,6 +40,20 @@ $height: 50px;
       background-color: #fff;
     }
   }
+  &_autosave {
+    position: absolute;
+    left: 20%;
+    top: -120%;
+    width: 200px;
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.3s;
+    color: #fff;
+  }
   .device {
     width: 60%;
     display: flex;

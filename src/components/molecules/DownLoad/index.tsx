@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import './index.scss'
 interface Props {
     download: boolean
+    text: string
+    count: number
 }
 export const DownLoad = (props: Props) => {
     const wrapper = useRef<any>()
@@ -52,7 +54,7 @@ export const DownLoad = (props: Props) => {
                 </svg>
             </div>
             <div className="download_text">
-                <span className="download_text_spaning" ref={texting}>DownLoading</span>
+                <span className="download_text_spaning" ref={texting}>{props.text}: {props.count}s</span>
                 <span className="download_text_span" ref={text}>DownLoad</span>
             </div>
         </div>

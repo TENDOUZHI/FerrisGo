@@ -42,6 +42,8 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
         } else {
             styles = useParseCss(el, width, isRpx)
             curClass = el.classList[0]
+            // console.log(styles);
+            
         }
         // compile basic attribute
         const node: VNode = {

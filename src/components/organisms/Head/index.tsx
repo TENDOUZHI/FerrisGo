@@ -12,6 +12,8 @@ import { Navigator } from '@/components/molecules/Navigator'
 import setting from '@/assets/setting.png'
 import { JumpLayer } from '@/components/molecules/JumpLayer'
 import { selectNav } from '@/store/navigator.slice'
+import { useForever } from '@/hooks/useForever'
+import { DownLoad } from '@/components/molecules/DownLoad'
 interface Props {
     id: number,
     title: string
@@ -24,15 +26,17 @@ export const Head = (props: Props) => {
     const ws = useSelector(selectWs)
     const nav = useSelector(selectNav)
     const navigate = useNavigate()
+    const [saveFileData] = useForever()
     const [progress, setProgress] = useState<number>(0)
     const [navigator, setNavigator] = useState<boolean>(false)
-    const [message, setMessage] = useState('');
     const [show, setShow] = useState<boolean>(false)
+    const save = useRef<any>()
     const userAvatar = useRef<any>()
     const userList = useRef<any>()
     const settingList = useRef<any>()
     const bar = useRef<any>()
     const [title, setTitle] = useState<string>(vapp.project_name)
+    const [count, setCount] = useState<number>(0)
     const [download, setDownload] = useState<boolean>(false)
     const [avatar, setAvatar] = useState<string>(user.avatar)
     useEffect(() => {
@@ -41,6 +45,25 @@ export const Head = (props: Props) => {
     useLayoutEffect(() => {
         setAvatar(user.avatar)
     })
+    useLayoutEffect(() => {
+        const limit = 1000 * 60 * 3
+        let record = 0
+        setInterval(() => {
+            saveFileData()
+        }, 1000 * 60 * 3)
+        setInterval(() => {
+            record++
+            const remainTime = Math.round(limit/1000) - record
+            if (remainTime <= 10) {
+                setCount(remainTime)
+                save.current.style.top = '0%'
+            }
+            if (remainTime <= 0) {
+                record = 0
+                save.current.style.top = '-120%'
+            }
+        }, 1000)
+    }, [])
 
     const click = async () => {
         setDownload(true)
@@ -66,7 +89,6 @@ export const Head = (props: Props) => {
         if (evt.lengthComputable) {
             setProgress(Math.round((evt.loaded * 100) / evt.total))
         }
-
     }
     const selectTitle = () => {
         bar.current.classList.add('show-bar')
@@ -131,7 +153,7 @@ export const Head = (props: Props) => {
     return (
         <>
             <JumpLayer title='设置导航栏' show={navigator} setShow={setNavigator} certionFn={certainNavigator}>
-                <Navigator/>
+                <Navigator />
             </JumpLayer>
             <div className="head">
                 <div className='head-title'>
@@ -142,13 +164,16 @@ export const Head = (props: Props) => {
                         onBlur={blurTitle} />
                     <div className="bar" ref={bar}></div>
                 </div>
+                <div className="head_autosave" ref={save}>
+                    <DownLoad download text='距离下次保存还有' count={count} />
+                </div>
                 <div className="device">
                     <Device program_id={props.id} />
                 </div>
                 <div className="etc">
                     <div className="etc_setting" onClick={handleSettingList}>
                         <div className="etc_setting_img" >
-                            <img src={setting} alt="" draggable={false}/>
+                            <img src={setting} alt="" draggable={false} />
                         </div>
                         <ul className="etc_setting_list" ref={settingList}>
                             <li className="etc_setting_list_li" onClick={showNavigator}>导航栏</li>

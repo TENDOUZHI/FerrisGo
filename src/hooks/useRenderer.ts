@@ -148,7 +148,6 @@ const createImage = (node: VNode, image: ImageState, dispatch: Dispatch, retrive
     el.style.border = node.style?.border_width + ' solid ' + node.style?.border_color
     el.style.borderRadius = node.style?.border_radius as string
     el.style.cursor = 'pointer'
-    el.style.borderRadius = '3px'
     if (retrive) {
         el.setAttribute('src', node.props?.img?.src as string)
         dispatch(imageSliceAction.updateSrc({ className: node.class, src: node.props?.img?.src }))

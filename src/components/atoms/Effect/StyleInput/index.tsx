@@ -28,12 +28,12 @@ export const StyleInput = (props: Props) => {
             setValue(props.value)
         } else {
             // if (props.value) {
-                const capName = props.value.substring(0, 3)
-                if (props.type === 'color' || capName === 'rgb') {
-                    setValue(useHexColor(props.value))
-                } else {
-                    setValue(props.value)
-                }
+            const capName = props.value.substring(0, 3)
+            if (props.type === 'color' || capName === 'rgb') {
+                setValue(useHexColor(props.value))
+            } else {
+                setValue(props.value)
+            }
             // }
 
         }
@@ -77,8 +77,15 @@ export const StyleInput = (props: Props) => {
         if (move) {
             const value = Math.round((e.clientX - mouseAxis) * 0.2)
             const sourceValue = parseInt(Ivalue.substring(0, Ivalue.length - 2))
-            setValue(sourceValue + value + 'px')
-            moveValue.current = sourceValue + value + 'px'
+            const tail = Ivalue.substring(Ivalue.length - 2, Ivalue.length)
+            if (tail === 'px') {
+                setValue(sourceValue + value + 'px')
+                moveValue.current = sourceValue + value + 'px'
+            } else {
+                setValue((sourceValue + value).toString())
+                moveValue.current = (sourceValue + value).toString()
+            }
+
         }
     }
     const mouseDownChange = (e: me) => {

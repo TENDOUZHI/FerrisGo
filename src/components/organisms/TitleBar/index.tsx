@@ -23,32 +23,26 @@ import { blockSliceAction } from '@/store/block.slice';
 import { useUpdate } from '@/hooks/useUpdate';
 import { useBetterDiff } from '@/hooks/useBetterDiff';
 import { selectTarget } from '@/store/target.slice';
+import { useForever } from '@/hooks/useForever';
 
 export const TitleBar = () => {
     const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
-    const wapp = useSelector(selectWapp)
-    const root = useSelector(selectRoot)
-    const undo = useSelector(selectUndo)
-    const target = useSelector(selectTarget)
-    const diff = useBetterDiff()
-    const preUpdate = useUpdate()
-    const vprops = useVprops()
+    const [saveFileData, undoFn] = useForever()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
-    const exporting = useRef<any>()
     const closewindow = useRef<any>()
     const [secondMenu, setSecondMenu] = useState<boolean>(false)
     const [pathList, setPathList] = useState<Array<string>>([])
-    const [block, setBlock] = useState<boolean>(false)
-    const [lastFilePath, setLastFilePath] = useState<string>('')
     const [path, setPath] = useState<boolean>(false)
     const [projectName, setProjectName] = useState<string>('')
     const [file, setFile] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const [help, setHelp] = useState<boolean>(false)
     const [createProject, setCreateProject] = useState<boolean>(false)
-    const [first, setFirst] = useState(true)
+    // window.oncontextmenu = () => {
+    //     console.log(1);
+    // }
     useEffect(() => {
         invoke('read_path_fn').then(res => {
             setPathList(res as Array<string>)
@@ -62,7 +56,6 @@ export const TitleBar = () => {
                 project_name.unshift(path[i])
             }
             setProjectName(project_name.join(''))
-            setLastFilePath(res as string)
             dispatch(cacheSliceAction.initialLastPath(res))
         })
         minimize.current
@@ -84,7 +77,7 @@ export const TitleBar = () => {
                 saveFileData()
             }
         })
-    }, [])
+    }, [vapp])
     const showSecondMenu = () => {
         if (secondMenu) {
             setSecondMenu(false)
@@ -126,34 +119,6 @@ export const TitleBar = () => {
     }
     const newProject = () => {
         setCreateProject(true)
-    }
-    const saveFileData = async () => {
-        dispatch(blockSliceAction.setBlock())
-        const data = JSON.stringify(vapp)
-        await invoke('save_file_data', { data: data }).then(res => {
-            dispatch(blockSliceAction.stopBlock())
-            dispatch(messageSliceAction.setCorrect('保存成功'))
-        }, () => {
-            dispatch(messageSliceAction.setError('保存失败'))
-            dispatch(blockSliceAction.stopBlock())
-        })
-    }
-    const undoFn = () => {
-        // dispatch(undoSliceAction.undo())
-        invoke('undo_operate').then((res) => {
-            const len = root?.childNodes.length as number
-            const childs = root?.childNodes
-            // for (let i = len - 1; i >= 0; i--) {
-            //     try {
-            //         // @ts-ignore
-            //         root?.removeChild(childs[i])
-            //     } catch (error) { }
-            // }
-            diff(res as VNode, vapp.routes[0].vnode)
-            // useRenderer(root as HTMLElement, res as VNode, dispatch, vprops, true)
-        }, () => {
-            dispatch(messageSliceAction.setWarn('无可撤回操作执行'))
-        })
     }
     const readFileData = async (path: string) => {
         await invoke('read_file_data', { filePath: path }).then(res => {
