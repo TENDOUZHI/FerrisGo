@@ -1,31 +1,25 @@
 import './index.scss'
-import { DragEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { DragEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
-import { selectState, targetSliceAction } from '@/store/target.slice'
+import { selectState } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
-import { routesSliceAction, selectCurRoutes, selectRoutes, selectVapp } from '@/store/vapp.slice'
+import { routesSliceAction, selectCurRoutes, selectVapp } from '@/store/vapp.slice'
 import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
 import { useRenderer } from '@/hooks/useRenderer'
-import { Vapp, VNode, Vprops } from '@/store/ast'
+import { VNode } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
 import { selectWs } from '@/store/ws.slice'
-import { useHashCode } from '@/hooks/useHashCode'
 import { nodeName, useCreateCom } from '@/hooks/useCreateCom'
-import { SwiperMini } from '@/components/atoms/SwiperMini'
-import { selectSwiper } from '@/store/swiper.slice'
 import { useVprops } from '@/hooks/useVprops'
 import { invoke } from '@tauri-apps/api'
 import { selectCache } from '@/store/cache.slice'
-import { selectUndo, undoSliceAction } from '@/store/undo.slice'
 import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { NavBarItems } from '@/components/atoms/NavBarItems'
-import { Blocking } from '@/components/molecules/Blocking'
 import { blockSliceAction } from '@/store/block.slice'
-
 
 interface Props {
     program_id: number,
@@ -40,7 +34,6 @@ export const Canvas = (props: Props) => {
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
     const navigator = useSelector(selectNav)
-    const swiper = useSelector(selectSwiper)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
@@ -209,7 +202,7 @@ export const Canvas = (props: Props) => {
             <div className="canvas-wrapper">
                 <div className="device" id='device'>
                     <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
-
+                       
                     </div>
                     <div className="device_tabBar" ref={tabBar}>
                         {

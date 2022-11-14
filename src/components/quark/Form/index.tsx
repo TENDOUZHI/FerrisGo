@@ -4,7 +4,7 @@ export const Form = () => {
     return (
         <div id="form" draggable className='components'>
             <img src={component} alt="" />
-            <span>from</span>
+            <span>form</span>
         </div>
     )
 }

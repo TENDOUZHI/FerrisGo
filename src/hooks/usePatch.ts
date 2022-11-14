@@ -47,11 +47,27 @@ export const useDiff = () => {
             ws: ''
         }))
     }
+    const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
+        vnodes.forEach(value => {
+            const child = createNode(value, dispatch, vprops)
+            const children = value.children
+            if (children.length >= 1) {
+                createFamily(children, child)
+            }
+            el?.append(child)
+        })
+        return el
+    }
     const diffOperate = (vNode: VNode) => {
         const classStr = target?.classList[0] as string
         const node = dfs(vNode, classStr)
-        const el = createNode(node as VNode, dispatch, vprops)
-        target?.replaceWith(el)
+        const children = node?.children
+        let el = createNode(node as VNode, dispatch, vprops);
+        if (children!.length >= 1) {
+            el = createFamily(children as VNode[], el)
+        }
+
+        target?.replaceWith(el as Node)
         dispatch(targetSliceAction.captureTarget(el))
         synVapp()
     }

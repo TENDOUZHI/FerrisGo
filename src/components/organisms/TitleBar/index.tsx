@@ -48,6 +48,7 @@ export const TitleBar = () => {
     const [edit, setEdit] = useState<boolean>(false)
     const [help, setHelp] = useState<boolean>(false)
     const [createProject, setCreateProject] = useState<boolean>(false)
+    const [first, setFirst] = useState(true)
     useEffect(() => {
         invoke('read_path_fn').then(res => {
             setPathList(res as Array<string>)
@@ -83,7 +84,7 @@ export const TitleBar = () => {
                 saveFileData()
             }
         })
-    })
+    }, [])
     const showSecondMenu = () => {
         if (secondMenu) {
             setSecondMenu(false)
