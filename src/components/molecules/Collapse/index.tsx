@@ -1,12 +1,14 @@
 import './index.scss'
 import arrow from '@/assets/arrow.png'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { usePurge } from '@/hooks/usePurge'
 import { Dispatch } from '@reduxjs/toolkit'
 
 interface Props {
     title: string,
     dispatch: Dispatch
+    children: ReactNode
+    num: number
 }
 export const Collapse = (props: Props) => {
     const arrowRef = useRef<any>()
@@ -14,9 +16,9 @@ export const Collapse = (props: Props) => {
 
     const [contai, setContai] = useState<any>()
     const [arr, setArr] = useState<any>()
-    // @ts-ignore
     const { children } = props
-    const purgeContainer = usePurge(contai, arr, Math.ceil(children.length / 2) * 67)
+    // @ts-ignore
+    const purgeContainer = usePurge(contai, arr, Math.ceil(props.num / 2) * 67)
 
     useLayoutEffect(() => {
         setContai(container.current)

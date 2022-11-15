@@ -14,7 +14,7 @@ struct Encapsulate {
     record: i32,
 }
 #[derive(Debug, Deserialize, Serialize, Clone)]
-struct Ene {
+pub struct Ene {
     id: i32,
     name: String,
     vnode: VNode,
@@ -93,4 +93,10 @@ pub fn remove_encapsulate_element(id: i32) -> Result<(), ()> {
     } else {
         Err(())
     }
+}
+
+#[tauri::command]
+pub fn show_encapsulate_element() -> Vec<Ene> {
+    let encpe = Encapsulate::new();
+    encpe.elements
 }

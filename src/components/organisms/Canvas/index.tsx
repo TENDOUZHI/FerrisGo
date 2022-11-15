@@ -8,7 +8,7 @@ import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectVapp } from '@/store/vapp.slice'
 import { selectTarget } from '@/store/target.slice'
 import { selectDevice } from '@/store/device.slice'
-import { useRenderer } from '@/hooks/useRenderer'
+import { createNode, useRenderer } from '@/hooks/useRenderer'
 import { VNode } from '@/store/ast'
 import axios from 'axios'
 import { selectUser } from '@/store/user.slice'
@@ -22,6 +22,8 @@ import { NavBarItems } from '@/components/atoms/NavBarItems'
 import { blockSliceAction } from '@/store/block.slice'
 import { useDeleteEl } from '@/hooks/useDeleteEl'
 import { usePaste } from '@/hooks/usePaste'
+import { cusEl } from '@/components/molecules/Ingredients'
+import { CusEl } from '@/components/atoms/CusEl'
 
 interface Props {
     program_id: number,
@@ -158,29 +160,66 @@ export const Canvas = (props: Props) => {
         try {
             const target = e.target as HTMLElement
             let tagName = 'div';
-            if (
-                newSource.id === 'button'
-                || newSource.id === 'image'
-            ) {
-                if (newSource.id === 'image') tagName = 'img'
-                else tagName = newSource.id
-            } else {
-                tagName = newSource.tagName
-            }
+            const custom = newSource.getAttribute('data-type')
+            if (custom === 'custom') {
+                if (one) setOne(false)
+                else {
+                    const id = newSource.getAttribute('data-cusid')
+                    invoke('show_encapsulate_element').then((res: any) => {
+                        let element = document.createElement(tagName)
+                        const customEl = res as cusEl[]
+                        for (let i = 0; i < customEl.length; i++) {
+                            if (customEl[i].id === parseInt(id as string)) {
+                                const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
+                                    vnodes.forEach(value => {
+                                        const child = createNode(value, dispatch, vprops)
+                                        const children = value.children
+                                        if (children.length >= 1) {
+                                            createFamily(children, child)
+                                        }
+                                        el?.append(child)
+                                    })
+                                    return el
+                                }
+                                const vnode = customEl[i].vnode
+                                const children = vnode?.children
+                                element = createNode(vnode, dispatch, vprops, true)
+                                if (children!.length >= 1) {
+                                    element = createFamily(children as VNode[], element)
+                                }
+                                break;
+                            }
+                        }
+                        dispatch(routesSliceAction.updateRouteSize({
+                            id: current.id,
+                            size: num + 1,
+                        }))
+                        target.appendChild(element as HTMLElement)
+                        dispatch(sourceSliceAction.clearSource())
+                    })
+                    setOne(true)
+                }
 
-            const element = document.createElement(tagName)
-            // @ts-ignore
-            useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
-            dispatch(routesSliceAction.updateRouteSize({
-                id: current.id,
-                size: num + 1,
-                // user_id: user.id,
-                // program_id: props.program_id,
-                // ws: ws 
-            }))
-            target.appendChild(element)
-            // heighlight element 
-            dispatch(sourceSliceAction.clearSource())
+            } else {
+                if (
+                    newSource.id === 'button'
+                    || newSource.id === 'image'
+                ) {
+                    if (newSource.id === 'image') tagName = 'img'
+                    else tagName = newSource.id
+                } else {
+                    tagName = newSource.tagName
+                }
+                const element = document.createElement(tagName)
+                // @ts-ignore
+                useCreateCom(newSource.id as nodeName, element, dispatch, vprops)
+                dispatch(routesSliceAction.updateRouteSize({
+                    id: current.id,
+                    size: num + 1,
+                }))
+                target.appendChild(element as HTMLElement)
+                dispatch(sourceSliceAction.clearSource())
+            }
         } catch (error) { }
 
 
