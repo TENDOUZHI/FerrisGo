@@ -7,7 +7,8 @@ import './index.scss'
 import { NavItems } from '@/components/atoms/NavItems'
 import { useDispatch } from 'react-redux'
 import { messageSliceAction } from '@/store/message.slice'
-import { selectVapp } from '@/store/vapp.slice'
+import { routesSliceAction, selectVapp } from '@/store/vapp.slice'
+import { jumplayerSliceAction } from '@/store/jumplayer.slice'
 
 interface Props {
     // show: boolean,
@@ -39,7 +40,6 @@ export const Navigator = (props: Props) => {
                 setPathId([...pathId])
             }
         })
-        // dispatch(navigatorSliceAction.updateText(paths))
     }, [vapp])
     useEffect(() => {
         if (navigator.tab_bar_status) {
@@ -53,6 +53,7 @@ export const Navigator = (props: Props) => {
             switchBtn.current.classList.add('navigator_start')
             switchBtn.current.classList.remove('navigator_abuse')
         }
+        dispatch(jumplayerSliceAction.capCertainFn(certainFn))
     }, [navigator])
     const switchTabBar = () => {
         if (show) {
@@ -82,8 +83,9 @@ export const Navigator = (props: Props) => {
     const newItem = () => {
         if (navigator.items.length < 5) dispatch(navigatorSliceAction.newItem())
         else dispatch(messageSliceAction.setWarn('导航栏最多设置五个选项'))
-
-
+    }
+    const certainFn = () => {
+        dispatch(routesSliceAction.updateNavigator(navigator))
     }
 
     return (

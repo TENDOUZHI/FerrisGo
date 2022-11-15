@@ -1,0 +1,22 @@
+.encainput {
+    width: 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  input {
+    width: 120px;
+    height: 38px;
+    border: none;
+    outline: none;
+    border: 1px solid rgb(79, 79, 79);
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    background-color: rgb(51, 51, 51);
+    transition: all 0.2s;
+    outline: 2px solid transparent;
+    &:focus {
+      outline: 2px solid #3367e9;
+    }
+  }
+}

@@ -8,10 +8,10 @@ import { useParseCss } from "./useParseCss";
 //  second: use redux to record vNode of every page, in order to impl create page 
 //  third: merge them into one json stream
 
-export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: VpropsState) => {
+export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: VpropsState, encapsulate?: boolean) => {
     // inital the virtual dom
     let vNode: VNode = {
-        name: 'root',
+        name: encapsulate ? 'root' : rootNode.id,
         class: rootNode.classList[0],
         tag_name: rootNode.tagName,
         props: null,
@@ -43,7 +43,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
             styles = useParseCss(el, width, isRpx)
             curClass = el.classList[0]
             // console.log(styles);
-            
+
         }
         // compile basic attribute
         const node: VNode = {

@@ -14,6 +14,7 @@ import { JumpLayer } from '@/components/molecules/JumpLayer'
 import { selectNav } from '@/store/navigator.slice'
 import { useForever } from '@/hooks/useForever'
 import { DownLoad } from '@/components/molecules/DownLoad'
+import { jumplayerSliceAction } from '@/store/jumplayer.slice'
 interface Props {
     id: number,
     title: string
@@ -53,7 +54,7 @@ export const Head = (props: Props) => {
         }, 1000 * 60 * 3)
         setInterval(() => {
             record++
-            const remainTime = Math.round(limit/1000) - record
+            const remainTime = Math.round(limit / 1000) - record
             if (remainTime <= 10) {
                 setCount(remainTime)
                 save.current.style.top = '0%'
@@ -127,7 +128,9 @@ export const Head = (props: Props) => {
     }
 
     const showNavigator = () => {
-        setNavigator(true)
+        dispatch(jumplayerSliceAction.setShow())
+        dispatch(jumplayerSliceAction.setTitle('设置导航栏'))
+        dispatch(jumplayerSliceAction.capChildren(<Navigator />))
     }
     const back = () => {
         navigate(-1)
@@ -144,17 +147,21 @@ export const Head = (props: Props) => {
     }
 
     const certainNavigator = () => {
-        console.log(nav);
-        dispatch(routesSliceAction.updateNavigator(nav))
-        setNavigator(false)
+        // console.log(nav);
+        // dispatch(routesSliceAction.updateNavigator(nav))
+        // setNavigator(false)
     }
 
 
     return (
         <>
-            <JumpLayer title='设置导航栏' show={navigator} setShow={setNavigator} certionFn={certainNavigator}>
+            {/* <JumpLayer title='设置导航栏' show={!navigator} setShow={setNavigator} certionFn={certainNavigator}>
                 <Navigator />
-            </JumpLayer>
+            </JumpLayer> */}
+            <JumpLayer />
+            {/* <JumpLayer >
+                <Navigator />
+            </JumpLayer> */}
             <div className="head">
                 <div className='head-title'>
                     <input className='head-title-input' type="text"

@@ -36,6 +36,7 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
         default:
             break;
     }
+    node.setAttribute('data-id', 'ferrisGo')
     node.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
         if (node.id === 'swiper') {

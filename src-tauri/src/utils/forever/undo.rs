@@ -6,27 +6,22 @@ use std::{
 use serde::{Deserialize, Serialize};
 use serde_json::to_string;
 
-use crate::utils::vapp::ast::VNode;
+use crate::utils::{utilities::JsonOperate, vapp::ast::VNode};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct Undo {
+struct Undo {
     history: Vec<VNode>,
     buffer: Option<VNode>,
-    backup: VNode
+    backup: VNode,
 }
 
-impl Undo {
+impl JsonOperate for Undo {
     fn new() -> Self {
         let json_path = "../undo.json";
         let json_file = fs::read_to_string(json_path).unwrap();
         let json_value: Undo =
             serde_json::from_str(&json_file).expect("JSON was not well-formatted");
         json_value
-    }
-
-    fn flush(&mut self) {
-        self.history = vec![];
-        self.history.push(self.backup.clone())
     }
 
     fn write(self) -> Result<(), ()> {
@@ -44,7 +39,12 @@ impl Undo {
             Err(_) => Err(()),
         }
     }
-
+}
+impl Undo {
+    fn flush(&mut self) {
+        self.history = vec![];
+        self.history.push(self.backup.clone())
+    }
     fn newdo(&mut self, new_operate: VNode) {
         self.history.push(self.buffer.clone().unwrap());
         self.buffer = Some(new_operate);
@@ -88,6 +88,6 @@ pub async fn undo_operate() -> Result<VNode, ()> {
             Ok(_) => Ok(val),
             Err(_) => Err(()),
         },
-        Err(_) => Err(())
+        Err(_) => Err(()),
     }
 }

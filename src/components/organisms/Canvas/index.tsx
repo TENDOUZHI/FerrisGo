@@ -3,7 +3,7 @@ import { DragEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } 
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
-import { selectState } from '@/store/target.slice'
+import { selectState, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
 import { routesSliceAction, selectCurRoutes, selectVapp } from '@/store/vapp.slice'
 import { selectTarget } from '@/store/target.slice'
@@ -46,6 +46,7 @@ export const Canvas = (props: Props) => {
     const tabBar = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
+    const [one, setOne] = useState<boolean>(true)
     const newSource = source?.cloneNode(true) as HTMLElement
     const [num, setNum] = useState<number>(0)
     const drag = (e: DragEvent) => {
@@ -104,9 +105,7 @@ export const Canvas = (props: Props) => {
             tabBar.current.style.display = 'none'
         }
     }, [navigator.tab_bar_status])
-
     useEffect(() => {
-
         document.onkeydown = (e: KeyboardEvent) => {
             // delete element
             if (e.key === 'Backspace' && state) {

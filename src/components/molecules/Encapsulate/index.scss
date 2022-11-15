@@ -1,0 +1,55 @@
+.encapsulate {
+  width: 120px;
+  height: 40px;
+  background-color: rgb(56, 56, 56);
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px rgb(22, 22, 22);
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0%;
+  transform: translateX(85%);
+  transition: all 0.3s;
+  z-index: 2;
+  &:hover {
+    transform: translateX(0%);
+    .encapsulate {
+      &_arrow {
+        width: 0;
+      }
+      &_btn{
+        width: 100%;
+      }
+    }
+  }
+  &_arrow {
+    width: 15%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: all 0.3s;
+  }
+  &_btn {
+    width: 85%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-user-select: none;
+    user-select: none;
+    span {
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0 10px;
+      border-radius: 4px;
+      transition: all 0.3s;
+      &:hover {
+        background-color: rgb(82, 82, 82);
+      }
+    }
+  }
+}

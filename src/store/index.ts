@@ -15,6 +15,7 @@ import { undoSlice } from "./undo.slice";
 import { navigatorSlice } from "./navigator.slice";
 import { blockSlice } from "./block.slice";
 import { pasteSlice } from "./paste.slice";
+import { jumplayerSlice } from "./jumplayer.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -32,7 +33,8 @@ export const rootReducer = {
         undoElement: undoSlice.reducer,
         navigatorElement: navigatorSlice.reducer,
         blockElement: blockSlice.reducer,
-        pasteElement: pasteSlice.reducer
+        pasteElement: pasteSlice.reducer,
+        jumplayerElement: jumplayerSlice.reducer
 }
 
 export const store = configureStore({

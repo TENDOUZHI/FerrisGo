@@ -6,7 +6,7 @@
 
 use tauri::Manager;
 
-use crate::utils::{atoms::tes::hello2, forever::{forever::{read_path_fn, select_file, save_file_data, read_file_data, last_file_path, open_doc_browser, create_project}, undo::{save_operate, undo_operate, flush_operate}}, vapp::vapp_route::vapp};
+use crate::utils::{atoms::tes::hello2, forever::{forever::{read_path_fn, select_file, save_file_data, read_file_data, last_file_path, open_doc_browser, create_project}, undo::{save_operate, undo_operate, flush_operate}, encapsulate::{encapsulate_element, remove_encapsulate_element}}, vapp::vapp_route::vapp};
 
 mod utils;
 #[tauri::command]
@@ -50,7 +50,9 @@ fn main() {
             create_project,
             save_operate,
             undo_operate,
-            flush_operate
+            flush_operate,
+            encapsulate_element,
+            remove_encapsulate_element
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

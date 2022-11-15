@@ -31,6 +31,7 @@ const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx
 
 export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean): HTMLElement => {
     const curNode = seprate(vNode, ctx, dispatch, retrive)
+    curNode.setAttribute('data-id', 'ferrisGo')
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
         if (curNode.id === 'swiper') {
