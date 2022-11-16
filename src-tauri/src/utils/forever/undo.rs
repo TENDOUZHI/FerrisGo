@@ -9,10 +9,10 @@ use serde_json::to_string;
 use crate::utils::{utilities::JsonOperate, vapp::ast::VNode};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
-struct Undo {
+pub struct Undo {
     history: Vec<VNode>,
     buffer: Option<VNode>,
-    backup: VNode,
+    pub backup: VNode,
 }
 
 impl JsonOperate for Undo {

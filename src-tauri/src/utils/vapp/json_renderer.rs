@@ -150,7 +150,8 @@ pub fn write_sitmap_json(target_file: &mut File) -> Result<(), Error> {
       "rules": [{
       "action": "allow",
       "page": "*"
-      }]
+      }],
+      "producedBy":"FerrisGo"
     });
     let json_body = json_str.to_string();
     target_file

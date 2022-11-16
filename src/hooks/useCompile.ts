@@ -1,4 +1,4 @@
-import { Icon, Image, Swiper, VNode, Vprops, VpropsState } from "@/store/ast";
+import { Icon, Image, Router, Swiper, VNode, Vprops, VpropsState } from "@/store/ast";
 import { IconState } from "@/store/icon.slice";
 import { SwiperRedux } from "@/store/swiper.slice";
 import { useParseCss } from "./useParseCss";
@@ -36,6 +36,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
         }
         let styles;
         let curClass;
+        let router;
         if (el.innerText === undefined) {
             styles = null
             curClass = null
@@ -45,6 +46,13 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
             // console.log(styles);
 
         }
+        if (el.getAttribute('data-routerid') !== null) {
+            const rou: Router = {
+                routerid : el.getAttribute('data-routerid') as string,
+                router: el.getAttribute('data-router') as string
+            }
+            router = rou
+        } else router = null
         // compile basic attribute
         const node: VNode = {
             name: el.id,
@@ -56,7 +64,8 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 img: {
                     src: ''
                 },
-                icon: null
+                icon: null,
+                router: router
             },
             content: null,
             children: []

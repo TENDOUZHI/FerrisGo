@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { useUpdate } from "../useUpdate"
 import { useVprops } from "../useVprops"
 
-export type component = 'icon' | 'path'
+export type component = 'icon' | 'path' | 'router'
 
 export const useListMenu = (component: component, title: string, navId?: number): [string, (value: string, id?: number) => void] => {
     const dispatch = useDispatch()
     const [value, setValue] = useState<string>('')
-    let target = useSelector(selectTarget) as HTMLElement
+    const target = useSelector(selectTarget) as HTMLElement
     const navigator = useSelector(selectTabBar)
     const vprops = useVprops()
     const preUpdate = useUpdate()
@@ -28,6 +28,9 @@ export const useListMenu = (component: component, title: string, navId?: number)
                     setValue(icon?.icon_type as string)
                     break;
                 case 'path':
+                    setValue(title)
+                    break;
+                case 'router':
                     setValue(title)
                     break;
                 default:
@@ -51,6 +54,12 @@ export const useListMenu = (component: component, title: string, navId?: number)
                 dispatch(navigatorSliceAction.updatePath({ id: navId, path: value }))
                 dispatch(navigatorSliceAction.updatePathId({ id: navId, path_id: id }))
                 setValue(value)
+                break;
+            case 'router':
+                target.setAttribute('data-routerid', id?.toString() as string)
+                target.setAttribute('data-router', value)
+                console.log(id, value);
+
                 break;
             default:
                 break;

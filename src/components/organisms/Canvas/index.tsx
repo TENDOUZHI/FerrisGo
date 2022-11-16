@@ -24,6 +24,7 @@ import { useDeleteEl } from '@/hooks/useDeleteEl'
 import { usePaste } from '@/hooks/usePaste'
 import { useHashCode } from '@/hooks/useHashCode'
 import { cusEl, selectEnce } from '@/store/ence.slice'
+import { useChangeRoute } from '@/hooks/useChangeRoute'
 
 interface Props {
     program_id: number,
@@ -31,6 +32,7 @@ interface Props {
 }
 export const Canvas = (props: Props) => {
     const dispatch = useDispatch()
+    const changeRoute = useChangeRoute()
     const current = useSelector(selectCurRoutes)
     const source = useSelector(selectSource)
     const device = useSelector(selectDevice)
@@ -67,7 +69,7 @@ export const Canvas = (props: Props) => {
             dispatch(navigatorSliceAction.retriveNavigator(data.navigator))
             setNum(Vapp.routes[current.id].size)
             invoke('save_operate', { newOperate: index })
-            useRenderer(root.current, index as VNode, dispatch, vprops, true)
+            useRenderer(root.current, index as VNode, dispatch, vprops, changeRoute, true)
             dispatch(blockSliceAction.stopBlock())
         })
     }, [cache.last_path])
@@ -182,7 +184,7 @@ export const Canvas = (props: Props) => {
                     if (customEl[i].id === parseInt(id as string)) {
                         const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
                             vnodes.forEach(value => {
-                                const child = createNode(value, dispatch, vprops)
+                                const child = createNode(value, dispatch, vprops, changeRoute)
                                 const children = value.children
                                 if (children.length >= 1) {
                                     createFamily(children, child)
@@ -193,7 +195,7 @@ export const Canvas = (props: Props) => {
                         }
                         const vnode = customEl[i].vnode
                         const children = vnode?.children
-                        element = createNode(vnode, dispatch, vprops, true)
+                        element = createNode(vnode, dispatch, vprops, changeRoute, true)
                         if (children!.length >= 1) {
                             element = createFamily(children as VNode[], element)
                         }

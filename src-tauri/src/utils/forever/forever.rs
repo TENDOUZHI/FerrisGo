@@ -72,16 +72,21 @@ pub async fn create_project(path: String, project_name: String) -> Result<String
     let file_path = format!("{}\\{}.FES", path, project_name);
     let file = File::create(file_path.clone());
     match file {
-        Ok(_) => match read_file_data(file_path.clone()).await {
-            Ok(_) => {
-                let json_value = read_json_value().update_file_path(file_path);
-                match write_json_value(json_value) {
-                    Ok(_) => Ok("创建项目成功".to_string()),
-                    Err(e) => Err(e),
+        Ok(mut f) => {
+            let json_path = "../default_ferris.FES";
+            let json_file = fs::read_to_string(json_path).unwrap();
+            f.write_all(json_file.as_bytes()).unwrap();
+            match read_file_data(file_path.clone()).await {
+                Ok(_) => {
+                    let json_value = read_json_value().update_file_path(file_path);
+                    match write_json_value(json_value) {
+                        Ok(_) => Ok("创建项目成功".to_string()),
+                        Err(e) => Err(e),
+                    }
                 }
+                Err(e) => Err(e),
             }
-            Err(e) => Err(e),
-        },
+        }
         Err(_) => Err("创建项目失败".to_string()),
     }
 }
@@ -109,7 +114,9 @@ pub async fn read_file_data(file_path: String) -> Result<String, String> {
     match content {
         Ok(v) => {
             let last_path = read_json_value();
-            let new_path = last_path.update_last_file(file_path.clone()).update_sequence(file_path);
+            let new_path = last_path
+                .update_last_file(file_path.clone())
+                .update_sequence(file_path);
             // let json_value = new_path;
             match write_json_value(new_path) {
                 Ok(_) => Ok(v),

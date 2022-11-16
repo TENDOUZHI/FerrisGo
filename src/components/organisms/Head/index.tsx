@@ -15,6 +15,7 @@ import { selectNav } from '@/store/navigator.slice'
 import { useForever } from '@/hooks/useForever'
 import { DownLoad } from '@/components/molecules/DownLoad'
 import { jumplayerSliceAction } from '@/store/jumplayer.slice'
+import { RouterSet } from '@/components/atoms/RouterSet'
 interface Props {
     id: number,
     title: string
@@ -145,23 +146,16 @@ export const Head = (props: Props) => {
         dispatch(userSliceAction.logout())
         navigate('/login')
     }
-
-    const certainNavigator = () => {
-        // console.log(nav);
-        // dispatch(routesSliceAction.updateNavigator(nav))
-        // setNavigator(false)
+    const showRouter = () => {
+        dispatch(jumplayerSliceAction.setShow())
+        dispatch(jumplayerSliceAction.setTitle('设置路由跳转'))
+        dispatch(jumplayerSliceAction.capChildren(<RouterSet />))
     }
 
 
     return (
         <>
-            {/* <JumpLayer title='设置导航栏' show={!navigator} setShow={setNavigator} certionFn={certainNavigator}>
-                <Navigator />
-            </JumpLayer> */}
             <JumpLayer />
-            {/* <JumpLayer >
-                <Navigator />
-            </JumpLayer> */}
             <div className="head">
                 <div className='head-title'>
                     <input className='head-title-input' type="text"
@@ -184,6 +178,7 @@ export const Head = (props: Props) => {
                         </div>
                         <ul className="etc_setting_list" ref={settingList}>
                             <li className="etc_setting_list_li" onClick={showNavigator}>导航栏</li>
+                            <li className="etc_setting_list_li" onClick={showRouter}>跳转路由</li>
                         </ul>
                     </div>
                     {/* <div className='download_btn' onClick={click}>

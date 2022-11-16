@@ -8,7 +8,7 @@ import shutdown from '@/assets/system/shutdown.png'
 import { TitleMenu } from '@/components/molecules/TitleMenu';
 import { invoke } from '@tauri-apps/api';
 import { useSelector } from 'react-redux';
-import { routesSliceAction, selectVapp, selectWapp } from '@/store/vapp.slice';
+import { routesSliceAction, selectCurRoutes, selectVapp, selectWapp } from '@/store/vapp.slice';
 import { useDispatch } from 'react-redux';
 import { useRenderer } from '@/hooks/useRenderer';
 import { VNode } from '@/store/ast';
@@ -29,6 +29,7 @@ import { ContextMenu } from '../ContextMenu';
 export const TitleBar = () => {
     const dispatch = useDispatch()
     const vapp = useSelector(selectVapp)
+    const current = useSelector(selectCurRoutes)
     const [saveFileData, undoFn] = useForever()
     const minimize = useRef<any>()
     const maxmize = useRef<any>()
@@ -219,7 +220,7 @@ export const TitleBar = () => {
                     </div>
                 </div>
                 <div className="titlebar_projectname">
-                    {projectName} <span className="titlebar_projectname_name">-</span> <span className="titlebar_projectname_name">FerrisGo</span>
+                    <span>{current.name}</span> <span style={{margin:'0 5px'}}>-</span> {projectName} <span className="titlebar_projectname_name">-</span> <span className="titlebar_projectname_name">FerrisGo</span>
                 </div>
                 <div className="titlebar-buttons">
                     <div className="titlebar-button" ref={minimize}>

@@ -51,7 +51,7 @@ export const useChangeRoute = (): ((id: number, name: string) => void) => {
             // render dom
             try {
                 dispatch(routesSliceAction.changeRoutes({ name, id }))
-                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch, vprops)
+                useRenderer(root as HTMLElement, route[id].vnode as VNode, dispatch, vprops, changeRoute)
             } catch (error) { }
 
         }

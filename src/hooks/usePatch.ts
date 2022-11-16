@@ -5,6 +5,7 @@ import { selectTarget, targetSliceAction } from "@/store/target.slice"
 import { selectCurRoutes, routesSliceAction } from "@/store/vapp.slice"
 import { Dispatch } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
+import { useChangeRoute } from "./useChangeRoute"
 import { useCompile } from "./useCompile"
 import { createNode } from "./useRenderer"
 import { useVprops } from "./useVprops"
@@ -16,6 +17,7 @@ export const useDiff = () => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const dispatch = useDispatch()
+    const changeRoute = useChangeRoute()
     const dfs = (vNode: VNode, classStr: string): VNode | undefined => {
         const children = vNode.children
         for (let i = 0; i < children.length; i++) {
@@ -49,7 +51,7 @@ export const useDiff = () => {
     }
     const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
         vnodes.forEach(value => {
-            const child = createNode(value, dispatch, vprops)
+            const child = createNode(value, dispatch, vprops, changeRoute)
             const children = value.children
             if (children.length >= 1) {
                 createFamily(children, child)
@@ -62,7 +64,7 @@ export const useDiff = () => {
         const classStr = target?.classList[0] as string
         const node = dfs(vNode, classStr)
         const children = node?.children
-        let el = createNode(node as VNode, dispatch, vprops);
+        let el = createNode(node as VNode, dispatch, vprops, changeRoute);
         if (children!.length >= 1) {
             el = createFamily(children as VNode[], el)
         }

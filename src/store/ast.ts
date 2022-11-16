@@ -31,6 +31,12 @@ export interface Vprops {
     swiper: Swiper | null
     img: Image | null
     icon: Icon | null
+    router: Router | null
+}
+
+export interface Router {
+    routerid: string,
+    router: string
 }
 
 export interface Icon {

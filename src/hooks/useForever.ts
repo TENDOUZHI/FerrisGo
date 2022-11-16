@@ -11,15 +11,16 @@ export const useForever = (): (() => void)[] => {
     const vapp = useSelector(selectVapp)
     const diff = useBetterDiff()
     const saveFileData = async () => {
-        dispatch(blockSliceAction.setBlock())
-        const data = JSON.stringify(vapp)
-        await invoke('save_file_data', { data: data }).then(res => {
-            dispatch(blockSliceAction.stopBlock())
-            dispatch(messageSliceAction.setCorrect('保存成功'))
-        }, () => {
-            dispatch(messageSliceAction.setError('保存失败'))
-            dispatch(blockSliceAction.stopBlock())
-        })
+        dispatch(messageSliceAction.setCorrect('保存成功'))
+        // dispatch(blockSliceAction.setBlock())
+        // const data = JSON.stringify(vapp)
+        // await invoke('save_file_data', { data: data }).then(res => {
+        //     dispatch(blockSliceAction.stopBlock())
+        //     dispatch(messageSliceAction.setCorrect('保存成功'))
+        // }, () => {
+        //     dispatch(messageSliceAction.setError('保存失败'))
+        //     dispatch(blockSliceAction.stopBlock())
+        // })
     }
     const undoFn = () => {
         invoke('undo_operate').then((res) => {

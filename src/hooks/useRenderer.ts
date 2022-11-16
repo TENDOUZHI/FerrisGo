@@ -15,23 +15,36 @@ import { iconSliceAction, IconState } from "@/store/icon.slice";
 import { imageSliceAction, ImageState } from "@/store/image.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean) => {
-    dfs(root, vNode, dispatch, ctx, retrive)
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
+    dfs(root, vNode, dispatch, ctx, changeRoute, retrive)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
     vNode.children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
-            rootNode.appendChild(createNode(item, dispatch, ctx, retrive))
+            rootNode.appendChild(createNode(item, dispatch, ctx, changeRoute, retrive))
         }
-        dfs(rootNode.childNodes[index], item, dispatch, ctx, retrive)
+        dfs(rootNode.childNodes[index], item, dispatch, ctx, changeRoute, retrive)
     })
 
 }
 
-export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, retrive?: boolean): HTMLElement => {
+export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean,): HTMLElement => {
     const curNode = seprate(vNode, ctx, dispatch, retrive)
     curNode.setAttribute('data-id', 'ferrisGo')
+    if (vNode.props?.router !== null) {
+        const id = vNode.props?.router.routerid as string
+        const router = vNode.props?.router.router as string
+        curNode.setAttribute('data-routerid', id)
+        curNode.setAttribute('data-router', router)
+        curNode.addEventListener('mousedown', (e: MouseEvent) => {
+            if (e.button === 1) {
+                // @ts-ignore
+                // changeRoute(parseInt(id), router)
+
+            }
+        })
+    }
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
         if (curNode.id === 'swiper') {
