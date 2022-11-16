@@ -87,11 +87,11 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 nextLevel()
                 break;
             default:
+                nextLevel()
                 break;
         }
     });
 }
-
 
 const compileView = (node: VNode, el: HTMLElement) => {
     node.content = null

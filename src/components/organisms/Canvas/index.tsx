@@ -1,5 +1,5 @@
 import './index.scss'
-import { DragEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { createElement, DragEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
@@ -22,8 +22,8 @@ import { NavBarItems } from '@/components/atoms/NavBarItems'
 import { blockSliceAction } from '@/store/block.slice'
 import { useDeleteEl } from '@/hooks/useDeleteEl'
 import { usePaste } from '@/hooks/usePaste'
-import { cusEl } from '@/components/molecules/Ingredients'
-import { CusEl } from '@/components/atoms/CusEl'
+import { useHashCode } from '@/hooks/useHashCode'
+import { cusEl, selectEnce } from '@/store/ence.slice'
 
 interface Props {
     program_id: number,
@@ -37,6 +37,7 @@ export const Canvas = (props: Props) => {
     const target = useSelector(selectTarget)
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
+    const enceList = useSelector(selectEnce).enceList
     const navigator = useSelector(selectNav)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
@@ -48,7 +49,8 @@ export const Canvas = (props: Props) => {
     const tabBar = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
-    const [one, setOne] = useState<boolean>(true)
+    // const [one, setOne] = useState<boolean>(true)
+    const one = useRef<boolean>(true)
     const [candelete, setCandelete] = useState<boolean>(true)
     const newSource = source?.cloneNode(true) as HTMLElement
     const [num, setNum] = useState<number>(0)
@@ -113,7 +115,7 @@ export const Canvas = (props: Props) => {
             const target = e.target as HTMLElement
             if (target.tagName === 'INPUT') {
                 const tagType = target.getAttribute('type')
-                if(tagType === 'text') setCandelete(false) 
+                if (tagType === 'text') setCandelete(false)
             } else setCandelete(true)
         })
         document.onkeydown = (e: KeyboardEvent) => {
@@ -157,6 +159,8 @@ export const Canvas = (props: Props) => {
             id: current.id,
             vNode: useCompile(root.current, device.width, true, vprops)
         }
+        console.log(curWnode.vNode);
+
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
             user_id: user.id,
@@ -170,44 +174,45 @@ export const Canvas = (props: Props) => {
             let tagName = 'div';
             const custom = newSource.getAttribute('data-type')
             if (custom === 'custom') {
-                if (one) setOne(false)
-                else {
-                    const id = newSource.getAttribute('data-cusid')
-                    invoke('show_encapsulate_element').then((res: any) => {
-                        let element = document.createElement(tagName)
-                        const customEl = res as cusEl[]
-                        for (let i = 0; i < customEl.length; i++) {
-                            if (customEl[i].id === parseInt(id as string)) {
-                                const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
-                                    vnodes.forEach(value => {
-                                        const child = createNode(value, dispatch, vprops)
-                                        const children = value.children
-                                        if (children.length >= 1) {
-                                            createFamily(children, child)
-                                        }
-                                        el?.append(child)
-                                    })
-                                    return el
+                const id = newSource.getAttribute('data-cusid')
+                // invoke('show_encapsulate_element').then((res: any) => {
+                let element = document.createElement(tagName)
+                const customEl = enceList as cusEl[]
+                for (let i = 0; i < customEl.length; i++) {
+                    if (customEl[i].id === parseInt(id as string)) {
+                        const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
+                            vnodes.forEach(value => {
+                                const child = createNode(value, dispatch, vprops)
+                                const children = value.children
+                                if (children.length >= 1) {
+                                    createFamily(children, child)
                                 }
-                                const vnode = customEl[i].vnode
-                                const children = vnode?.children
-                                element = createNode(vnode, dispatch, vprops, true)
-                                if (children!.length >= 1) {
-                                    element = createFamily(children as VNode[], element)
-                                }
-                                break;
-                            }
+                                el?.append(child)
+                            })
+                            return el
                         }
-                        dispatch(routesSliceAction.updateRouteSize({
-                            id: current.id,
-                            size: num + 1,
-                        }))
-                        target.appendChild(element as HTMLElement)
-                        dispatch(sourceSliceAction.clearSource())
-                    })
-                    setOne(true)
+                        const vnode = customEl[i].vnode
+                        const children = vnode?.children
+                        element = createNode(vnode, dispatch, vprops, true)
+                        if (children!.length >= 1) {
+                            element = createFamily(children as VNode[], element)
+                        }
+                        break;
+                    }
                 }
-
+                const comName = newSource.getAttribute('data-name')
+                const customSource = document.createElement('div')
+                const customClassName = useHashCode(comName as string)
+                customSource.classList.add(customClassName)
+                customSource.id = comName as string
+                customSource.appendChild(element)
+                dispatch(routesSliceAction.updateRouteSize({
+                    id: current.id,
+                    size: num + 1,
+                }))
+                target.appendChild(customSource as HTMLElement)
+                dispatch(sourceSliceAction.clearSource())
+                // })
             } else {
                 if (
                     newSource.id === 'button'

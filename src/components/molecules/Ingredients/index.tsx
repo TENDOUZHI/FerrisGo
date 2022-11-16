@@ -14,12 +14,8 @@ import { VNode } from '@/store/ast'
 import { CusEl } from '@/components/atoms/CusEl'
 import { enceSliceAction, selectEnce } from '@/store/ence.slice'
 import { useSelector } from 'react-redux'
+import { cusEl } from '@/store/ence.slice'
 
-export interface cusEl {
-    id: number,
-    name: string,
-    vnode: VNode
-}
 
 export const Ingredients = () => {
     const dispatch = useDispatch()
@@ -30,9 +26,10 @@ export const Ingredients = () => {
             console.log(res);
             const cusel = res as cusEl[]
             dispatch(enceSliceAction.capEneLen(cusel.length))
+            dispatch(enceSliceAction.initialList(res))
             setCusEl(cusel)
         })
-    }, [ence])
+    }, [ence.enceLen])
     return (
         <div className='ingredients'>
             <Collapse title='自定义组件' dispatch={dispatch} num={cusEl?.length}>

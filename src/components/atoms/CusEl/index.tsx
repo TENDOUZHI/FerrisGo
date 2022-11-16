@@ -16,7 +16,7 @@ export const CusEl = (props: CusEl) => {
         dispatch(sourceSliceAction.captureSource(e.target))
     }
     return (
-        <div id={props.title} className='components' data-type='custom' data-cusid={props.id} draggable onDragCapture={drag}>
+        <div id={props.title} className='components' data-type='custom' data-name={props.title} data-cusid={props.id} draggable onDragCapture={drag}>
             <img src={component} alt="" />
             <span>{props.title}</span>
         </div>
