@@ -49,6 +49,7 @@ export const Canvas = (props: Props) => {
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
     const [one, setOne] = useState<boolean>(true)
+    const [candelete, setCandelete] = useState<boolean>(true)
     const newSource = source?.cloneNode(true) as HTMLElement
     const [num, setNum] = useState<number>(0)
     const drag = (e: DragEvent) => {
@@ -108,9 +109,16 @@ export const Canvas = (props: Props) => {
         }
     }, [navigator.tab_bar_status])
     useEffect(() => {
+        document.addEventListener('click', (e: MouseEvent) => {
+            const target = e.target as HTMLElement
+            if (target.tagName === 'INPUT') {
+                const tagType = target.getAttribute('type')
+                if(tagType === 'text') setCandelete(false) 
+            } else setCandelete(true)
+        })
         document.onkeydown = (e: KeyboardEvent) => {
             // delete element
-            if (e.key === 'Backspace' && state) {
+            if (e.key === 'Backspace' && state && candelete) {
                 deleteEl()
             }
             // copy element

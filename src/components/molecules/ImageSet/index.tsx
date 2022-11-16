@@ -23,7 +23,6 @@ export const ImageSet = (props: Props) => {
     useLayoutEffect(() => {
         whole.current.style.display = 'none'
         if (props.target !== null) {
-            // console.log(image.src.keys());
             setSrc(image.src.get(props.target.classList[0]) as string)
             if (props.target.id === 'image') {
                 whole.current.style.display = 'flex'

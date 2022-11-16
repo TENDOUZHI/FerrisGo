@@ -12,6 +12,8 @@ import { useLayoutEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api'
 import { VNode } from '@/store/ast'
 import { CusEl } from '@/components/atoms/CusEl'
+import { enceSliceAction, selectEnce } from '@/store/ence.slice'
+import { useSelector } from 'react-redux'
 
 export interface cusEl {
     id: number,
@@ -21,16 +23,19 @@ export interface cusEl {
 
 export const Ingredients = () => {
     const dispatch = useDispatch()
-    const [cusEl, setCusEl] = useState<cusEl[]>()
+    const ence = useSelector(selectEnce)
+    const [cusEl, setCusEl] = useState<cusEl[]>([])
     useLayoutEffect(() => {
         invoke('show_encapsulate_element').then(res => {
             console.log(res);
-            setCusEl(res as cusEl[])
+            const cusel = res as cusEl[]
+            dispatch(enceSliceAction.capEneLen(cusel.length))
+            setCusEl(cusel)
         })
-    }, [])
+    }, [ence])
     return (
         <div className='ingredients'>
-            <Collapse title='自定义组件' dispatch={dispatch} num={1}>
+            <Collapse title='自定义组件' dispatch={dispatch} num={cusEl?.length}>
                 {
                     cusEl?.map(item => <CusEl key={item.id} title={item.name} id={item.id} />)
                 }

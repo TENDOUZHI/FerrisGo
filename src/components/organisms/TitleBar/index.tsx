@@ -140,20 +140,6 @@ export const TitleBar = () => {
         })
     }
 
-    const throttle = (fn: any, wait: number) => {
-        let context;
-        let last = 0
-        return function () {
-            let now = new Date().getTime()
-            // @ts-ignore
-            context = this
-            if (now - last > wait) {
-                fn.call(context)
-                last = now
-            }
-        }
-    }
-
 
     return (
         <>

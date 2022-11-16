@@ -116,7 +116,8 @@ export const StyleInput = (props: Props) => {
                 onMouseDown={mouseDownChange}
             // onMouseUp={mouseUpChange}
             >{props.title}</div>
-            <input type={props.type}
+            <input
+                type={props.type ? props.type : 'text'}
                 className='input-item'
                 value={Ivalue}
                 onChange={updateValue} onFocus={focusInput}

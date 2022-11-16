@@ -18,25 +18,10 @@ interface Props {
 }
 export const RighttList = (props: Props) => {
     const dispatch = useDispatch()
-    let target = useSelector(selectTarget) as HTMLElement
-    const [id, setId] = useState<string>('')
-    const [ferrisCom, setFerrisCom] = useState<boolean>(false)
-    useLayoutEffect(() => {
-        if (target !== null) setId(target.id)
-        document.addEventListener('click', ((e: MouseEvent) => {
-            if (target === e.target) setFerrisCom(true)
-            else {
-                setFerrisCom(false)
-                dispatch(targetSliceAction.captureTarget(null))
-            }
-        }))
-    }, [target])
+    const target = useSelector(selectTarget) as HTMLElement
     return (
         <div className="rightlist-wrapper">
-            {
-                ferrisCom &&
-                <Encapsulate />
-            }
+            <Encapsulate />
             <IconSet target={target} dispatch={dispatch} />
             <ImageSet target={target} dispatch={dispatch} />
             <SwiperSet target={target} dispatch={dispatch} />

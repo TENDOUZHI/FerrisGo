@@ -16,6 +16,7 @@ import { navigatorSlice } from "./navigator.slice";
 import { blockSlice } from "./block.slice";
 import { pasteSlice } from "./paste.slice";
 import { jumplayerSlice } from "./jumplayer.slice";
+import { enceSlice } from "./ence.slice";
 
 export const rootReducer = {
         sourceElement: sourceSlice.reducer,
@@ -34,7 +35,8 @@ export const rootReducer = {
         navigatorElement: navigatorSlice.reducer,
         blockElement: blockSlice.reducer,
         pasteElement: pasteSlice.reducer,
-        jumplayerElement: jumplayerSlice.reducer
+        jumplayerElement: jumplayerSlice.reducer,
+        enceElement: enceSlice.reducer
 }
 
 export const store = configureStore({

@@ -21,6 +21,7 @@
     cursor: pointer;
     transition: all 0.3s;
     border-radius: 4px;
+    -webkit-user-select: none;
     user-select: none;
     font-size: 18px;
     padding: 10px 0;

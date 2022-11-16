@@ -10,6 +10,7 @@
   margin-top: 8px;
   margin-left: 8px;
   &_title {
+    -webkit-user-select: none;
     user-select: none;
     font-size: 12px;
   }

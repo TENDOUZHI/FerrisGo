@@ -17,6 +17,12 @@
           "-webkit-text-size-adjust"
         ]
       }
-    ]
-  }
+    ],
+    "typescript-config/consistent-casing": "off"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not ios_saf <= 14.8"
+  ]
 }

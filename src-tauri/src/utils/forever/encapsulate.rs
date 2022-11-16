@@ -59,9 +59,9 @@ impl Encapsulate {
     }
 
     fn remove_element(&mut self, id: i32) -> Result<(), ()> {
-        for el in &self.elements {
+        for (index, el) in self.elements.iter().enumerate() {
             if el.id == id {
-                self.elements.remove(id as usize);
+                self.elements.remove(index as usize);
                 break;
             }
         }
