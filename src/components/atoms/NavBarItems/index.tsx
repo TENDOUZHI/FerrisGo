@@ -7,6 +7,7 @@ import { navigatorSliceAction, selectNav } from '@/store/navigator.slice'
 import { useSelector } from 'react-redux'
 import { useChangeRoute } from '@/hooks/useChangeRoute'
 import { selectCurRoutes } from '@/store/vapp.slice'
+import { sourceSliceAction } from '@/store/source.slice'
 
 interface Props {
     id: number
@@ -48,6 +49,7 @@ export const NavBarItems = (props: Props) => {
         dispatch(navigatorSliceAction.updateSelectedStatue(props.id))
     }
     const switchNavigator = () => {
+        dispatch(sourceSliceAction.routerHide())
         select()
         changeRoute(props.connectId, props.path)
 

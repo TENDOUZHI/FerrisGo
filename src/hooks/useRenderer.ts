@@ -13,6 +13,8 @@ import tip from '@/assets/icon/tip.png'
 import warn from '@/assets/icon/normal-warn.png'
 import { iconSliceAction, IconState } from "@/store/icon.slice";
 import { imageSliceAction, ImageState } from "@/store/image.slice";
+import { sourceSliceAction } from "@/store/source.slice";
+import { routerElSliceAction } from "@/store/routerEl.slice";
 
 
 export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
@@ -37,13 +39,12 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, c
         const router = vNode.props?.router.router as string
         curNode.setAttribute('data-routerid', id)
         curNode.setAttribute('data-router', router)
-        curNode.addEventListener('mousedown', (e: MouseEvent) => {
-            if (e.button === 1) {
-                // @ts-ignore
-                // changeRoute(parseInt(id), router)
+        if (changeRoute !== undefined) {
+            curNode.addEventListener('mousedown', (e: MouseEvent) => {
+                if (e.button === 1) changeRoute(parseInt(id), router)
+            })
+        } else dispatch(routerElSliceAction.scheduleList(curNode))
 
-            }
-        })
     }
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target

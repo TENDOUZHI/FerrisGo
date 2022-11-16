@@ -126,6 +126,13 @@ pub struct Vprops {
     pub swiper: Option<Swiper>,
     pub img: Option<Image>,
     pub icon: Option<Icon>,
+    pub router: Option<Router>
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct Router {
+    pub routerid: String,
+    pub router: String
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]

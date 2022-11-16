@@ -46,13 +46,22 @@ fn parse_node(vnode: &VNode, image_path: &str) -> String {
 }
 fn write_tag(name: &str, content: &str, class: String, props: Vprops, image_path: &str) -> String {
     // println!("{:?}", name);
-    format!("<{name} class={:?}>{content}</{name}>", class);
-    match name {
+    let tag = match name {
         "view" | "text" => format!("<{name} class={:?}>{content}</{name}>", class),
         "swiper" => write_swiper(name, class.clone(), props.swiper.unwrap(), image_path),
         "image" => write_image(name, class.clone(), props.img.unwrap(), image_path),
         "icon" => write_icon(name, props.icon.unwrap()),
         _ => format!("<{name} class={:?}>{content}</{name}>", class),
+    };
+
+    if let Some(router) = props.router {
+        format!(
+            "<navigator url='/pages/{}/{}'>{}</navigator>",
+            router.router, router.router, tag
+        )
+    } else {
+        // format!("<{name} class={:?}>{content}</{name}>", class)
+        tag
     }
 }
 
@@ -81,7 +90,10 @@ fn write_swiper_item(props: SwiperItem, class: &str, image_path: &str) -> String
 
 fn write_image(name: &str, class: String, props: Image, image_path: &str) -> String {
     let relative_path = image_operate(props.src, &class, image_path, None);
-    format!("<{name} src='{}' class='{}' alt=''></{name}>", relative_path,class)
+    format!(
+        "<{name} src='{}' class='{}' alt=''></{name}>",
+        relative_path, class
+    )
 }
 
 fn write_icon(name: &str, props: Icon) -> String {

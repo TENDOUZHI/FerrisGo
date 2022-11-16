@@ -9,6 +9,14 @@
   align-items: center;
   position: relative;
   overflow-y: scroll;
+  &_back {
+    position: absolute;
+    top: 30px;
+    left: 270px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
   .device {
     width: calc(375px);
     height: 667px;
@@ -59,6 +67,19 @@
       // display: flex;
       align-items: center;
       z-index: 5;
+    }
+    &_router {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform: translateX(100%);
+      background-color: #fff;
+      transition: all 0.2s;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 0px;
+        border-right-color: rgb(14, 14, 14);
+      }
     }
   }
 

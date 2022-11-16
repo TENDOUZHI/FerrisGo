@@ -1,7 +1,9 @@
 import { VNode } from "@/store/ast"
+import { selectChangeRoute } from "@/store/changeRoute.slice"
 import { selectDevice } from "@/store/device.slice"
-import { selectRoot } from "@/store/source.slice"
+import { selectRoot, selectRouter } from "@/store/source.slice"
 import { routesSliceAction, selectCurRoutes, selectRoutes } from "@/store/vapp.slice"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useCompile } from "./useCompile"
 import { useRenderer } from "./useRenderer"
@@ -13,6 +15,7 @@ export const useChangeRoute = (): ((id: number, name: string) => void) => {
     const root = useSelector(selectRoot)
     const device = useSelector(selectDevice)
     const current = useSelector(selectCurRoutes)
+    const router = useSelector(selectRouter)
     const vprops = useVprops()
     const changeRoute = (id: number, name: string): void => {
         // update vNode before switch route

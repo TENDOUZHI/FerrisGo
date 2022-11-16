@@ -1,7 +1,7 @@
 import './index.scss'
 import { createElement, DragEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectSource, sourceSliceAction } from '@/store/source.slice'
+import { selectRouter, selectSource, sourceSliceAction } from '@/store/source.slice'
 import { useDispatch } from 'react-redux'
 import { selectState, targetSliceAction } from '@/store/target.slice'
 import { useCompile } from '@/hooks/useCompile'
@@ -23,8 +23,9 @@ import { blockSliceAction } from '@/store/block.slice'
 import { useDeleteEl } from '@/hooks/useDeleteEl'
 import { usePaste } from '@/hooks/usePaste'
 import { useHashCode } from '@/hooks/useHashCode'
-import { cusEl, selectEnce } from '@/store/ence.slice'
 import { useChangeRoute } from '@/hooks/useChangeRoute'
+import { cusEl, selectEnce } from '@/store/ence.slice'
+import { routerElSliceAction, selectRouterEl } from '@/store/routerEl.slice'
 
 interface Props {
     program_id: number,
@@ -32,27 +33,30 @@ interface Props {
 }
 export const Canvas = (props: Props) => {
     const dispatch = useDispatch()
-    const changeRoute = useChangeRoute()
     const current = useSelector(selectCurRoutes)
     const source = useSelector(selectSource)
     const device = useSelector(selectDevice)
     const target = useSelector(selectTarget)
     const state = useSelector(selectState)
     const Vapp = useSelector(selectVapp)
-    const enceList = useSelector(selectEnce).enceList
     const navigator = useSelector(selectNav)
     const user = useSelector(selectUser)
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
+    const routerRedux = useSelector(selectRouter)
+    const ence = useSelector(selectEnce)
+    const routerEl = useSelector(selectRouterEl)
     const vprops = useVprops()
+    const changeRoute = useChangeRoute()
     const deleteEl = useDeleteEl()
     const [copy, cut, paste] = usePaste()
     const root = useRef<any>(null)
     const tabBar = useRef<any>(null)
+    const router = useRef<any>(null)
+    const back = useRef<any>(null)
     const [fitst, setFitst] = useState<boolean>(true)
     const [onece, setOnece] = useState<boolean>(true)
-    // const [one, setOne] = useState<boolean>(true)
-    const one = useRef<boolean>(true)
+    const [one, setOne] = useState<boolean>(true)
     const [candelete, setCandelete] = useState<boolean>(true)
     const newSource = source?.cloneNode(true) as HTMLElement
     const [num, setNum] = useState<number>(0)
@@ -75,6 +79,7 @@ export const Canvas = (props: Props) => {
     }, [cache.last_path])
     useLayoutEffect(() => {
         dispatch(sourceSliceAction.initialRoot(root.current))
+        dispatch(sourceSliceAction.initiaRouter(router.current))
         dispatch(navigatorSliceAction.initialTabBar(tabBar.current))
     }, [])
     // initial root dom at the first time of render
@@ -99,7 +104,13 @@ export const Canvas = (props: Props) => {
             }
         })
     }, [props, cache.last_path])
-
+    useEffect(() => {
+        if (routerRedux.show) back.current.style.display = 'block'
+        else back.current.style.display = 'none'
+    }, [routerRedux])
+    useEffect(() => {
+        dispatch(routerElSliceAction.flushList(changeRoute))
+    }, [routerEl])
     useEffect(() => {
         tabBar.current.style.borderColor = navigator.border_color
         if (navigator.tab_bar_status) {
@@ -177,9 +188,8 @@ export const Canvas = (props: Props) => {
             const custom = newSource.getAttribute('data-type')
             if (custom === 'custom') {
                 const id = newSource.getAttribute('data-cusid')
-                // invoke('show_encapsulate_element').then((res: any) => {
                 let element = document.createElement(tagName)
-                const customEl = enceList as cusEl[]
+                const customEl = ence.enceList as cusEl[]
                 for (let i = 0; i < customEl.length; i++) {
                     if (customEl[i].id === parseInt(id as string)) {
                         const createFamily = (vnodes: VNode[], el: HTMLElement): HTMLElement => {
@@ -214,7 +224,6 @@ export const Canvas = (props: Props) => {
                 }))
                 target.appendChild(customSource as HTMLElement)
                 dispatch(sourceSliceAction.clearSource())
-                // })
             } else {
                 if (
                     newSource.id === 'button'
@@ -240,6 +249,10 @@ export const Canvas = (props: Props) => {
 
     }
 
+    const routerBack = () => {
+        dispatch(sourceSliceAction.routerHide())
+    }
+
     const saveData = async () => {
         const payload = {
             id: props.program_id,
@@ -256,6 +269,7 @@ export const Canvas = (props: Props) => {
     return (
         <>
             <div className="canvas-wrapper">
+                <div className="canvas-wrapper_back" ref={back} onClick={routerBack}>{'<'}</div>
                 <div className="device" id='device'>
                     <div className="device_content" ref={root} onDropCapture={drop} onDragOver={drag} onDrop={drop}>
 
@@ -276,6 +290,7 @@ export const Canvas = (props: Props) => {
                             />)
                         }
                     </div>
+                    <div className="device_router" ref={router}></div>
                 </div>
             </div>
         </>
