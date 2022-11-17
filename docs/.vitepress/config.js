@@ -36,6 +36,7 @@ module.exports = {
           { text: '什么是FerrisGo', link: '/' },
           { text: '入门', link: '/Introduction/greenhorn.md' },
           { text: '基础', link: '/Introduction/' },
+          { text: '进阶', link: 'Introduction/advanced.md' },
           { text: '其他', link: '/Introduction/etc.md' }
         ]
       },
