@@ -27,6 +27,9 @@ impl JsonOperate for Undo {
                 let json_file = fs::read_to_string(json_path).unwrap();
                 let json_value: Undo = serde_json::from_str(&json_file)
                     .expect("undo backup JSON was not well-formatted");
+                let undo_path = "../undo.json";
+                let mut undo_file = File::create(undo_path).unwrap();
+                undo_file.write_all(json_file.as_bytes()).unwrap();
                 json_value
             }
         }
