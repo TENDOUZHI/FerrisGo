@@ -16,6 +16,7 @@ import { useForever } from '@/hooks/useForever'
 import { DownLoad } from '@/components/molecules/DownLoad'
 import { jumplayerSliceAction } from '@/store/jumplayer.slice'
 import { RouterSet } from '@/components/atoms/RouterSet'
+import { messageSliceAction } from '@/store/message.slice'
 interface Props {
     id: number,
     title: string
@@ -51,7 +52,8 @@ export const Head = (props: Props) => {
         const limit = 1000 * 60 * 3
         let record = 0
         setInterval(() => {
-            saveFileData()
+            // saveFileData()
+            // dispatch(messageSliceAction.setCorrect('页面保存成功'))
         }, 1000 * 60 * 3)
         setInterval(() => {
             record++

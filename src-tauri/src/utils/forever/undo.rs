@@ -19,9 +19,17 @@ impl JsonOperate for Undo {
     fn new() -> Self {
         let json_path = "../undo.json";
         let json_file = fs::read_to_string(json_path).unwrap();
-        let json_value: Undo =
-            serde_json::from_str(&json_file).expect("JSON was not well-formatted");
-        json_value
+        let json_value = serde_json::from_str(&json_file);
+        match json_value {
+            Ok(v) => v,
+            Err(_) => {
+                let json_path = "../undo backup.json";
+                let json_file = fs::read_to_string(json_path).unwrap();
+                let json_value: Undo = serde_json::from_str(&json_file)
+                    .expect("undo backup JSON was not well-formatted");
+                json_value
+            }
+        }
     }
 
     fn write(self) -> Result<(), ()> {
