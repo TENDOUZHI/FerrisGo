@@ -26,12 +26,12 @@ export const FileInput = (props: Props) => {
             reader.current.readAsDataURL(file)
             reader.current.onload = (res) => {
                 const size = Math.round(res.total / 1024)
-                if (size <= 10000) {
+                if (size <= 2000) {
                     setDefaultImg(res.target?.result as string)
                     dispatch(imageSliceAction.updateSrc({ className: props.class.classList[0], src: res.target?.result }))
                     preUpdate()
                 } else {
-                    dispatch(messageSliceAction.setError('文件大小不得大于10M'))
+                    dispatch(messageSliceAction.setError('文件大小不得大于2M'))
                 }
             }
         }

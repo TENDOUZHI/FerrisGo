@@ -1,13 +1,10 @@
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
 import { Autoplay, Navigation, Pagination, Scrollbar, Thumbs } from 'swiper'
-import { selectSwiper, SwiperItem } from '@/store/swiper.slice';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { SwiperItem } from '@/store/swiper.slice';
 
 export interface SwiperMini {
     autoplay: boolean,
@@ -19,7 +16,7 @@ export interface SwiperMini {
 }
 
 export const SwiperMini = (props: SwiperMini) => {
-    
+
     return (
         <Swiper
             modules={[

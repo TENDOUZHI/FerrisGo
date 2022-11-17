@@ -199,6 +199,8 @@ export const Canvas = (props: Props) => {
                                 if (children.length >= 1) {
                                     createFamily(children, child)
                                 }
+                                const newClass = useHashCode(child.id)
+                                child.className = newSource.id + '-' + newClass
                                 el?.append(child)
                             })
                             return el
@@ -209,6 +211,8 @@ export const Canvas = (props: Props) => {
                         if (children!.length >= 1) {
                             element = createFamily(children as VNode[], element)
                         }
+                        const curClass = element.classList[0]
+                        element.className = newSource.id + '-' + curClass
                         break;
                     }
                 }

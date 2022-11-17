@@ -22,16 +22,21 @@ export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch,
 }
 
 const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
-    vNode.children.forEach((item: VNode, index: number) => {
+    const children = vNode.children
+    // const rootChildren = rootNode.childNodes
+    // console.log(rootNode.childNodes);
+    children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
             rootNode.appendChild(createNode(item, dispatch, ctx, changeRoute, retrive))
         }
-        dfs(rootNode.childNodes[index], item, dispatch, ctx, changeRoute, retrive)
+        if (rootNode) dfs(rootNode.childNodes[index], item, dispatch, ctx, changeRoute, retrive)
+
     })
 
 }
 
 export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean,): HTMLElement => {
+
     const curNode = seprate(vNode, ctx, dispatch, retrive)
     curNode.setAttribute('data-id', 'ferrisGo')
     if (vNode.props?.router !== null) {
@@ -55,6 +60,8 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, c
         dispatch(targetSliceAction.captureTarget(target))
     })
     return curNode
+
+
 }
 
 const seprate = (node: VNode, ctx: VpropsState, dispatch: Dispatch, retrive?: boolean) => {
@@ -171,7 +178,7 @@ const createImage = (node: VNode, image: ImageState, dispatch: Dispatch, retrive
         if (image.src.get(node.class as string) === undefined) el.setAttribute('src', defaultImg)
         else el.setAttribute('src', image.src.get(node.class as string) as string)
     }
-
+    parseCss(el, node)
     return el
 }
 
@@ -217,5 +224,6 @@ export const createIcon = (node: VNode, icon: IconState, dispatch: Dispatch, ret
 
     el.style.backgroundSize = '100% 100%'
     el.style.cursor = 'pointer'
+    parseCss(el, node)
     return el
 }
