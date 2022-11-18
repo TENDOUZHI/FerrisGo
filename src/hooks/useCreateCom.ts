@@ -7,6 +7,7 @@ import { SwiperRedux } from "@/store/swiper.slice";
 import defaultImg from '@/assets/default.png'
 import success from '@/assets/icon/success.png'
 import { Swiper, Vprops } from "@/store/ast";
+import { LOADIPHLPAPI } from "dns";
 
 export type nodeName = 'view' | 'text' | 'button' | 'swiper' | 'image' | 'icon'
 
@@ -45,7 +46,6 @@ export const useCreateCom = (nodeName: nodeName, node: HTMLElement, dispatch: Di
         decoration(node)
         dispatch(targetSliceAction.captureTarget(target))
         dispatch(targetSliceAction.updateState(true))
-
     })
 }
 

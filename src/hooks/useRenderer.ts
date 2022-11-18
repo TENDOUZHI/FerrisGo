@@ -17,26 +17,24 @@ import { sourceSliceAction } from "@/store/source.slice";
 import { routerElSliceAction } from "@/store/routerEl.slice";
 
 
-export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
-    dfs(root, vNode, dispatch, ctx, changeRoute, retrive)
+export const useRenderer = (root: HTMLElement, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean, router?: boolean) => {
+    dfs(root, vNode, dispatch, ctx, changeRoute, retrive, router)
 }
 
-const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean) => {
+const dfs = (rootNode: HTMLElement | Node, vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean, router?: boolean) => {
     const children = vNode.children
     // const rootChildren = rootNode.childNodes
-    // console.log(rootNode.childNodes);
     children.forEach((item: VNode, index: number) => {
         if (item.name !== '') {
-            rootNode.appendChild(createNode(item, dispatch, ctx, changeRoute, retrive))
+            rootNode.appendChild(createNode(item, dispatch, ctx, changeRoute, retrive, router))
         }
-        if (rootNode) dfs(rootNode.childNodes[index], item, dispatch, ctx, changeRoute, retrive)
+        if (rootNode) dfs(rootNode.childNodes[index], item, dispatch, ctx, changeRoute, retrive, router)
 
     })
 
 }
 
-export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string) => void), retrive?: boolean,): HTMLElement => {
-
+export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, changeRoute: ((id: number, name: string, router?: boolean) => void), retrive?: boolean, router?: boolean): HTMLElement => {
     const curNode = seprate(vNode, ctx, dispatch, retrive)
     curNode.setAttribute('data-id', 'ferrisGo')
     if (vNode.props?.router !== null) {
@@ -44,12 +42,7 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, c
         const router = vNode.props?.router.router as string
         curNode.setAttribute('data-routerid', id)
         curNode.setAttribute('data-router', router)
-        if (changeRoute !== undefined) {
-            curNode.addEventListener('mousedown', (e: MouseEvent) => {
-                if (e.button === 1) changeRoute(parseInt(id), router)
-            })
-        } else dispatch(routerElSliceAction.scheduleList(curNode))
-
+        dispatch(routerElSliceAction.scheduleList(curNode))
     }
     curNode.addEventListener('click', (e: MouseEvent) => {
         let target = e.target
@@ -60,8 +53,6 @@ export const createNode = (vNode: VNode, dispatch: Dispatch, ctx: VpropsState, c
         dispatch(targetSliceAction.captureTarget(target))
     })
     return curNode
-
-
 }
 
 const seprate = (node: VNode, ctx: VpropsState, dispatch: Dispatch, retrive?: boolean) => {

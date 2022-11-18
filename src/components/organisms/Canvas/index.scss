@@ -10,6 +10,7 @@
   position: relative;
   overflow-y: scroll;
   &_back {
+    display: none;
     position: absolute;
     top: 30px;
     left: 270px;

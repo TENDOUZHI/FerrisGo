@@ -20,8 +20,6 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Vp
         children: []
     }
     dfs(rootNode, vNode, width, isRpx, ctx)
-    console.log(vNode);
-
     return vNode;
 }
 // traverse the real dom
@@ -29,17 +27,17 @@ export const useCompile = (rootNode: any, width: number, isRpx: boolean, ctx: Vp
 const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: VpropsState, custom?: string) => {
     // 对rootNode的子节点进行遍历
     // console.log(vNode);
-    
+
     // const vnode = vNode.children
     rootNode.childNodes.forEach((el: HTMLElement, index: number) => {
         const nextLevel = (custom?: string) => {
             const vnode = vNode.children[index]
             // console.log(vnode);
-            
+
             // if (vnode!== undefined) {
-                
-                vNode.children.push(node)
-                dfs(el, vNode.children[index], width, isRpx, ctx, custom)
+
+            vNode.children.push(node)
+            dfs(el, vNode.children[index], width, isRpx, ctx, custom)
             // }
         }
         let styles;
@@ -52,7 +50,7 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
             styles = useParseCss(el, width, isRpx)
             curClass = el.classList[0]
         }
-        if (typeof el.textContent !== 'string') {
+        if (el.id !== undefined) {
             if (el.getAttribute('data-routerid') !== null) {
                 const rou: Router = {
                     routerid: el.getAttribute('data-routerid') as string,
@@ -61,7 +59,6 @@ const dfs = (rootNode: any, vNode: VNode, width: number, isRpx: boolean, ctx: Vp
                 router = rou
             } else router = null
         }
-
         // compile basic attribute
         const node: VNode = {
             name: el.id,

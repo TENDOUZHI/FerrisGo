@@ -25,7 +25,7 @@ import { usePaste } from '@/hooks/usePaste'
 import { useHashCode } from '@/hooks/useHashCode'
 import { useChangeRoute } from '@/hooks/useChangeRoute'
 import { cusEl, selectEnce } from '@/store/ence.slice'
-import { routerElSliceAction, selectRouterEl } from '@/store/routerEl.slice'
+import { routerElSliceAction, selectRouterEl, selectRouterShow, selectRouterStack } from '@/store/routerEl.slice'
 
 interface Props {
     program_id: number,
@@ -44,6 +44,8 @@ export const Canvas = (props: Props) => {
     const ws = useSelector(selectWs)
     const cache = useSelector(selectCache)
     const routerRedux = useSelector(selectRouter)
+    const routerShow = useSelector(selectRouterShow)
+    const routerStack = useSelector(selectRouterStack)
     const ence = useSelector(selectEnce)
     const routerEl = useSelector(selectRouterEl)
     const vprops = useVprops()
@@ -108,6 +110,10 @@ export const Canvas = (props: Props) => {
         if (routerRedux.show) back.current.style.display = 'block'
         else back.current.style.display = 'none'
     }, [routerRedux])
+    // useEffect(() => {
+    //     if (routerShow) back.current.style.display = 'block'
+    //     else back.current.style.display = 'none'
+    // }, [routerShow])
     useEffect(() => {
         dispatch(routerElSliceAction.flushList(changeRoute))
     }, [routerEl])
@@ -124,13 +130,14 @@ export const Canvas = (props: Props) => {
         }
     }, [navigator.tab_bar_status])
     useEffect(() => {
-        document.addEventListener('click', (e: MouseEvent) => {
+        const deleteValidate = (e: MouseEvent) => {
             const target = e.target as HTMLElement
             if (target.tagName === 'INPUT') {
                 const tagType = target.getAttribute('type')
                 if (tagType === 'text') setCandelete(false)
             } else setCandelete(true)
-        })
+        }
+        document.addEventListener('click', deleteValidate)
         document.onkeydown = (e: KeyboardEvent) => {
             // delete element
             if (e.key === 'Backspace' && state && candelete) {
@@ -172,8 +179,6 @@ export const Canvas = (props: Props) => {
             id: current.id,
             vNode: useCompile(root.current, device.width, true, vprops)
         }
-        console.log(curWnode.vNode);
-
         dispatch(routesSliceAction.updateVnode({
             curVnode, curWnode,
             user_id: user.id,
@@ -254,6 +259,10 @@ export const Canvas = (props: Props) => {
     }
 
     const routerBack = () => {
+        const routeInfo = routerStack[0]
+        // console.log(routeInfo);
+        // changeRoute(routeInfo.id, routeInfo.name, true)
+        // dispatch(routerElSliceAction.back())
         dispatch(sourceSliceAction.routerHide())
     }
 

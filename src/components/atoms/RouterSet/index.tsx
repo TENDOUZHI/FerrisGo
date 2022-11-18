@@ -20,6 +20,7 @@ export const RouterSet = () => {
     const [curPath, setCurPath] = useState<string>('无路由')
     const map = useRef<Map<number, string>>(new Map())
     useEffect(() => {
+        
         if (target !== null) {
             const router = target.getAttribute('data-routerid')
             if (router !== null) {

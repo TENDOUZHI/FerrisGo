@@ -1,6 +1,7 @@
 import { iconSliceAction } from "@/store/icon.slice"
 import { navigatorSliceAction, selectTabBar } from "@/store/navigator.slice"
-import { selectTarget } from "@/store/target.slice"
+import { routerElSliceAction } from "@/store/routerEl.slice"
+import { selectTarget, targetSliceAction } from "@/store/target.slice"
 import { Dispatch } from "@reduxjs/toolkit"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -58,8 +59,6 @@ export const useListMenu = (component: component, title: string, navId?: number)
             case 'router':
                 target.setAttribute('data-routerid', id?.toString() as string)
                 target.setAttribute('data-router', value)
-                console.log(id, value);
-
                 break;
             default:
                 break;
