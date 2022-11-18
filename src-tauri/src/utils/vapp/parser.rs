@@ -24,10 +24,14 @@ fn parse_node(vnode: &VNode, image_path: &str) -> String {
             continue;
         }
         if node.children.len() == 0 {
+            let class = match node.class.clone() {
+                Some(v) => Some(v),
+                None => Some("view".to_string())
+            };
             back_node = write_tag(
                 &node.name,
                 node.content.as_ref().unwrap_or(&"".to_string()),
-                node.class.clone().unwrap(),
+                class.unwrap(),
                 node.props.clone().unwrap(),
                 image_path,
             );

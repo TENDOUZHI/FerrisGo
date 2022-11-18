@@ -6,9 +6,14 @@ pub fn parser_wxss(data: &VNode) -> String {
 fn parse_style(vnode: &VNode) -> String {
     let mut st = String::from("");
     for node in &vnode.children {
+        let class = if let None = node.class {
+            "view".to_string()
+        } else {
+            node.class.clone().unwrap()
+        };
         let deep_style = parse_style(node);
         let style = node.style.as_ref().unwrap().to_style_sheet();
-        let class_str = write_class(node.class.clone().unwrap(), style);
+        let class_str = write_class(class, style);
         st = format!("{}{}{}", st, class_str, deep_style);
     }
     st

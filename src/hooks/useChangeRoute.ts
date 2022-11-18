@@ -36,7 +36,8 @@ export const useChangeRoute = (): ((id: number, name: string, router?: boolean) 
         updateVNode()
         // switch route
         setTimeout(() => {
-            switchRoute(id, name, true)
+            
+            switchRoute(id, name, router)
         })
 
     }
